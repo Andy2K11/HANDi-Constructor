@@ -1,0 +1,68 @@
+/* 
+    Document   : displayPane
+    Created on : 15-Jun-2012, 05:45:12
+    Author     : Andy
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.root { 
+    -fx-background-color: #AACC00;
+    -fx-hgap: 5px;
+    -fx-padding: 10px;
+}
+
+.pane {
+    -fx-background-color: linen;    
+}
+
+.flowpane {
+    -fx-background-color: grey;
+    -fx-background-insets: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: black;
+    -fx-border-insets: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;   
+}
+
+.label {
+    -fx-font-weight: normal;
+}
+
+.link {
+    -fx-stroke: DARKOLIVEGREEN;
+    -fx-stroke-width: 3px;
+}
+
+#scrollpane {
+    -fx-background-color: linen;
+}
+
+#title {
+    -fx-font-size: 36pt;
+}
+
+#subtitle {
+    -fx-font-size: 18pt;
+}
+
+#handix {
+     -fx-opacity: 1.0;
+     -fx-stroke: DARKOLIVEGREEN;
+     -fx-background-color: #CC3333;
+}
+
+#nodeLabel {
+    -fx-background-color: linear-gradient(darkgrey 0%, lightgrey 50%, grey 100%);
+    -fx-background-insets: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: cornflowerblue;
+    -fx-border-insets: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-padding: 5px;
+}
+
+
