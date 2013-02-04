@@ -21,7 +21,7 @@ public class MScProject extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MScProjectView.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setTitle("University of Sussex : Evaluation Environment");
         stage.setScene(scene);
         stage.show();
     }

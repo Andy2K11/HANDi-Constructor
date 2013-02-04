@@ -1,34 +1,67 @@
 /* 
     Document   : displayPane
-    Created on : 15-Jun-2012, 05:45:12
+    Created on : 04-Feb-2012, 14:45:12
     Author     : Andy
     Description:
         Purpose of the stylesheet follows.
 */
 
 .root { 
-    -fx-background-color: #AACC00;
-    -fx-hgap: 5px;
-    -fx-padding: 10px;
+    -fx-background-color: #333333;
+    -fx-hgap: 0px;
+    -fx-vgap: 0px;
+    -fx-padding: 0px;   /* make flush with window edges */
 }
 
-.pane {
-    -fx-background-color: linen;    
+.anchorpane{
+    -fx-background-color: #333333;
+}
+
+.menu-bar{
+    -fx-base: darkolivegreen;
+}
+
+.menu-bar .menu-button:hover,  .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background-color: olive;
+}
+
+.toolbar {
+    -fx-base: #333333;
+}
+
+.tab-header-background {
+    -fx-background-color: #333333;
+}
+
+.tab {
+    -fx-background-color: linear-gradient(navajowhite, linen);
+}
+
+.tab-pane, .scroll-pane {
+    -fx-background-color: linen;
 }
 
 .flowpane {
-    -fx-background-color: grey;
-    -fx-background-insets: 5px;
-    -fx-background-radius: 5px;
+    -fx-background-color: #333333;
+    -fx-background-insets: 0px;
+    -fx-background-radius: 0px;
     -fx-border-color: black;
-    -fx-border-insets: 5px;
-    -fx-border-radius: 5px;
-    -fx-border-width: 1px;
-    -fx-padding: 5px;   
+    -fx-border-insets: 0px;
+    -fx-border-radius: 0px;
+    -fx-border-width: 0px;
+    -fx-padding: 0px;
+}
+
+.titledpane {
+    -fx-base: grey;
 }
 
 .label {
     -fx-font-weight: normal;
+}
+
+.button {
+    -fx-base: grey;
 }
 
 .link {
@@ -36,10 +69,10 @@
     -fx-stroke-width: 3px;
 }
 
-#scrollpane {
-    -fx-background-color: linen;
-}
 
+
+
+/* ID rules */
 #title {
     -fx-font-size: 36pt;
 }

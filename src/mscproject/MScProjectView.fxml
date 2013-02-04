@@ -5,22 +5,78 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ToggleGroup?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="mscproject.MScProjectViewController"
+      stylesheets="resources/style.css"
+      prefHeight="600" 
+      prefWidth="800" >
+    <top>
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="New Diagram" />
+            <MenuItem text="Save Diagram" />
+            <CheckMenuItem text="Mark As Finished" />
+            <SeparatorMenuItem />
+            <MenuItem text="Exit" />
+        </Menu>
+        <Menu text="Help" >
+            <Menu text="Authors" >
+                <MenuItem text="Andy Keavey" />
+                <MenuItem text="Prof. Peter Cheng" />
+            </Menu>
+            <MenuItem text="Ethical Policy" />
+            <MenuItem text="University of Sussex" />
+        </Menu>
+    </MenuBar>
+    </top>
+    <center>
+    <AnchorPane id="AnchorPane" 
+                styleClass="anchorpane" >
+        <children>
+            <FlowPane orientation="vertical"
+                  styleClass="flowpane" 
+                  AnchorPane.leftAnchor="0.0" 
+                  AnchorPane.topAnchor="0.0" 
+                  AnchorPane.bottomAnchor="0.0" >
+                <fx:define>
+                    <ToggleGroup fx:id="linkselect" />
+                    <ToggleGroup fx:id="nodeselect" />
+                </fx:define>
+                        <TitledPane styleClass="titledpane" text="Nodes">
+                            <VBox> 
+                                <ToggleButton text="Tool" prefWidth="80" toggleGroup="$nodeselect" onAction="#handleButtonAction"/>
+                                <ToggleButton text="Tool2" prefWidth="80" toggleGroup="$nodeselect" />
+                            </VBox>
+                        </TitledPane>
+                        <TitledPane styleClass="titledpane" text="Branches">
+                            <VBox>
+                                <RadioButton fx:id="link1" selected="true" text="Link1" toggleGroup="$linkselect" />
+                                <RadioButton fx:id="link2" selected="false" text="Link2" toggleGroup="$linkselect" />
+                                <RadioButton fx:id="link3" selected="false" text="Link3" toggleGroup="$linkselect" />
+                            </VBox>
+                        </TitledPane>               
+                <Accordion>
+                    <panes>
 
-<AnchorPane id="AnchorPane" 
-            stylesheets="resources/style.css"
-            prefHeight="600" 
-            prefWidth="800" 
-            xmlns:fx="http://javafx.com/fxml" 
-            fx:controller="mscproject.MScProjectViewController">
-    <children>
-        <VBox AnchorPane.leftAnchor="0.0" alignment="CENTER">
-            <Label text="Nodes"/>
-            <Button fx:id="button" 
-                    text="Click Me!" 
-                    onAction="#handleButtonAction"/>
-        </VBox>
-        <Pane fx:id="diagram" AnchorPane.leftAnchor="200.0" minWidth="600" minHeight="400">      
-            <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-        </Pane>
-    </children>
-</AnchorPane>
+                    </panes>
+                </Accordion>
+            </FlowPane>
+            <TabPane fx:id="diagramtabs"
+                     AnchorPane.leftAnchor="85.0" 
+                     AnchorPane.rightAnchor="0.0" 
+                     AnchorPane.topAnchor="0.0"
+                     AnchorPane.bottomAnchor="0.0">
+                <tabs>
+                    <Tab text="diagram1" styleClass="tab">
+                        <ScrollPane>
+                            <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+                        </ScrollPane>    
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </children>
+    </AnchorPane>
+    </center>
+</BorderPane>
+
