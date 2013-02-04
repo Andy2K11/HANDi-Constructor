@@ -5,6 +5,8 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.ToggleGroup?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
       fx:controller="mscproject.MScProjectViewController"
@@ -20,7 +22,21 @@
             <SeparatorMenuItem />
             <MenuItem text="Exit" />
         </Menu>
-        <Menu text="Help" >
+        <Menu text="Help">
+            <MenuItem text="Task Instructions" />
+            <Menu text="Nodes">
+                <MenuItem text="Node Overview"/>
+                <MenuItem text="Node1 Info"/>
+                <MenuItem text="Node2 Info"/>
+            </Menu>
+            <Menu text="Branches">
+                <MenuItem text="Link Overview"/>
+                <MenuItem text="Link1 Info"/>
+                <MenuItem text="Link2 Info"/>
+                <MenuItem text="Link3 Info"/>
+            </Menu>            
+        </Menu>
+        <Menu text="About" >
             <Menu text="Authors" >
                 <MenuItem text="Andy Keavey" />
                 <MenuItem text="Prof. Peter Cheng" />
@@ -37,23 +53,75 @@
             <FlowPane orientation="vertical"
                   styleClass="flowpane" 
                   AnchorPane.leftAnchor="0.0" 
-                  AnchorPane.topAnchor="0.0" 
+                  AnchorPane.topAnchor="30.0" 
                   AnchorPane.bottomAnchor="0.0" >
                 <fx:define>
                     <ToggleGroup fx:id="linkselect" />
                     <ToggleGroup fx:id="nodeselect" />
+                    <Tooltip fx:id="node1ToolTip" wrapText="true" prefWidth="300">
+                        <text>
+                            Show me. This is a possibly very large tool tip.
+                            What happens when I add extra lines?
+                        </text>
+                    </Tooltip>
                 </fx:define>
                         <TitledPane styleClass="titledpane" text="Nodes">
                             <VBox> 
-                                <ToggleButton text="Tool" prefWidth="80" toggleGroup="$nodeselect" onAction="#handleButtonAction"/>
-                                <ToggleButton text="Tool2" prefWidth="80" toggleGroup="$nodeselect" />
+                                <ToggleButton text="Node1" prefWidth="80" tooltip="$node1ToolTip" toggleGroup="$nodeselect" onAction="#handleButtonAction">
+                                    <graphic>
+                                        <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
+                                    </graphic>
+                                </ToggleButton>
+                                <ToggleButton text="Node2" prefWidth="80" toggleGroup="$nodeselect">
+                                    <graphic>
+                                        <Text text="\@" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip wrapText="true" prefWidth="300">
+                                            <text>
+                                                Node type 2: This type of node is put at the end of a branching tree
+                                                structure to give some meaning to the diagram.
+                                            </text>
+                                        </Tooltip>
+                                    </tooltip>
+                                </ToggleButton>
                             </VBox>
                         </TitledPane>
                         <TitledPane styleClass="titledpane" text="Branches">
                             <VBox>
-                                <RadioButton fx:id="link1" selected="true" text="Link1" toggleGroup="$linkselect" />
-                                <RadioButton fx:id="link2" selected="false" text="Link2" toggleGroup="$linkselect" />
-                                <RadioButton fx:id="link3" selected="false" text="Link3" toggleGroup="$linkselect" />
+                                <RadioButton fx:id="link1" selected="true" text="Link1" prefHeight="10.0" toggleGroup="$linkselect" >
+                                    <graphic>
+                                        <Path fx:id="connectionGraphic">
+                                            <elements>
+                                                <MoveTo x="10" y="-3" />
+                                                <LineTo x="-10" y="-3" />
+                                                <MoveTo x="10" y="3" />
+                                                <LineTo x="-10" y="3" />
+                                            </elements>
+                                        </Path>
+                                    </graphic>
+                                </RadioButton>
+                                <RadioButton fx:id="link2" selected="false" text="Link2" prefHeight="10.0" toggleGroup="$linkselect" >
+                                    <graphic>
+                                        <Path fx:id="connectionGraphic">
+                                            <elements>
+                                                <MoveTo x="10" y="-5" />
+                                                <LineTo x="-10" y="-5" />
+                                                <LineTo x="-10" y="5" />
+                                            </elements>
+                                        </Path>
+                                    </graphic>
+                                </RadioButton>                                
+                                <RadioButton fx:id="link3" selected="false" text="Link3" prefHeight="10.0" toggleGroup="$linkselect" >
+                                    <graphic>
+                                        <Path fx:id="connectionGraphic">
+                                            <elements>
+                                                <MoveTo x="10" y="-5" />
+                                                <QuadCurveTo controlX="-10" controlY="-5" x="-10" y="5" />
+                                            </elements>
+                                        </Path>
+                                    </graphic>
+                                </RadioButton>                                    
                             </VBox>
                         </TitledPane>               
                 <Accordion>
