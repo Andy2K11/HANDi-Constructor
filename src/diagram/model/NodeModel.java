@@ -20,12 +20,6 @@ public class NodeModel {
         super();
     }
     
-    public NodeModel add(DiagramModel diagram) {
-        this.diagram = diagram;
-        diagram.getNodes().add(this);
-        return this;
-    }
-    
     public NodeModel createView(double x, double y) {
         nodeView = new NodeView(x, y).createController(this);
         return this;
@@ -33,5 +27,9 @@ public class NodeModel {
     
     public NodeView getNodeView() {
         return this.nodeView;
+    }
+    
+    public void deleteNode() {
+        links = null;
     }
 }

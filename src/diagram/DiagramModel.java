@@ -43,4 +43,10 @@ public class DiagramModel {
     public DiagramView getDiagramView() {
         return diagramView;
     }
+    
+    public void deleteNode(NodeModel nodeModel) {
+        nodes.remove(nodeModel);
+        diagramView.getChildren().remove(nodeModel.getNodeView());
+        nodeModel.deleteNode();
+    }
 }
