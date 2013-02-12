@@ -12,11 +12,13 @@
       fx:controller="mscproject.MScProjectViewController"
       stylesheets="resources/style.css"
       prefHeight="600" 
-      prefWidth="800" >
+      prefWidth="800" 
+      onKeyPressed="#handleKeyPressed"
+      onKeyReleased="#handleKeyReleased">
     <top>
     <MenuBar>
         <Menu text="File">
-            <MenuItem text="New Diagram" />
+            <MenuItem text="New Diagram" onAction="#handleNewDiagram" />
             <MenuItem text="Save Diagram" />
             <CheckMenuItem text="Mark As Finished" />
             <SeparatorMenuItem />
@@ -67,7 +69,13 @@
                 </fx:define>
                         <TitledPane styleClass="titledpane" text="Nodes">
                             <VBox> 
-                                <ToggleButton text="Node1" prefWidth="80" tooltip="$node1ToolTip" toggleGroup="$nodeselect" onAction="#handleButtonAction">
+                                <ToggleButton fx:id="node1button"
+                                              text="Node1" 
+                                              prefWidth="80" 
+                                              tooltip="$node1ToolTip" 
+                                              toggleGroup="$nodeselect" 
+                                              onAction="#handleButtonAction"
+                                              onDragDetected="#handleDragDetected">
                                     <graphic>
                                         <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
                                     </graphic>
@@ -134,13 +142,21 @@
                      AnchorPane.leftAnchor="85.0" 
                      AnchorPane.rightAnchor="0.0" 
                      AnchorPane.topAnchor="0.0"
-                     AnchorPane.bottomAnchor="0.0">
+                     AnchorPane.bottomAnchor="0.0"
+                     >
                 <tabs>
-                    <Tab text="diagram1" styleClass="tab">
+                    <!--Tab text="diagram1" styleClass="tab">
                         <ScrollPane>
-                            <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-                        </ScrollPane>    
-                    </Tab>
+                            <Pane fx:id="diagrampane"
+                                  styleClass = "pane"
+                                  prefWidth="800" prefHeight="600"
+                                  onDragDropped="#handleDragDropped"
+                                  onDragOver="#handleDragOver"
+                                  onMouseClicked="#handleMouseClicked">
+                                <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+                            </Pane>
+                        </ScrollPane>   
+                    </Tab-->
                 </tabs>
             </TabPane>
         </children>

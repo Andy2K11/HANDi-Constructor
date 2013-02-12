@@ -13,10 +13,6 @@
     -fx-padding: 0px;   /* make flush with window edges */
 }
 
-.anchorpane{
-    -fx-background-color: #333333;
-}
-
 .menu-bar{
     -fx-base: darkolivegreen;
 }
@@ -29,7 +25,7 @@
     -fx-base: #333333;
 }
 
-.tab-header-background {
+.anchorpane, .tab-header-background, .scroll-pane {
     -fx-background-color: #333333;
 }
 
@@ -37,7 +33,7 @@
     -fx-background-color: linear-gradient(navajowhite, linen);
 }
 
-.tab-pane, .scroll-pane {
+.tab-pane, .pane {
     -fx-background-color: linen;
 }
 
