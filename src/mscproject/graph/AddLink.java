@@ -17,7 +17,7 @@ public class AddLink extends SimpleLink {
         super(n1, n2);
         lt = new LineTo(cx, cy);
         lt2 = new LineTo(n2x, n2y);
-        this.getElements().setAll(mt, lt, lt2);
+        path.getElements().setAll(mt, lt, lt2);
     }
     
     @Override
@@ -29,5 +29,7 @@ public class AddLink extends SimpleLink {
         lt.setY(cy);
         lt2.setX(n2x);
         lt2.setY(n2y);
+        control.setCenterX(cx);
+        control.setCenterY(cy);
     }
 }

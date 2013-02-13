@@ -27,11 +27,11 @@ public class GraphController {
         public void handle(MouseEvent event) {
             Node source = (Node) event.getSource();
             Node target = (Node) event.getTarget();
-            out.println("Source " + source.toString());
-            out.println("Target " + target.toString());
+            //out.println("Source " + source.toString());
+            //out.println("Target " + target.toString());
             if (source instanceof SimpleNode) {
                 SimpleNode sn = (SimpleNode) source;
-                TabDiagram td = ((TabDiagram)sn.getParent());
+                Graph td = ((Graph)sn.getParent());
                 if (MScProjectViewController.delete) {
                     PopupControl dialog = new PopupControl();
                     //Popup dialog = new Popup();
@@ -45,22 +45,25 @@ public class GraphController {
                     dialog.centerOnScreen();
                     // remove all links connected to this node
                     for (SimpleLink sl : sn.getLinkList()) {
-                        // remove link from nodes at both ends
-                        if (!sn.equals(sl.getNode1())) {sl.getNode1().getLinkList().remove(sl);}
-                        else if (!sn.equals(sl.getNode2())) {sl.getNode2().getLinkList().remove(sl);}
-                        else {System.err.println("Error while removing links from deleted node");}
-                        // remove link from diagram
-                        ((TabDiagram)sn.getParent()).getChildren().remove(sl);
+                        sl.getLinkedNode(sn).removeLink(sl);
+                        ((Graph)sn.getParent()).getChildren().remove(sl);
                     }
                     //remove node from diagram
-                    ((TabDiagram)sn.getParent()).getChildren().remove(sn);    
+                    ((Graph)sn.getParent()).getChildren().remove(sn);    
                 }
-            } else if (source instanceof TabDiagram) {
-                TabDiagram tabDiagram = (TabDiagram) source;
+            } else if (source instanceof Graph) {
+                Graph graph = (Graph) source;
                 switch(MScProjectViewController.getNodeType()) {
                     case 0: SimpleNode sn = new SimpleNode(event.getX(), event.getY());
-                        tabDiagram.getChildren().add(sn);
+                        graph.getChildren().add(sn);
                         break;
+                }
+            } else if (source instanceof SimpleLink) {
+                SimpleLink sl = (SimpleLink) source;
+                if (event.isControlDown()) {
+                    sl.toggleSelected();
+                } else {
+                    sl.toggleNegated();
                 }
             }
             event.consume();
@@ -92,13 +95,31 @@ public class GraphController {
     public static EventHandler handleDragOver = new EventHandler<DragEvent>() {
         @Override
         public void handle(DragEvent event) {
+            double x = event.getX();
+            double y = event.getY();
             Node source = (Node) event.getSource();
-            if (source instanceof TabDiagram) {
+            Node sourceGesture = (Node) event.getGestureSource();
+            Node target = (Node) event.getGestureTarget();
+            if (source instanceof Graph) {
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                if (sourceGesture instanceof SimpleLink) {  
+                    SimpleLink sl = (SimpleLink) sourceGesture;
+                    sl.setControlPoint(x, y);
+                    sl.updateLayout();
+                    out.println("Moving");
+                } else {
+                    event.consume();
+                }
             } else if (source instanceof SimpleNode) {
                 event.acceptTransferModes(TransferMode.LINK);
+                event.consume();
+            } else if (sourceGesture instanceof SimpleLink) {
+                event.acceptTransferModes(TransferMode.ANY);    
+                SimpleLink sl = (SimpleLink) sourceGesture;
+                sl.setControlPoint(x, y);
+                sl.updateLayout();
+                out.println("Moving");
             }
-            event.consume();
         }
     };
     
@@ -109,9 +130,9 @@ public class GraphController {
             double y = event.getY();
             Object source = event.getGestureSource();
             Object target = event.getGestureTarget();
-            out.println("Drag dropped " + target.toString());
-            if (target instanceof TabDiagram) {
-                TabDiagram targetTab = (TabDiagram) target;
+            //out.println("Drag dropped " + target.toString());
+            if (target instanceof Graph) {
+                Graph targetTab = (Graph) target;
                 if (source instanceof SimpleNode) {
                     SimpleNode sourceNode = (SimpleNode) source;
                     if (event.getTransferMode()==TransferMode.MOVE) {
@@ -124,6 +145,10 @@ public class GraphController {
                         SimpleNode sn = new SimpleNode(event.getX(), event.getY());
                         targetTab.getChildren().add(sn);
                     }
+                } else if (source instanceof SimpleLink) {
+                    SimpleLink sl = (SimpleLink) source;
+                    sl.setControlPoint(x, y);
+                    sl.updateLayout();
                 } else {
                     SimpleNode sn = new SimpleNode(event.getX(), event.getY());
                     targetTab.getChildren().add(sn);
@@ -143,7 +168,7 @@ public class GraphController {
                         default: sl = new SimpleLink(sns, snt).add();
                             break;
                     }
-                    ((TabDiagram)snt.getParent()).getChildren().add(sl);
+                    ((Graph)snt.getParent()).getChildren().add(sl);
                     sl.toBack();
                 }
             }

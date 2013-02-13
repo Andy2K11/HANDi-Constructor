@@ -21,7 +21,7 @@ public class EqualLink extends SimpleLink {
         mt2 = new MoveTo(n1x, n1y-3);
         lt1 = new LineTo(n2x, n2y+3);
         lt2 = new LineTo(n2x, n2y-3);
-        this.getElements().setAll(mt1, lt1, mt2, lt2);
+        path.getElements().setAll(mt1, lt1, mt2, lt2);
     }
     
     @Override

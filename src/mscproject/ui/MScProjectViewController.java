@@ -19,9 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.stage.Popup;
-import mscproject.graph.TabDiagram;
+import mscproject.graph.ScrollTab;
 
 /**
  *
@@ -43,10 +41,21 @@ public class MScProjectViewController implements Initializable {
     @FXML
     private void handleNewDiagram(ActionEvent event) {
         //DiagramModel diagram = new DiagramModel().createView("Test Diagram");
-        TabDiagram tabDiagram = new TabDiagram();
-        diagramtabs.getTabs().add(tabDiagram.getTab());
+        //TabDiagram tabDiagram = new TabDiagram();
+        //diagramtabs.getTabs().add(tabDiagram.getTab());
+        ScrollTab st = new ScrollTab();
+        diagramtabs.getTabs().add(st);
     }
     
+    @FXML
+    private void handleSaveDiagram(ActionEvent event) {
+        Tab tab = diagramtabs.getSelectionModel().getSelectedItem();
+        if (tab instanceof ScrollTab) {
+            ScrollTab st = (ScrollTab) tab;
+            st.getGraph().saveDiagram();
+        }
+        
+    }
     @FXML
     private void handleButtonAction(ActionEvent event) {
         Object source = event.getSource();

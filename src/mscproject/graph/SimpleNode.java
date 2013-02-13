@@ -17,7 +17,9 @@ public class SimpleNode extends Parent {
     static final double radius = 7.0;
     private double x, y;
     private final Circle node = new Circle(0, 0, radius);
+    
     private List<SimpleLink> linkList = new ArrayList();
+    private List<SimpleNode> linkedNodesList = new ArrayList();
     
     public SimpleNode(double x, double y) {
         this.x = x;
@@ -35,7 +37,23 @@ public class SimpleNode extends Parent {
         linkList.add(link);
     }
     
+    public void removeLink(SimpleLink link) {
+        linkList.remove(link);
+    }
+    
+    public void connect(SimpleNode sn) {
+        linkedNodesList.add(sn);
+    }
+    
     public List<SimpleLink> getLinkList() {
         return linkList;
+    }
+    
+    double getX() {
+        return x;
+    }
+    
+    double getY() {
+        return y;
     }
 }

@@ -15,7 +15,7 @@ public class MultiLink extends SimpleLink {
     public MultiLink(SimpleNode n1, SimpleNode n2) {
         super(n1, n2);
         ct = new QuadCurveTo(cx, cy, n2x, n2y);
-        this.getElements().setAll(mt, ct);
+        path.getElements().setAll(mt, ct);
     }
     
     @Override
@@ -27,5 +27,7 @@ public class MultiLink extends SimpleLink {
         ct.setControlY(cy);
         ct.setX(n2x);
         ct.setY(n2y);
+        control.setCenterX(cx);
+        control.setCenterY(cy);
     }
 }

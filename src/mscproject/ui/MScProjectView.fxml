@@ -19,7 +19,7 @@
     <MenuBar>
         <Menu text="File">
             <MenuItem text="New Diagram" onAction="#handleNewDiagram" />
-            <MenuItem text="Save Diagram" />
+            <MenuItem text="Save Diagram" onAction="#handleSaveDiagram"/>
             <CheckMenuItem text="Mark As Finished" />
             <SeparatorMenuItem />
             <MenuItem text="Exit" />
