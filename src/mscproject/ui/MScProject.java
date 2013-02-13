@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mscproject;
+package mscproject.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

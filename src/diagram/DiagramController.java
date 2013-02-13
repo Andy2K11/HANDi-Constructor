@@ -10,7 +10,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-import mscproject.MScProjectViewController;
+import mscproject.ui.MScProjectViewController;
 
 /**
  *

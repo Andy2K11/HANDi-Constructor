@@ -2,11 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mscproject;
+package mscproject.ui;
 
 import diagram.DiagramModel;
-import diagram.model.NodeModel;
-import diagram.view.NodeView;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -21,6 +19,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import mscproject.graph.TabDiagram;
 
 /**
  *
@@ -34,11 +35,16 @@ public class MScProjectViewController implements Initializable {
     @FXML private Label label;
     @FXML private ToggleButton node1button;
     public static boolean delete = false;
+    @FXML private static ToggleGroup nodeselect;
+    @FXML private static ToggleGroup linkselect;
+    @FXML private RadioButton link1, link2, link3;
+    private static int linkType = 0;
     
     @FXML
     private void handleNewDiagram(ActionEvent event) {
-        DiagramModel diagram = new DiagramModel().createView("Test Diagram");
-        diagramtabs.getTabs().add(diagram.getDiagramView());
+        //DiagramModel diagram = new DiagramModel().createView("Test Diagram");
+        TabDiagram tabDiagram = new TabDiagram();
+        diagramtabs.getTabs().add(tabDiagram.getTab());
     }
     
     @FXML
@@ -55,6 +61,7 @@ public class MScProjectViewController implements Initializable {
             case DELETE: delete = true;
                 break;
         }
+     
     }
     
     @FXML
@@ -80,47 +87,17 @@ public class MScProjectViewController implements Initializable {
         event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
         event.consume();
     }
-    /*
-    @FXML
-    private void handleDragDropped(DragEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-        selectedDiagram = (DiagramModel) diagramtabs.getSelectionModel().getSelectedItem();
-        Object source = event.getGestureSource();
-        if (source instanceof ToggleButton) {
-            if (((ToggleButton) source).getId().equals("node1button")) {
-                
-                NodeModel nm = new NodeModel().add(selectedDiagram).createView(x, y, selectedDiagram);
-            } else {
-                System.out.println(((ToggleButton) source).getId());
-            }
-        } else if (source instanceof NodeView) {
-            if (event.getTransferMode()==TransferMode.COPY) {
-                NodeModel nm = new NodeModel().createView(x, y, selectedDiagram);
-            } else if (event.getTransferMode()==TransferMode.MOVE) {
-                ((NodeView) source).setLayoutX(x);
-                ((NodeView) source).setLayoutY(y);
-            }
-            
-        }
-        event.setDropCompleted(true);
-        event.consume();
-    }*/
-    
-    /*
-    @FXML
-    private void handleMouseClicked(MouseEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-        selectedDiagram = (DiagramModel) diagramtabs.getSelectionModel().getSelectedItem();
-        System.out.println("Mouse Clicked: " + x + ", " + y);
-        if (node1button.isSelected()) {
-            NodeModel nm = new NodeModel().createView(x, y, selectedDiagram);  
-        }
-    }*/
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         handleNewDiagram(null);
-    }    
+
+    }
+    
+    public static int getNodeType() {
+        return nodeselect.getToggles().indexOf(nodeselect.getSelectedToggle());
+    }
+    public static int getLinkType() {
+        return linkselect.getToggles().indexOf(linkselect.getSelectedToggle());
+    }
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.ToggleGroup?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-      fx:controller="mscproject.MScProjectViewController"
+      fx:controller="mscproject.ui.MScProjectViewController"
       stylesheets="resources/style.css"
       prefHeight="600" 
       prefWidth="800" 
@@ -80,7 +80,9 @@
                                         <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
                                     </graphic>
                                 </ToggleButton>
-                                <ToggleButton text="Node2" prefWidth="80" toggleGroup="$nodeselect">
+                                <ToggleButton text="Node2" 
+                                              prefWidth="80" 
+                                              toggleGroup="$nodeselect">
                                     <graphic>
                                         <Text text="\@" />
                                     </graphic>
@@ -129,7 +131,17 @@
                                             </elements>
                                         </Path>
                                     </graphic>
-                                </RadioButton>                                    
+                                </RadioButton>
+                                <RadioButton fx:id="link4" selected="false" text="drop" prefHeight="10.0" toggleGroup="$linkselect" >
+                                    <graphic>
+                                        <Path fx:id="connectionGraphic">
+                                            <elements>
+                                                <MoveTo x="0" y="-5" />
+                                                <LineTo x="0" y="5" />
+                                            </elements>
+                                        </Path>
+                                    </graphic>
+                                </RadioButton>                                  
                             </VBox>
                         </TitledPane>               
                 <Accordion>
