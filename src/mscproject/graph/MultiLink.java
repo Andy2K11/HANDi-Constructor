@@ -30,4 +30,9 @@ public class MultiLink extends SimpleLink {
         control.setCenterX(cx);
         control.setCenterY(cy);
     }
+    
+    @Override
+    void setControlPoint(double x) {
+        cx = x - (n1x - x);
+    }
 }

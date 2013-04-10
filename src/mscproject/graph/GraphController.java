@@ -50,6 +50,8 @@ public class GraphController {
                     }
                     //remove node from diagram
                     ((Graph)sn.getParent()).getChildren().remove(sn);    
+                } else {
+                    sn.incrementComplex();
                 }
             } else if (source instanceof Graph) {
                 Graph graph = (Graph) source;
@@ -60,6 +62,12 @@ public class GraphController {
                 }
             } else if (source instanceof SimpleLink) {
                 SimpleLink sl = (SimpleLink) source;
+                if (MScProjectViewController.delete) {
+                    sl.getNode1().removeLink(sl);
+                    sl.getNode2().removeLink(sl);
+                    ((Graph)sl.getParent()).getChildren().remove(sl);
+                }
+                
                 if (event.isControlDown()) {
                     sl.toggleSelected();
                 } else {
@@ -104,7 +112,7 @@ public class GraphController {
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 if (sourceGesture instanceof SimpleLink) {  
                     SimpleLink sl = (SimpleLink) sourceGesture;
-                    sl.setControlPoint(x, y);
+                    sl.setControlPoint(x);
                     sl.updateLayout();
                     out.println("Moving");
                 } else {
@@ -116,7 +124,7 @@ public class GraphController {
             } else if (sourceGesture instanceof SimpleLink) {
                 event.acceptTransferModes(TransferMode.ANY);    
                 SimpleLink sl = (SimpleLink) sourceGesture;
-                sl.setControlPoint(x, y);
+                sl.setControlPoint(x);
                 sl.updateLayout();
                 out.println("Moving");
             }
@@ -147,7 +155,7 @@ public class GraphController {
                     }
                 } else if (source instanceof SimpleLink) {
                     SimpleLink sl = (SimpleLink) source;
-                    sl.setControlPoint(x, y);
+                    //sl.setControlPoint(x, y);
                     sl.updateLayout();
                 } else {
                     SimpleNode sn = new SimpleNode(event.getX(), event.getY());

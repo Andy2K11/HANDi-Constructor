@@ -36,7 +36,7 @@ public class SimpleLink extends Parent {
             cx = n1x;
             cy = n2y;
         }
-        cx = cx + ((Math.random()-0.5)*200);
+        //cx = cx + ((Math.random()-0.5)*200);
         mt = new MoveTo(n1x, n1y);
         lt = new LineTo(n2x, n2y);
 
@@ -102,11 +102,15 @@ public class SimpleLink extends Parent {
         }
     }
     
+    void setControlPoint(double x) {
+        cx = x;
+    }
+    
     void setControlPoint(double x, double y) {
         cx = x;
         cy = y;
     }
-    
+     
     void toggleSelected() {
         control.setVisible(!control.isVisible());
     }
