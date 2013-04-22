@@ -26,10 +26,14 @@ public class SimpleNode extends Parent {
     
     private List<SimpleLink> linkList = new ArrayList();
     private List<SimpleNode> linkedNodesList = new ArrayList();
+    private static int numNodes = 0;
+    private String name;
     
-    public SimpleNode(double x, double y) {
+    public SimpleNode(double x, double y, String name) {
+        numNodes++;
         this.x = x;
         this.y = y;
+        this.name = name;
         this.getChildren().add(node);
         setLayoutX(x);
         setLayoutY(y);
@@ -42,6 +46,10 @@ public class SimpleNode extends Parent {
         setOnMouseClicked(handleMouseClicked);
         setOnDragDetected(handleDragDetected);
         setOnDragOver(handleDragOver);
+    }
+    
+    public SimpleNode(double x, double y) {
+        this(x, y, "node"+numNodes);
     }
     
     public void incrementComplex() {
@@ -76,4 +84,14 @@ public class SimpleNode extends Parent {
     double getY() {
         return y;
     }
+    
+    public String getName() {
+        return name;
+    }
+    
+    void setName(String name) {
+        this.name = name;
+    }
+    
+    
 }

@@ -19,10 +19,11 @@
     <MenuBar>
         <Menu text="File">
             <MenuItem text="New Diagram" onAction="#handleNewDiagram" />
-            <MenuItem text="Save Diagram" onAction="#handleSaveDiagram"/>
+            <MenuItem text="Save Diagram" onAction="#handleSaveDiagram" />
+            <MenuItem text="Load Diagram" onAction="#handleLoadDiagram" />
             <CheckMenuItem text="Mark As Finished" />
             <SeparatorMenuItem />
-            <MenuItem text="Exit" />
+            <MenuItem text="Exit" onAction="#handleExit" />
         </Menu>
         <Menu text="Help">
             <MenuItem text="Task Instructions" />

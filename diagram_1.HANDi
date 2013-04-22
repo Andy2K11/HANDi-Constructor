@@ -1,0 +1,39 @@
+{
+    "Nodes": [
+        {
+            "Name": "node0",
+            "Link": [
+                {
+                    "Node2": "node1",
+                    "Type": "MultiLink",
+                    "Node1": "node0"
+                },
+                {
+                    "Node2": "node1",
+                    "Type": "MultiLink",
+                    "Node1": "node0"
+                }
+            ],
+            "Y": 78,
+            "X": 239
+        },
+        {
+            "Name": "node1",
+            "Link": [
+                {
+                    "Node2": "node1",
+                    "Type": "MultiLink",
+                    "Node1": "node0"
+                },
+                {
+                    "Node2": "node1",
+                    "Type": "MultiLink",
+                    "Node1": "node0"
+                }
+            ],
+            "Y": 196,
+            "X": 237
+        }
+    ],
+    "Title": "diagram_1"
+}

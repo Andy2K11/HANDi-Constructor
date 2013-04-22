@@ -16,7 +16,6 @@ public class ScrollTab extends Tab {
     private Graph graph;
     private static int tabNum = 0;
     
-    
     public ScrollTab(String name) {
         super(name);
         tabNum++;
@@ -30,8 +29,8 @@ public class ScrollTab extends Tab {
         this("diagram_" + (tabNum+1));
     }
 
-    
     public Graph getGraph() {
         return graph;
     }
+
 }

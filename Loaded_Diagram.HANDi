@@ -1,0 +1,64 @@
+{
+    "Nodes": [
+        {
+            "Name": "node0",
+            "Link": [
+                {
+                    "Node2": "node1",
+                    "Type": "EqualLink",
+                    "Node1": "node0"
+                },
+                {
+                    "Node2": "node2",
+                    "Type": "SimpleLink",
+                    "Node1": "node0"
+                }
+            ],
+            "Y": 113,
+            "X": 159
+        },
+        {
+            "Name": "node1",
+            "Link": {
+                "Node2": "node1",
+                "Type": "EqualLink",
+                "Node1": "node0"
+            },
+            "Y": 111,
+            "X": 365
+        },
+        {
+            "Name": "node2",
+            "Link": [
+                {
+                    "Node2": "node2",
+                    "Type": "SimpleLink",
+                    "Node1": "node0"
+                },
+                {
+                    "Node2": "node3",
+                    "Type": "MultiLink",
+                    "Node1": "node2"
+                }
+            ],
+            "Y": 162,
+            "X": 158
+        },
+        {
+            "Name": "node3",
+            "Link": {
+                "Node2": "node3",
+                "Type": "MultiLink",
+                "Node1": "node2"
+            },
+            "Y": 226,
+            "X": 109
+        },
+        {
+            "Name": "node4",
+            "Y": 227,
+            "X": 215
+        }
+    ],
+    "Title": "Loaded_Diagram"
+}
