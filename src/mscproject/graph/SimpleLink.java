@@ -18,6 +18,7 @@ import static mscproject.graph.GraphController.*;
 public class SimpleLink extends Parent {
     SimpleNode node1, node2;
     double n1x, n1y, n2x, n2y, cx, cy, mx, my;
+    final double controlRatioY = 4.0;
     MoveTo mt, nmt;
     LineTo lt, nlt;
     Path path = new Path();
@@ -29,13 +30,15 @@ public class SimpleLink extends Parent {
         node1 = n1;
         node2 = n2;
         doLayout();
+        double controlYFactor = 2 * Math.pow(1.01, Math.abs(n2x - n1x));
         if (n1y < n2y) {
             cx = n2x;
-            cy = n1y;
+            cy = n1y + (n2y - n1y)/controlYFactor;
         } else {
             cx = n1x;
-            cy = n2y;
+            cy = n2y + (n1y - n2y)/controlYFactor;
         }
+        //cy = (n1y + n2y) / 2;   // y = y1 + (y2 - y1)/2
         //cx = cx + ((Math.random()-0.5)*200);
         mt = new MoveTo(n1x, n1y);
         lt = new LineTo(n2x, n2y);

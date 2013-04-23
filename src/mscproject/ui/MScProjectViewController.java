@@ -87,12 +87,13 @@ public class MScProjectViewController implements Initializable {
                 JSONObject jNode = jNodes.getJSONObject(i);
                 st.getGraph().getChildren().add(new SimpleNode(jNode.optDouble("X"), jNode.optDouble("Y"), jNode.getString("Name")));
             }
-            for (int i=0; i<jNodes.length(); i++) {
-                 JSONObject jNode = jNodes.getJSONObject(i);
-                 JSONArray links = jNode.optJSONArray("Link");
-                 if (!(links==null)) {
-                    for (int j=0; j<links.length(); j++) {
-                        JSONObject jLink = links.getJSONObject(j);
+            //for (int i=0; i<jNodes.length(); i++) {
+                 //JSONObject jNode = jNodes.getJSONObject(i);
+                 //JSONArray links = jNode.optJSONArray("Links");
+                JSONArray jLinks = jObj.getJSONArray("Links");
+                if (!(jLinks==null)) {
+                    for (int j=0; j<jLinks.length(); j++) {
+                        JSONObject jLink = jLinks.getJSONObject(j);
                         String node1String = jLink.getString("Node1");
                         String node2String = jLink.getString("Node2");
                         //search for node objects
@@ -118,11 +119,11 @@ public class MScProjectViewController implements Initializable {
                         }
                     }
                  } else {
-                     JSONObject jLink = jNode.optJSONObject("Link");
+                     JSONObject jLink = jObj.optJSONObject("Links");
                      String node1String = jLink.getString("Node1");
                      String node2String = jLink.getString("Node2");
                  }
-            }
+            //}
             st.setText(title);
             System.err.println(jObj.toString(4));
         } catch (FileNotFoundException ex) {

@@ -67,18 +67,20 @@ public class Graph extends Pane {
             jNode.put("X", sn.getX());
             jNode.put("Y", sn.getY());
        
-            List<SimpleLink> links = sn.getLinkList();
-            for (SimpleLink sl: links) {
+            //List<SimpleLink> links = sn.getLinkList();
+            
+            
+            graph.accumulate("Nodes", jNode);
+        }
+        for (SimpleLink sl: getLinkList()) {
                 JSONObject jLink = new JSONObject();
                 jLink.accumulate("Node1", sl.getNode1().getName());
                 jLink.accumulate("Node2", sl.getNode2().getName());
                 String linkClass = sl.getClass().toString();
                 linkClass = linkClass.substring(linkClass.lastIndexOf('.')+1);
                 jLink.accumulate("Type", linkClass);
-                jNode.accumulate("Link", jLink);
-            }
-            
-            graph.accumulate("Nodes", jNode);
+                //jNode.accumulate("Link", jLink);
+                graph.accumulate("Links", jLink);
         }
         
         // Save json obects to file.

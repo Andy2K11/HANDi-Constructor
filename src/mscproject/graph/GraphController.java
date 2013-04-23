@@ -114,7 +114,7 @@ public class GraphController {
                     SimpleLink sl = (SimpleLink) sourceGesture;
                     sl.setControlPoint(x);
                     sl.updateLayout();
-                    out.println("Moving");
+                    out.println("Reshaping link path");
                 } else {
                     event.consume();
                 }
@@ -126,7 +126,7 @@ public class GraphController {
                 SimpleLink sl = (SimpleLink) sourceGesture;
                 sl.setControlPoint(x);
                 sl.updateLayout();
-                out.println("Moving");
+                out.println("Moving Link");
             }
         }
     };
