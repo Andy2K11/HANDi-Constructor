@@ -19,7 +19,7 @@ public class MultiLink extends SimpleLink {
     }
     
     @Override
-    void updateLayout() {
+    public void updateLayout() {
         doLayout();
         mt.setX(n1x);
         mt.setY(n1y);
@@ -32,7 +32,7 @@ public class MultiLink extends SimpleLink {
     }
     
     @Override
-    void setControlPoint(double x) {
+    public void setControlPoint(double x) {
         cx = x - (n1x - x);
     }
 }

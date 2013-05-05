@@ -25,7 +25,7 @@ public class EqualLink extends SimpleLink {
     }
     
     @Override
-    void updateLayout() {
+    public void updateLayout() {
         doLayout();
         mt1.setX(n1x);
         mt1.setY(n1y+3);

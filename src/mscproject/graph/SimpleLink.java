@@ -4,12 +4,14 @@
  */
 package mscproject.graph;
 
+import java.util.TreeSet;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import static mscproject.graph.GraphController.*;
+import static mscproject.graph.controller.GraphController.*;
 
 /**
  *
@@ -55,7 +57,7 @@ public class SimpleLink extends Parent {
         
         this.getChildren().addAll(path, control, negate);
         
-        this.setOnMouseClicked(handleMouseClicked);
+        this.setOnMouseClicked(mscproject.graph.controller.LinkController.handleMouseClicked);
         //this.setOnMouseDragged(n2);
         this.setOnDragOver(handleDragOver);
         this.setOnDragDetected(handleDragDetected);
@@ -70,7 +72,7 @@ public class SimpleLink extends Parent {
         my = n1y + (n2y - n1y)/2;
     }
     
-    void updateLayout() {
+    public void updateLayout() {
         doLayout();
         mt.setX(n1x);
         mt.setY(n1y);
@@ -94,6 +96,15 @@ public class SimpleLink extends Parent {
         return node2;
     }
     
+     /**
+     * Method to fetch the node connected to the other end of this link, the 
+     * calling node supplies itself as a parameter. If the supplied node does
+     * not match either node connected to this link then a null value is returned.
+     * This method is required to iterate through a network.
+     * 
+     * @param aNode
+     * @return 
+     */   
     public SimpleNode getLinkedNode(SimpleNode sn) {
         if (sn.equals(node1)) {
             return node2;
@@ -105,21 +116,34 @@ public class SimpleLink extends Parent {
         }
     }
     
-    void setControlPoint(double x) {
+    /**
+     * Determines if the node supplied as a parameter is a child node. Will 
+     * return false if the node is either parent or not connected.
+     * 
+     * @param sn
+     * @return 
+     */
+    public boolean isSubNode(SimpleNode sn) {
+        return (sn.getY() > this.getLinkedNode(sn).getY());
+    }
+    
+    public void setControlPoint(double x) {
         cx = x;
     }
     
-    void setControlPoint(double x, double y) {
+    public void setControlPoint(double x, double y) {
         cx = x;
         cy = y;
     }
      
-    void toggleSelected() {
+    public void toggleSelected() {
         control.setVisible(!control.isVisible());
     }
     
-    void toggleNegated() {
+    public void toggleNegated() {
         negated = !negated;
         negate.setVisible(negated);
     }
+    
+   
 }

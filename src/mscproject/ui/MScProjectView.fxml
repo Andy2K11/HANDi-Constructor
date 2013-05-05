@@ -11,169 +11,31 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
       fx:controller="mscproject.ui.MScProjectViewController"
       stylesheets="resources/style.css"
-      prefHeight="600" 
-      prefWidth="800" 
+      prefHeight="800" 
+      prefWidth="1200" 
       onKeyPressed="#handleKeyPressed"
       onKeyReleased="#handleKeyReleased">
     <top>
-    <MenuBar>
-        <Menu text="File">
-            <MenuItem text="New Diagram" onAction="#handleNewDiagram" />
-            <MenuItem text="Save Diagram" onAction="#handleSaveDiagram" />
-            <MenuItem text="Load Diagram" onAction="#handleLoadDiagram" />
-            <CheckMenuItem text="Mark As Finished" />
-            <SeparatorMenuItem />
-            <MenuItem text="Exit" onAction="#handleExit" />
-        </Menu>
-        <Menu text="Help">
-            <MenuItem text="Task Instructions" />
-            <Menu text="Nodes">
-                <MenuItem text="Node Overview"/>
-                <MenuItem text="Node1 Info"/>
-                <MenuItem text="Node2 Info"/>
-            </Menu>
-            <Menu text="Branches">
-                <MenuItem text="Link Overview"/>
-                <MenuItem text="Link1 Info"/>
-                <MenuItem text="Link2 Info"/>
-                <MenuItem text="Link3 Info"/>
-            </Menu>            
-        </Menu>
-        <Menu text="About" >
-            <Menu text="Authors" >
-                <MenuItem text="Andy Keavey" />
-                <MenuItem text="Prof. Peter Cheng" />
-            </Menu>
-            <MenuItem text="Ethical Policy" />
-            <MenuItem text="University of Sussex" />
-        </Menu>
-    </MenuBar>
+        <fx:include fx:id="menu" source="MenuView.fxml" />
     </top>
     <center>
-    <AnchorPane id="AnchorPane" 
-                styleClass="anchorpane" >
-        <children>
-            <FlowPane orientation="vertical"
-                  styleClass="flowpane" 
-                  AnchorPane.leftAnchor="0.0" 
-                  AnchorPane.topAnchor="30.0" 
-                  AnchorPane.bottomAnchor="0.0" >
-                <fx:define>
-                    <ToggleGroup fx:id="linkselect" />
-                    <ToggleGroup fx:id="nodeselect" />
-                    <Tooltip fx:id="node1ToolTip" wrapText="true" prefWidth="300">
-                        <text>
-                            Show me. This is a possibly very large tool tip.
-                            What happens when I add extra lines?
-                        </text>
-                    </Tooltip>
-                </fx:define>
-                        <TitledPane styleClass="titledpane" text="Nodes">
-                            <VBox> 
-                                <ToggleButton fx:id="node1button"
-                                              text="Node1" 
-                                              prefWidth="80" 
-                                              tooltip="$node1ToolTip" 
-                                              toggleGroup="$nodeselect" 
-                                              onAction="#handleButtonAction"
-                                              onDragDetected="#handleDragDetected">
-                                    <graphic>
-                                        <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
-                                    </graphic>
-                                </ToggleButton>
-                                <ToggleButton text="Node2" 
-                                              prefWidth="80" 
-                                              toggleGroup="$nodeselect">
-                                    <graphic>
-                                        <Text text="\@" />
-                                    </graphic>
-                                    <tooltip>
-                                        <Tooltip wrapText="true" prefWidth="300">
-                                            <text>
-                                                Node type 2: This type of node is put at the end of a branching tree
-                                                structure to give some meaning to the diagram.
-                                            </text>
-                                        </Tooltip>
-                                    </tooltip>
-                                </ToggleButton>
-                            </VBox>
-                        </TitledPane>
-                        <TitledPane styleClass="titledpane" text="Branches">
-                            <VBox>
-                                <RadioButton fx:id="link1" selected="true" text="Link1" prefHeight="10.0" toggleGroup="$linkselect" >
-                                    <graphic>
-                                        <Path fx:id="connectionGraphic">
-                                            <elements>
-                                                <MoveTo x="10" y="-3" />
-                                                <LineTo x="-10" y="-3" />
-                                                <MoveTo x="10" y="3" />
-                                                <LineTo x="-10" y="3" />
-                                            </elements>
-                                        </Path>
-                                    </graphic>
-                                </RadioButton>
-                                <RadioButton fx:id="link2" selected="false" text="Link2" prefHeight="10.0" toggleGroup="$linkselect" >
-                                    <graphic>
-                                        <Path fx:id="connectionGraphic">
-                                            <elements>
-                                                <MoveTo x="10" y="-5" />
-                                                <LineTo x="-10" y="-5" />
-                                                <LineTo x="-10" y="5" />
-                                            </elements>
-                                        </Path>
-                                    </graphic>
-                                </RadioButton>                                
-                                <RadioButton fx:id="link3" selected="false" text="Link3" prefHeight="10.0" toggleGroup="$linkselect" >
-                                    <graphic>
-                                        <Path fx:id="connectionGraphic">
-                                            <elements>
-                                                <MoveTo x="10" y="-5" />
-                                                <QuadCurveTo controlX="-10" controlY="-5" x="-10" y="5" />
-                                            </elements>
-                                        </Path>
-                                    </graphic>
-                                </RadioButton>
-                                <RadioButton fx:id="link4" selected="false" text="drop" prefHeight="10.0" toggleGroup="$linkselect" >
-                                    <graphic>
-                                        <Path fx:id="connectionGraphic">
-                                            <elements>
-                                                <MoveTo x="0" y="-5" />
-                                                <LineTo x="0" y="5" />
-                                            </elements>
-                                        </Path>
-                                    </graphic>
-                                </RadioButton>                                  
-                            </VBox>
-                        </TitledPane>               
-                <Accordion>
-                    <panes>
-
-                    </panes>
-                </Accordion>
-            </FlowPane>
-            <TabPane fx:id="diagramtabs"
-                     AnchorPane.leftAnchor="85.0" 
-                     AnchorPane.rightAnchor="0.0" 
-                     AnchorPane.topAnchor="0.0"
-                     AnchorPane.bottomAnchor="0.0"
-                     >
-                <tabs>
-                    <!--Tab text="diagram1" styleClass="tab">
-                        <ScrollPane>
-                            <Pane fx:id="diagrampane"
-                                  styleClass = "pane"
-                                  prefWidth="800" prefHeight="600"
-                                  onDragDropped="#handleDragDropped"
-                                  onDragOver="#handleDragOver"
-                                  onMouseClicked="#handleMouseClicked">
-                                <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-                            </Pane>
-                        </ScrollPane>   
-                    </Tab-->
-                </tabs>
-            </TabPane>
-        </children>
-    </AnchorPane>
+        <AnchorPane id="AnchorPane" 
+                    styleClass="anchorpane" >
+            <children>
+                <fx:include fx:id="toolbar" source="ToolBar.fxml"
+                            AnchorPane.leftAnchor="0.0" 
+                            AnchorPane.topAnchor="30.0" 
+                            AnchorPane.bottomAnchor="0.0" />
+                <TabPane fx:id="diagramtabs"
+                         AnchorPane.leftAnchor="85.0" 
+                         AnchorPane.rightAnchor="0.0" 
+                         AnchorPane.topAnchor="0.0"
+                         AnchorPane.bottomAnchor="0.0"
+                         >
+                    <!-- Tabs loaded programatically -->
+                </TabPane>
+            </children>
+        </AnchorPane>
     </center>
 </BorderPane>
 

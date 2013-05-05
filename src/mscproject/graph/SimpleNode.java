@@ -6,15 +6,18 @@ package mscproject.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
+import javafx.event.EventType;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Circle;
-import static mscproject.graph.GraphController.*;
+import static mscproject.graph.controller.GraphController.*;
 /**
  *
  * @author Andy
  */
-public class SimpleNode extends Parent {
+public class SimpleNode extends Parent implements Comparable<SimpleNode> {
     static final double radius = 7.0;
     private double x, y;
     private final Circle node = new Circle(0, 0, radius);
@@ -43,13 +46,35 @@ public class SimpleNode extends Parent {
         //arc.setFill(null);
         this.getChildren().add(arc);
         
-        setOnMouseClicked(handleMouseClicked);
+        setOnMouseClicked(mscproject.graph.controller.NodeController.handleMouseClicked);
         setOnDragDetected(handleDragDetected);
         setOnDragOver(handleDragOver);
+        setOnDragDropped(mscproject.graph.controller.NodeController.handleDragDropped);
     }
     
     public SimpleNode(double x, double y) {
         this(x, y, "node"+numNodes);
+    }
+    
+    /**
+     * Implements comparable using the height of the node within the tree.
+     * As y axis values start from zero at the top of the screen, a lesser y 
+     * axis value will return a positive integer indicating that the node is 
+     * higher in the hierarchy, and vice versa.
+     * "thisObject less than anotherObject return negative" 
+     * 
+     * @param sn
+     * @return 
+     */
+    @Override
+    public int compareTo(SimpleNode sn) {
+        if (this.getY() < sn.getY()) {
+            return 1;
+        } else if (this.getY() > sn.getY()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
     
     public void incrementComplex() {
@@ -92,6 +117,36 @@ public class SimpleNode extends Parent {
     void setName(String name) {
         this.name = name;
     }
+
+    /* A TreeSet is used here because it is ordered, sortable, and only allows
+     * unique entries (it's a set!). We want to store the network in decending
+     * order but not have duplicates where many links connect the same node.
+     */
+    private TreeSet<Node> subTree = new TreeSet<Node>();
+    
+    /**
+     * Method to create an hierarchically ordered subtree from this node.
+     * 
+     * @return All nodes in the sub tree from this node, including this node.
+     */
+    public TreeSet<Node> getSubTree() {
+        subTree.clear();
+        subTree.add(this);
+        
+        /* 
+         * For all links, if link connects a sub node, add it to the tree and
+         * check if it has any further sub nodes.
+         */
+        for (SimpleLink link: this.getLinkList()) {
+            SimpleNode linkedNode = link.getLinkedNode(this);
+            if (link.isSubNode(linkedNode)) {
+                //subTree.add(linkedNode);
+                subTree.addAll(linkedNode.getSubTree());
+            }
+        }
+        return subTree;
+    }
+    
     
     
 }

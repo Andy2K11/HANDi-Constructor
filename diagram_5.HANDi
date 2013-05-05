@@ -1,0 +1,32 @@
+{
+    "Links": [
+        {
+            "Node2": "node2",
+            "Type": "MultiLink",
+            "Node1": "node1"
+        },
+        {
+            "Node2": "node1",
+            "Type": "MultiLink",
+            "Node1": "node0"
+        }
+    ],
+    "Nodes": [
+        {
+            "Name": "node0",
+            "Y": 85,
+            "X": 137
+        },
+        {
+            "Name": "node1",
+            "Y": 138,
+            "X": 285
+        },
+        {
+            "Name": "node2",
+            "Y": 283,
+            "X": 341
+        }
+    ],
+    "Title": "diagram_5"
+}

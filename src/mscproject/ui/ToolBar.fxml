@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<FlowPane 
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="mscproject.ui.ToolBarController"
+        orientation="vertical"
+        styleClass="flowpane">
+    <fx:define>
+        <ToggleGroup fx:id="linkselect" />
+        <ToggleGroup fx:id="nodeselect" />
+        <Tooltip fx:id="node1ToolTip" wrapText="true" prefWidth="300">
+            <text>
+                Show me. This is a possibly very large tool tip.
+                What happens when I add extra lines?
+            </text>
+        </Tooltip>
+    </fx:define>
+    <TitledPane styleClass="titledpane" text="Nodes">
+        <VBox> 
+            <ToggleButton fx:id="node1button"
+                          text="Node1" 
+                          prefWidth="80" 
+                          tooltip="$node1ToolTip" 
+                          toggleGroup="$nodeselect" 
+                          onAction="#handleButtonAction"
+                          onDragDetected="#handleDragDetected">
+                <graphic>
+                    <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
+                </graphic>
+            </ToggleButton>
+            <ToggleButton text="Node2" 
+                          prefWidth="80" 
+                          toggleGroup="$nodeselect">
+                <graphic>
+                    <Text text="\@" />
+                </graphic>
+                <tooltip>
+                    <Tooltip wrapText="true" prefWidth="300">
+                        <text>
+                            Node type 2: This type of node is put at the end of a branching tree
+                            structure to give some meaning to the diagram.
+                        </text>
+                    </Tooltip>
+                </tooltip>
+            </ToggleButton>
+        </VBox>
+    </TitledPane>
+    <TitledPane styleClass="titledpane" text="Branches">
+        <VBox>
+            <RadioButton fx:id="link1" selected="true" text="Link1" prefHeight="10.0" toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="connectionGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-3" />
+                            <LineTo x="-10" y="-3" />
+                            <MoveTo x="10" y="3" />
+                            <LineTo x="-10" y="3" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>
+            <RadioButton fx:id="link2" selected="false" text="Link2" prefHeight="10.0" toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="connectionGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-5" />
+                            <LineTo x="-10" y="-5" />
+                            <LineTo x="-10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>                                
+            <RadioButton fx:id="link3" selected="false" text="Link3" prefHeight="10.0" toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="connectionGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-5" />
+                            <QuadCurveTo controlX="-10" controlY="-5" x="-10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>
+            <RadioButton fx:id="link4" selected="false" text="drop" prefHeight="10.0" toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="connectionGraphic">
+                        <elements>
+                            <MoveTo x="0" y="-5" />
+                            <LineTo x="0" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>                                  
+        </VBox>
+    </TitledPane>               
+    <Accordion>
+        <panes>
+
+        </panes>
+    </Accordion>
+  </FlowPane>

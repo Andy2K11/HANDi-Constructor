@@ -21,7 +21,7 @@ public class AddLink extends SimpleLink {
     }
     
     @Override
-    void updateLayout() {
+    public void updateLayout() {
         doLayout();
         mt.setX(n1x);
         mt.setY(n1y);

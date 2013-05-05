@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.layout.Pane;
-import static mscproject.graph.GraphController.*;
+import static mscproject.graph.controller.GraphController.*;
 import org.json.*;
 
 /**
