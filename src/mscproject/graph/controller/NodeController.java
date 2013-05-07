@@ -6,10 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import mscproject.graph.AbstractLink;
 import mscproject.graph.AddLink;
 import mscproject.graph.EqualLink;
 import mscproject.graph.Graph;
 import mscproject.graph.MultiLink;
+import mscproject.graph.DropLink;
 import mscproject.graph.SimpleLink;
 import mscproject.graph.SimpleNode;
 import mscproject.ui.MScProjectViewController;
@@ -32,9 +34,9 @@ public class NodeController {
                     case UNDEFINED: sn.incrementComplex();
                         break;
                     case DELETE: 
-                        for (SimpleLink sl : sn.getLinkList()) {
-                            sl.getLinkedNode(sn).removeLink(sl);
-                            ((Graph)sn.getParent()).getChildren().remove(sl);
+                        for (AbstractLink link : sn.getLinkList()) {
+                            link.getLinkedNode(sn).removeLink(link);
+                            ((Graph)sn.getParent()).getChildren().remove(link);
                         }
                         //remove node from diagram
                         ((Graph)sn.getParent()).getChildren().remove(sn);
@@ -66,19 +68,19 @@ public class NodeController {
                 if (event.getTransferMode()==TransferMode.LINK) {
                     SimpleNode sns = (SimpleNode) source;
                     SimpleNode snt = (SimpleNode) target;
-                    SimpleLink sl;
+                    AbstractLink link;
                     switch(ToolBarController.getLinkType()) {
-                        case 0: sl = new EqualLink(sns, snt).add();
+                        case 0: link = new EqualLink(sns, snt).add();
                             break;
-                        case 1: sl = new AddLink(sns, snt).add();
+                        case 1: link = new AddLink(sns, snt).add();
                             break;
-                        case 2: sl = new MultiLink(sns, snt).add();
+                        case 2: link = new MultiLink(sns, snt).add();
                             break;
-                        default: sl = new SimpleLink(sns, snt).add();
+                        default: link = new SimpleLink(sns, snt).add();
                             break;
                     }
-                    ((Graph)snt.getParent()).getChildren().add(sl);
-                    sl.toBack();
+                    ((Graph)snt.getParent()).getChildren().add(link);
+                    link.toBack();
                 }    
             }
             event.consume();

@@ -4,7 +4,6 @@
  */
 package mscproject.graph.controller;
 
-import java.util.TreeSet;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
@@ -12,8 +11,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import mscproject.graph.AbstractLink;
+import mscproject.graph.EqualLink;
 import mscproject.graph.Graph;
-import mscproject.graph.SimpleLink;
+import mscproject.graph.DropLink;
 import mscproject.graph.SimpleNode;
 import mscproject.ui.ToolBarController;
 
@@ -73,21 +74,21 @@ public class GraphController {
             Node target = (Node) event.getGestureTarget();
             if (source instanceof Graph) {
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                if (sourceGesture instanceof SimpleLink) {  
-                    SimpleLink sl = (SimpleLink) sourceGesture;
-                    sl.setControlPoint(x);
+                if (sourceGesture instanceof DropLink) {  
+                    DropLink sl = (DropLink) sourceGesture;
+                    //sl.setControlPoint(x);
                     sl.updateLayout();
                     //out.println("Reshaping link path");
                 } else {
                     event.consume();
                 }
             } else if (source instanceof SimpleNode) {
-                event.acceptTransferModes(TransferMode.LINK);
+                event.acceptTransferModes(TransferMode.ANY);    //Changed from link temp
                 event.consume();
-            } else if (sourceGesture instanceof SimpleLink) {
+            } else if (sourceGesture instanceof DropLink) {
                 event.acceptTransferModes(TransferMode.ANY);    
-                SimpleLink sl = (SimpleLink) sourceGesture;
-                sl.setControlPoint(x);
+                DropLink sl = (DropLink) sourceGesture;
+                //sl.setControlPoint(x);
                 sl.updateLayout();
                 //out.println("Moving Link");
             }
@@ -111,21 +112,35 @@ public class GraphController {
                 if (source instanceof SimpleNode) {
                     SimpleNode sourceNode = (SimpleNode) source;
                     if (true) {
-                        sourceNode.setLayoutX(x);
-                        sourceNode.setLayoutY(y);
-                        sourceNode.getSubTree();
+                        event.getTransferMode();
+                        double rootNodeX = sourceNode.getLayoutX();
+                        double rootNodeY = sourceNode.getLayoutY();
+                        //sourceNode.setLayoutX(x);
+                        //sourceNode.setLayoutY(y);
+                        for (Node node: sourceNode.getSubTree()) {
+                            if (node instanceof SimpleNode) {
+                                SimpleNode sn = (SimpleNode) node;
+                                double diffX = sn.getLayoutX() - rootNodeX;
+                                double diffY = sn.getLayoutY() - rootNodeY;
+                                sn.setLayoutX(x+diffX);
+                                sn.setLayoutY(y+diffY);
+                                for (AbstractLink link: sn.getLinkList()) {
+                                        link.updateLayout();   
+                                }
+                            }
+                        }
                     } else if (event.getTransferMode()==TransferMode.MOVE) {
                         sourceNode.setLayoutX(x);
                         sourceNode.setLayoutY(y);
-                        for (SimpleLink sl: sourceNode.getLinkList()) {
+                        for (AbstractLink sl: sourceNode.getLinkList()) {
                             sl.updateLayout();
                         }
                     } else if (event.getTransferMode()==TransferMode.COPY) {
                         SimpleNode sn = new SimpleNode(event.getX(), event.getY());
                         targetTab.getChildren().add(sn);
                     }
-                } else if (source instanceof SimpleLink) {
-                    SimpleLink sl = (SimpleLink) source;
+                } else if (source instanceof DropLink) {
+                    DropLink sl = (DropLink) source;
                     //sl.setControlPoint(x, y);
                     sl.updateLayout();
                 } else {

@@ -27,8 +27,8 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
     private Arc arc;
     private int iAngle = 0;
     
-    private List<SimpleLink> linkList = new ArrayList();
-    private List<SimpleNode> linkedNodesList = new ArrayList();
+    private List<AbstractLink> linkList = new ArrayList();
+    //private List<SimpleNode> linkedNodesList = new ArrayList();
     private static int numNodes = 0;
     private String name;
     
@@ -57,10 +57,19 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
     }
     
     /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+    
+    /**
      * Implements comparable using the height of the node within the tree.
      * As y axis values start from zero at the top of the screen, a lesser y 
-     * axis value will return a positive integer indicating that the node is 
-     * higher in the hierarchy, and vice versa.
+     * axis value will return a negative integer indicating that the node is 
+     * higher in the hierarchy (comes first in the tree), and vice versa.
      * "thisObject less than anotherObject return negative" 
      * 
      * @param sn
@@ -68,10 +77,10 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
      */
     @Override
     public int compareTo(SimpleNode sn) {
-        if (this.getY() < sn.getY()) {
-            return 1;
-        } else if (this.getY() > sn.getY()) {
+        if (this.getLayoutY() < sn.getLayoutY()) {
             return -1;
+        } else if (this.getLayoutY() > sn.getLayoutY()) {
+            return 1;
         } else {
             return 0;
         }
@@ -86,29 +95,31 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         arc.setLength(iAngle);
     }
     
-    public void addLink(SimpleLink link) {
+    public void addLink(AbstractLink link) {
         linkList.add(link);
     }
     
-    public void removeLink(SimpleLink link) {
+    public void removeLink(AbstractLink link) {
         linkList.remove(link);
     }
     
+    /*
     public void connect(SimpleNode sn) {
         linkedNodesList.add(sn);
-    }
+    }*/
     
-    public List<SimpleLink> getLinkList() {
+    public List<AbstractLink> getLinkList() {
         return linkList;
     }
     
+    /*
     double getX() {
         return x;
     }
     
     double getY() {
         return y;
-    }
+    }*/
     
     public String getName() {
         return name;
@@ -136,10 +147,12 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         /* 
          * For all links, if link connects a sub node, add it to the tree and
          * check if it has any further sub nodes.
+         * We don't want to include any nodes connected via a equallink as these
+         * are defined to be at the same level (root).
          */
-        for (SimpleLink link: this.getLinkList()) {
+        for (AbstractLink link: this.getLinkList()) {
             SimpleNode linkedNode = link.getLinkedNode(this);
-            if (link.isSubNode(linkedNode)) {
+            if (link.isSubNode(linkedNode) && !(link instanceof EqualLink)) {
                 //subTree.add(linkedNode);
                 subTree.addAll(linkedNode.getSubTree());
             }

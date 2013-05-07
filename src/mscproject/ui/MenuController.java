@@ -11,11 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import mscproject.graph.AbstractLink;
 import mscproject.graph.MultiLink;
 import mscproject.graph.ScrollTab;
-import mscproject.graph.SimpleLink;
 import mscproject.graph.SimpleNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -99,9 +98,9 @@ public class MenuController implements Initializable {
                             }
                         }
                         if (node1!=null && node2!=null) {
-                            SimpleLink sl = new MultiLink(node1, node2).add();
-                            st.getGraph().getChildren().add(sl);
-                            sl.toBack();
+                            AbstractLink link = new MultiLink(node1, node2).add();
+                            st.getGraph().getChildren().add(link);
+                            link.toBack();
                         }
                         String type = jLink.getString("Type");
                         if (type.equals("MultiLink")) {

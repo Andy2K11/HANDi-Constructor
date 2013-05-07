@@ -45,11 +45,11 @@ public class Graph extends Pane {
         return nodeList;
     }
     
-    private List<SimpleLink> getLinkList() {
-        List<SimpleLink> linkList = new ArrayList();
+    private List<DropLink> getLinkList() {
+        List<DropLink> linkList = new ArrayList();
         for (Object o: this.getChildren()) {
-            if (o instanceof SimpleLink) {
-                linkList.add((SimpleLink) o);
+            if (o instanceof DropLink) {
+                linkList.add((DropLink) o);
             }
         }
         return linkList;
@@ -64,15 +64,15 @@ public class Graph extends Pane {
         for (SimpleNode sn: getNodeList()) {
             jNode = new JSONObject();
             jNode.put("Name", sn.getName());
-            jNode.put("X", sn.getX());
-            jNode.put("Y", sn.getY());
+            jNode.put("X", sn.getLayoutX());
+            jNode.put("Y", sn.getLayoutY());
        
             //List<SimpleLink> links = sn.getLinkList();
             
             
             graph.accumulate("Nodes", jNode);
         }
-        for (SimpleLink sl: getLinkList()) {
+        for (DropLink sl: getLinkList()) {
                 JSONObject jLink = new JSONObject();
                 jLink.accumulate("Node1", sl.getNode1().getName());
                 jLink.accumulate("Node2", sl.getNode2().getName());

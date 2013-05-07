@@ -1,26 +1,41 @@
 {
     "Links": [
         {
-            "Node2": "node1",
-            "Type": "MultiLink",
-            "Node1": "node0"
+            "Node2": "node0",
+            "Type": "SimpleLink",
+            "Node1": "node4"
         },
         {
-            "Node2": "node1",
-            "Type": "MultiLink",
+            "Node2": "node3",
+            "Type": "SimpleLink",
+            "Node1": "node2"
+        },
+        {
+            "Node2": "node2",
+            "Type": "SimpleLink",
             "Node1": "node0"
         }
     ],
     "Nodes": [
         {
             "Name": "node0",
-            "Y": 74,
-            "X": 228
+            "Y": 263,
+            "X": 173
         },
         {
-            "Name": "node1",
-            "Y": 204,
-            "X": 225
+            "Name": "node2",
+            "Y": 243,
+            "X": 229
+        },
+        {
+            "Name": "node3",
+            "Y": 193,
+            "X": 268
+        },
+        {
+            "Name": "node4",
+            "Y": 287,
+            "X": 84
         }
     ],
     "Title": "diagram_1"
