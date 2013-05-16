@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -126,14 +127,26 @@ public class MenuController implements Initializable {
     private void handleExit(ActionEvent event) {
         System.exit(0);
     }
+    
+    @FXML
+    private void handleDesign(ActionEvent event) {
+        Locale.setDefault(Locale.ENGLISH);
+    }
+    
+    @FXML
+    private void handleExperiment(ActionEvent event) {
+        Locale.setDefault(new Locale("en", "GB", "Test"));
+    }
+    
     @FXML
     private void handleUniversity(ActionEvent event) {
         System.out.append("www.sussex.ac.uk");
     }
     
+    private ResourceBundle bundle;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        this.bundle = rb;
     }
     
     class NullDiagramException extends Exception {

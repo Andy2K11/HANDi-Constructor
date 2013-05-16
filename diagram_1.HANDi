@@ -1,41 +1,76 @@
 {
     "Links": [
         {
-            "Node2": "node0",
-            "Type": "SimpleLink",
-            "Node1": "node4"
-        },
-        {
-            "Node2": "node3",
-            "Type": "SimpleLink",
-            "Node1": "node2"
+            "Node2": "node9",
+            "Type": "DropLink",
+            "Node1": "node8"
         },
         {
             "Node2": "node2",
-            "Type": "SimpleLink",
+            "Type": "DropLink",
+            "Node1": "node1"
+        },
+        {
+            "Node2": "node3",
+            "Type": "DropLink",
             "Node1": "node0"
         }
     ],
     "Nodes": [
         {
             "Name": "node0",
-            "Y": 263,
+            "Y": 122,
             "X": 173
         },
         {
+            "Name": "node1",
+            "Y": 124,
+            "X": 336
+        },
+        {
             "Name": "node2",
-            "Y": 243,
-            "X": 229
+            "Y": 188,
+            "X": 338
         },
         {
             "Name": "node3",
-            "Y": 193,
-            "X": 268
+            "Y": 183,
+            "X": 171
         },
         {
             "Name": "node4",
-            "Y": 287,
-            "X": 84
+            "Y": 254,
+            "X": 104
+        },
+        {
+            "Name": "node5",
+            "Y": 264,
+            "X": 208
+        },
+        {
+            "Name": "node6",
+            "Y": 263,
+            "X": 303
+        },
+        {
+            "Name": "node7",
+            "Y": 262,
+            "X": 379
+        },
+        {
+            "Name": "node8",
+            "Y": 118,
+            "X": 530
+        },
+        {
+            "Name": "node9",
+            "Y": 183,
+            "X": 531
+        },
+        {
+            "Name": "node10",
+            "Y": 260,
+            "X": 528
         }
     ],
     "Title": "diagram_1"

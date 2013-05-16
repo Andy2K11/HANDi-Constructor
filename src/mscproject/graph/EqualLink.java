@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mscproject.graph;
 
 import javafx.scene.shape.LineTo;
@@ -11,22 +7,13 @@ import javafx.scene.shape.MoveTo;
  *
  * @author Andy
  */
-public class EqualLink extends AbstractLink {
-    MoveTo mt1, mt2;
-    LineTo lt1, lt2;
+public class EqualLink extends SingleLink {
+    MoveTo mt1 = new MoveTo(), mt2 = new MoveTo();
+    LineTo lt1 = new LineTo(), lt2 = new LineTo();
     
     public EqualLink(SimpleNode n1, SimpleNode n2) {
         super(n1, n2);
-        
-    }
-    
-    @Override
-    void createLinkView() {
-        mt1 = new MoveTo(n1x, n1y+3);
-        mt2 = new MoveTo(n1x, n1y-3);
-        lt1 = new LineTo(n2x, n2y+3);
-        lt2 = new LineTo(n2x, n2y-3);
-        path.getElements().setAll(mt1, lt1, mt2, lt2); 
+        path.getElements().setAll(mt1, lt1, mt2, lt2);
     }
     
     @Override

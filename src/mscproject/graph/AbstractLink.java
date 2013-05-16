@@ -1,6 +1,7 @@
 package mscproject.graph;
 
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Path;
 import static mscproject.graph.controller.GraphController.*;
 /**
@@ -10,26 +11,25 @@ import static mscproject.graph.controller.GraphController.*;
 public abstract class AbstractLink extends Parent {
     
     SimpleNode node1, node2;
-    double n1x, n1y, n2x, n2y, mx, my;
+    double n1x, n1y, n2x, n2y;
     Path path = new Path();
     
     public AbstractLink(SimpleNode node1, SimpleNode node2) {
         this.node1 = node1;
         this.node2 = node2;
-        
         path.getStyleClass().add("link");
-
+        this.setOnMouseEntered(mscproject.graph.controller.GraphController.handleMouseEntered);
+        this.setOnMouseExited(mscproject.graph.controller.GraphController.handleMouseExited);
         this.setOnMouseClicked(mscproject.graph.controller.LinkController.handleMouseClicked);
-        this.setOnDragOver(handleDragOver);
-        this.setOnDragDetected(handleDragDetected);      
+        this.setOnKeyPressed(mscproject.graph.controller.LinkController.handleKeyPressed);
+
+        if (this instanceof Shapeable) {
+            System.out.println("Shapeable");
+            this.setOnDragOver(handleDragOver);
+            this.setOnDragDetected(handleDragDetected);
+        }
     }
-    
-    /**
-     * Instantiates the path and shape elements required to make a visual representation
-     * of this object on the diagram.
-     */
-    abstract void createLinkView();
-    
+
     /**
      * This method is responsible for updating and setting all the layout values
      * required for all the elements instantiated by createLinkView().
@@ -43,17 +43,25 @@ public abstract class AbstractLink extends Parent {
         n1y = node1.getLayoutY();
         n2x = node2.getLayoutX();
         n2y = node2.getLayoutY();
-        mx = n1x + (n2x - n1x)/2;
-        my = n1y + (n2y - n1y)/2;
     }
 
-    public AbstractLink add() {
+    public final AbstractLink add() {
         node1.addLink(this);
         node2.addLink(this);
-        createLinkView();
-        updateLayout();
+        
+        if (this instanceof Shapeable) {
+            ((Shapeable)this).shapeLink();
+        }
+        updateLayout();       
         this.getChildren().add(path);
         return this;
+    }
+    
+    public final void remove() {
+        this.removeEventHandler(MouseEvent.MOUSE_EXITED, mscproject.graph.controller.GraphController.handleMouseExited);
+        getNode1().removeLink(this);
+        getNode2().removeLink(this);
+        ((Graph)this.getParent()).getChildren().remove(this);
     }
     
     public SimpleNode getNode1() {

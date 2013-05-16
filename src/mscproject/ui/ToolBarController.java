@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.ClipboardContent;
@@ -24,8 +25,34 @@ import javafx.scene.input.TransferMode;
  */
 public class ToolBarController implements Initializable {
     
+    @FXML private ToggleButton create, moveone, movetree, copy, delete;
     @FXML private ToggleButton node1button;
-    @FXML private static ToggleGroup linkselect, nodeselect;
+    @FXML private static ToggleGroup toolselect, linkselect, nodeselect;
+    
+    public static enum Tool {select, create, moveone, movetree, copy, delete}
+    static Tool tool = Tool.select;
+    
+    public static Tool getSelectedTool() {
+        return tool;
+    }
+    
+    private static void selectTool() {
+        Toggle toggle = toolselect.getSelectedToggle();
+        if (toggle instanceof ToggleButton) {
+            ToggleButton selectedTool = (ToggleButton) toggle;
+            String id = selectedTool.getId();
+            tool = Tool.valueOf(id);
+        } else /* if null */ {
+            tool = Tool.select;
+        }       
+    }
+    
+    @FXML
+    private void handleToolAction(ActionEvent event) {
+        selectTool();
+        System.out.println(tool.toString() + ": " + tool.ordinal());
+        event.consume();
+    }
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -43,11 +70,30 @@ public class ToolBarController implements Initializable {
         event.consume();
     }
     
-    void handleKeyPressed(KeyEvent event) {
+    @FXML
+    private void handleMouseEntered(MouseEvent event) {
+        Object source = event.getSource();
+        if (source instanceof Node) {
+            Node sourceNode = (Node) source;
+            sourceNode.requestFocus();
+        }
+    }
+    
+    @FXML
+    private void handleKeyPressed(KeyEvent event) {
+        //MScProjectViewController.setStatus("Handle key: " + this.getClass().getName());
         switch(event.getCode()) {
             case N: node1button.setSelected(!node1button.isSelected());
                 break;
+            case INSERT: create.setSelected(!create.isSelected());
+                selectTool();
+                break;
+            case DELETE: delete.setSelected(!delete.isSelected());
+                selectTool();
+                break;
         }
+        MScProjectViewController.setStatus("Key: " + event.getCode().getName());
+        event.consume();
     }
     
     public static int getNodeType() {
@@ -60,6 +106,7 @@ public class ToolBarController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        //rb.getClass().getResource("resources/toolbar_expm.properties");
+        //rb = ResourceBundle.getBundle("resources/toolbar_expm.properties");
     }
 }

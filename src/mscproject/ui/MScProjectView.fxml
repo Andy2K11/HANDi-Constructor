@@ -14,13 +14,17 @@
       prefHeight="800" 
       prefWidth="1200" 
       onKeyPressed="#handleKeyPressed"
-      onKeyReleased="#handleKeyReleased">
+      onKeyReleased="#handleKeyReleased"
+      onMouseClicked="#handleMouseClicked"
+      >
     <top>
         <fx:include fx:id="menu" source="MenuView.fxml" />
     </top>
     <center>
         <AnchorPane id="AnchorPane" 
-                    styleClass="anchorpane" >
+                    styleClass="anchorpane"
+                    onMouseClicked="#handleMouseClicked" 
+                    >
             <children>
                 <fx:include fx:id="toolbar" source="ToolBar.fxml"
                             AnchorPane.leftAnchor="0.0" 
@@ -31,11 +35,22 @@
                          AnchorPane.rightAnchor="0.0" 
                          AnchorPane.topAnchor="0.0"
                          AnchorPane.bottomAnchor="0.0"
+                         onMouseClicked="#handleMouseClicked"
                          >
                     <!-- Tabs loaded programatically -->
                 </TabPane>
             </children>
         </AnchorPane>
     </center>
+    <bottom>
+        <HBox>
+                <Label fx:id="status"
+                       styleClass="status"
+                       text="Status" 
+                       prefWidth="1200" 
+                       prefHeight=" 50" 
+                       wrapText="true"/>
+        </HBox>
+    </bottom>
 </BorderPane>
 

@@ -13,15 +13,21 @@
         xmlns:fx="http://javafx.com/fxml" 
         fx:controller="mscproject.ui.MenuController"
         stylesheets="resources/style.css">
-    <Menu text="File">
-        <MenuItem text="New Diagram" onAction="#handleNewDiagram" />
-        <MenuItem text="Save Diagram" onAction="#handleSaveDiagram" />
-        <MenuItem text="Load Diagram" onAction="#handleLoadDiagram" />
-        <CheckMenuItem text="Mark As Finished" />
+    <Menu text="%menubar.file">
+        <MenuItem text="%menubar.file.new" onAction="#handleNewDiagram" />
+        <MenuItem text="%menubar.file.save" onAction="#handleSaveDiagram" />
+        <MenuItem text="%menubar.file.load" onAction="#handleLoadDiagram" />
+        <CheckMenuItem text="%menubar.file.finish" />
         <SeparatorMenuItem />
-        <MenuItem text="Exit" onAction="#handleExit" />
+        <MenuItem text="%menubar.file.exit" onAction="#handleExit" />
     </Menu>
-    <Menu text="Help">
+    <Menu text="%menubar.options">
+        <Menu text="%menubar.options.mode" >
+            <MenuItem text="%menubar.options.mode.design" />
+            <MenuItem text="%menubar.options.mode.experiment" />
+        </Menu>
+    </Menu>
+    <Menu text="%menubar.help">
         <MenuItem text="Task Instructions" />
         <Menu text="Nodes">
             <MenuItem text="Node Overview"/>
@@ -35,13 +41,13 @@
             <MenuItem text="Link3 Info"/>
         </Menu>            
     </Menu>
-    <Menu text="About" >
-        <Menu text="Authors" >
-            <MenuItem text="Andy Keavey" />
-            <MenuItem text="Prof. Peter Cheng" />
+    <Menu text="%menubar.about" >
+        <Menu text="%menubar.about.author" >
+            <MenuItem text="%menubar.about.author.a1" />
+            <MenuItem text="%menubar.about.author.a2" />
         </Menu>
-        <MenuItem text="Ethical Policy" />
-        <MenuItem text="University of Sussex" />
+        <MenuItem text="%menubar.about.ethics" />
+        <MenuItem text="%menubar.about.organisation" />
     </Menu>
 </MenuBar>
   

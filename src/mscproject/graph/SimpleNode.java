@@ -7,9 +7,9 @@ package mscproject.graph;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Circle;
 import static mscproject.graph.controller.GraphController.*;
@@ -46,10 +46,18 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         //arc.setFill(null);
         this.getChildren().add(arc);
         
+        
+        setOnMouseEntered(handleMouseEntered);
+        setOnMouseExited(handleMouseExited);
         setOnMouseClicked(mscproject.graph.controller.NodeController.handleMouseClicked);
+        
         setOnDragDetected(handleDragDetected);
         setOnDragOver(handleDragOver);
         setOnDragDropped(mscproject.graph.controller.NodeController.handleDragDropped);
+        
+        // set style for each component, or have a master stylesheet for quick skinability?
+        this.getStylesheets().add("resources/nodeStyle.css");
+        arc.getStyleClass().add("complex");
     }
     
     public SimpleNode(double x, double y) {
@@ -95,11 +103,17 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         arc.setLength(iAngle);
     }
     
-    public void addLink(AbstractLink link) {
+    void addLink(AbstractLink link) {
         linkList.add(link);
     }
     
-    public void removeLink(AbstractLink link) {
+    /**
+     * Removal of a link should always come from the link as it has to notify 
+     * the connected nodes at both ends.
+     * 
+     * @param link 
+     */
+    void removeLink(AbstractLink link) {
         linkList.remove(link);
     }
     
@@ -160,6 +174,15 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         return subTree;
     }
     
-    
+    public void deleteNode() {
+        this.removeEventHandler(MouseEvent.MOUSE_EXITED, mscproject.graph.controller.GraphController.handleMouseExited);
+        for (AbstractLink link : this.getLinkList()) {
+            link.getLinkedNode(this).removeLink(link);
+            ((Graph)this.getParent()).getChildren().remove(link);
+        }
+        //remove node from diagram
+        ((Graph)this.getParent()).getChildren().remove(this);
+        
+    }
     
 }

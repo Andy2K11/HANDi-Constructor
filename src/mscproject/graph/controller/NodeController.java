@@ -4,16 +4,17 @@ import java.util.TreeSet;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import mscproject.graph.AbstractLink;
 import mscproject.graph.AddLink;
+import mscproject.graph.DropLink;
 import mscproject.graph.EqualLink;
 import mscproject.graph.Graph;
 import mscproject.graph.MultiLink;
-import mscproject.graph.DropLink;
-import mscproject.graph.SimpleLink;
 import mscproject.graph.SimpleNode;
+import mscproject.graph.SingleLink;
 import mscproject.ui.MScProjectViewController;
 import mscproject.ui.ToolBarController;
 
@@ -23,6 +24,8 @@ import mscproject.ui.ToolBarController;
  */
 public class NodeController {
     
+/********************************MOUSE EVENTS*************************************/
+    
     
     public static EventHandler handleMouseClicked = new EventHandler<MouseEvent>() {
         @Override
@@ -30,26 +33,30 @@ public class NodeController {
             Node source = (Node) event.getSource();
             if (source instanceof SimpleNode) {
                 SimpleNode sn = (SimpleNode) source;
-                switch(MScProjectViewController.getKeyCode()) {
-                    case UNDEFINED: sn.incrementComplex();
+                switch(ToolBarController.getSelectedTool()) {
+                    case delete: sn.deleteNode();
                         break;
-                    case DELETE: 
-                        for (AbstractLink link : sn.getLinkList()) {
-                            link.getLinkedNode(sn).removeLink(link);
-                            ((Graph)sn.getParent()).getChildren().remove(link);
+                    case create: break;
+                    case select: //check for key events
+                        switch(MScProjectViewController.getKeyCode()) {
+                            case UNDEFINED: sn.incrementComplex();
+                                break;
+                            case DELETE:  
+
+                                break;
+                            case D: TreeSet<Node> subTree = sn.getSubTree();
+                                System.out.println(subTree.toString());
+                                break;
                         }
-                        //remove node from diagram
-                        ((Graph)sn.getParent()).getChildren().remove(sn);
                         break;
-                    case D: TreeSet<Node> subTree = sn.getSubTree();
-                        System.out.println(subTree.toString());
-                        break;
-                }
-                
+                }   
             }
+            System.out.println("Mouse clicked: Node Handler");
             event.consume();
         }
     };
+ 
+/********************************DRAG EVENTS*************************************/    
     
     /**
      * A drag drop gesture from another SimpleNode indicates a link to be formed.
@@ -76,12 +83,33 @@ public class NodeController {
                             break;
                         case 2: link = new MultiLink(sns, snt).add();
                             break;
-                        default: link = new SimpleLink(sns, snt).add();
+                        case 3: link = new DropLink(sns, snt).add();
+                            break;
+                        default: link = new SingleLink(sns, snt).add();
                             break;
                     }
                     ((Graph)snt.getParent()).getChildren().add(link);
                     link.toBack();
                 }    
+            }
+            event.consume();
+        }
+    };
+    
+/****************************KEY EVENTS*******************************************/
+    
+    
+    
+    public static EventHandler handleKeyPressed = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+            Object source = event.getSource();
+            if (source instanceof SimpleNode) {
+                SimpleNode sn = (SimpleNode) source;
+                switch(event.getCode()) {
+                    case DELETE: sn.deleteNode();
+                        break;
+                }
             }
             event.consume();
         }
