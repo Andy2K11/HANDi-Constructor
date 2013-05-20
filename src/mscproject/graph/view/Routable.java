@@ -10,4 +10,6 @@ package mscproject.graph.view;
  */
 public interface Routable {
     
+    public void setControlPosition(double x, double y);
+    public void calculateControlPosition();
 }

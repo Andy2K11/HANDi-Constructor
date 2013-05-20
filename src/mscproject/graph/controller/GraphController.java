@@ -74,9 +74,7 @@ public class GraphController {
                                 graph.getChildren().add(sn);
                                 break;
                             // This is the new MVC approach using the Factory Pattern
-                            case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC).getModel().getView();
-                                node.setLayoutX(event.getX());
-                                node.setLayoutY(event.getY());
+                            case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
                                 graph.getChildren().add(node);
                                 break;
                         }

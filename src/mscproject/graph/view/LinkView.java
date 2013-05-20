@@ -14,30 +14,25 @@ import javafx.scene.shape.Path;
  *
  * @author Andy
  */
-public class LinkView extends Parent {
-    private double n1x, n1y, n2x, n2y;
-    private Path path = new Path();
-    private MoveTo mt = new MoveTo();
-    private LineTo lt = new LineTo(); 
+public class LinkView extends AbstractLinkView {
+
+    private MoveTo start = new MoveTo();
+    private LineTo end = new LineTo(); 
     
     public LinkView() {
-        path.getElements().addAll(mt, lt);
-        this.getChildren().add(path);
-        path.getStyleClass().add("link");
+        path.getElements().addAll(start, end);
+
     }
-    
-    public void setPosition(double x1, double y1, double x2, double y2) {
-        n1x = x1;
-        n1y = y1;
-        n2x = x2;
-        n2y = y2;
-        mt.setX(x1);
-        mt.setY(y1);
-        lt.setX(x2);
-        lt.setY(y2);
+  
+    @Override
+    public void setStartPosition(double x, double y) {
+        start.setX(x);
+        start.setY(y);
     }
-    
-    public void remove() {
-        ((Pane)this.getParent()).getChildren().remove(this);
-    }    
+
+    @Override
+    public void setEndPosition(double x, double y) {
+        end.setX(x);
+        end.setY(y);
+    }
 }

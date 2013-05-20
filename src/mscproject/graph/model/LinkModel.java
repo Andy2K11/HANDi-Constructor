@@ -5,8 +5,7 @@
 package mscproject.graph.model;
 
 import java.io.Serializable;
-import javafx.scene.layout.Pane;
-import mscproject.graph.view.LinkView;
+import mscproject.graph.view.AbstractLinkView;
 
 
 /**
@@ -20,9 +19,9 @@ public class LinkModel implements Serializable {
     private NodeModel node1;
     private NodeModel node2;
     private LinkType linkType;
-    transient private LinkView view;
+    transient private AbstractLinkView view;
     
-    public LinkModel(NodeModel node1, NodeModel node2, LinkType linkType, LinkView view) {
+    public LinkModel(NodeModel node1, NodeModel node2, LinkType linkType, AbstractLinkView view) {
         id = node1.getId() + "-" + node2.getId();
         this.node1 = node1;
         this.node2 = node2;
@@ -106,11 +105,11 @@ public class LinkModel implements Serializable {
         this.linkType = linkType;
     }
 
-    public LinkView getView() {
+    public AbstractLinkView getView() {
         return view;
     }
 
-    public void setView(LinkView linkView) {
+    public void setView(AbstractLinkView linkView) {
         this.view = linkView;
     }
     

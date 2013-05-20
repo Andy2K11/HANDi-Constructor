@@ -11,7 +11,7 @@ import javafx.scene.input.TransferMode;
 import mscproject.graph.AbstractLink;
 import mscproject.graph.Negatable;
 import mscproject.graph.model.LinkModel;
-import mscproject.graph.view.LinkView;
+import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.Routable;
 import mscproject.ui.ToolBarController;
 import mscproject.ui.ToolBarController.Tool;
@@ -62,7 +62,7 @@ public class LinkController extends AbstractController {
                     ((Negatable)link).negate();
                 }
             }
-            if (source instanceof LinkView) {
+            if (source instanceof AbstractLinkView) {
                 switch(ToolBarController.getSelectedTool()) {
                     case delete: getModel().delete();    //remove the node and it's links from model    
                         break;

@@ -23,14 +23,17 @@ public class NodeFactory {
     }
     
     public NodeController makeNode(NodeType type) {
+        return makeNode(type, 0, 0);
+    }
+    
+    public NodeController makeNode(NodeType type, double x, double y) {
         NodeModel model;
         NodeView view;
         NodeController controller;
         switch (type) {
             default:
-            case MVC:
-                
-                view = new NodeView();
+            case MVC:       
+                view = new NodeView(x, y);
                 model = new NodeModel(view);
                 controller = new NodeController(model);
                 break;

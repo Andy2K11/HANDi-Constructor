@@ -11,20 +11,14 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import mscproject.graph.AbstractLink;
-import mscproject.graph.AddLink;
-import mscproject.graph.DropLink;
-import mscproject.graph.EqualLink;
 import mscproject.graph.Graph;
-import mscproject.graph.MultiLink;
 import mscproject.graph.SimpleNode;
-import mscproject.graph.SingleLink;
 import mscproject.graph.factory.LinkFactory;
-import mscproject.graph.model.LinkModel;
 import mscproject.graph.model.LinkModel.LinkType;
 import mscproject.graph.model.NodeModel;
-import mscproject.graph.view.LinkView;
+import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.NodeView;
+import mscproject.graph.view.Routable;
 import mscproject.ui.ToolBarController;
 
 /**
@@ -37,7 +31,7 @@ public class NodeController extends AbstractController {
     
     private static DataFormat dataFormat = new DataFormat("node");
     private NodeModel model;
-    private static NodeModel temp;  // dragboard data is copied and will not give reference to actual source object
+    private static NodeModel source;  // dragboard data is copied and will not give reference to actual source object
     //private NodeView view;
     
     private static LinkFactory linkFactory = new LinkFactory();
@@ -60,6 +54,13 @@ public class NodeController extends AbstractController {
         return model;
     }
 
+    private static void setSource(NodeModel nm) {
+        source = nm;
+    }
+    
+    private static NodeModel getSource() {
+        return source;
+    }
     
 /********************************MOUSE EVENTS*************************************/
     
@@ -68,26 +69,6 @@ public class NodeController extends AbstractController {
         @Override
         public void handle(MouseEvent event) {
             Node source = (Node) event.getSource();
-            /*if (source instanceof SimpleNode) {
-                SimpleNode sn = (SimpleNode) source;
-                switch(ToolBarController.getSelectedTool()) {
-                    case delete: sn.deleteNode();
-                        break;
-                    case create: break;
-                    case select: //check for key events
-                        switch(MScProjectViewController.getKeyCode()) {
-                            case UNDEFINED: sn.incrementComplex();
-                                break;
-                            case DELETE:  
-
-                                break;
-                            case D: TreeSet<Node> subTree = sn.getSubTree();
-                                System.out.println(subTree.toString());
-                                break;
-                        }
-                        break;
-                }   
-            }*/
             if (source instanceof NodeView) {
                 //NodeView nodeView = (NodeView) source;
                 switch(ToolBarController.getSelectedTool()) {
@@ -109,17 +90,23 @@ public class NodeController extends AbstractController {
     public EventHandler handleDragDetected = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            System.out.println("Drag detected");
-            temp = getModel();
-            System.out.println(temp.toString());
+            setSource(getModel());
             ClipboardContent cbc = new ClipboardContent();
-            // a ha - now using MVC we just pass a reference to the node model.
-            Test t = new Test();
-            System.out.println("Test before: "+t.toString());
-            cbc.put(dataFormat, t);
+            // a ha - now using MVC we can put model DATA on dragboard, but not ref!!
+            cbc.put(dataFormat, getModel());
             Dragboard db;
             Node source = (Node) event.getSource();
-            db = source.startDragAndDrop(TransferMode.MOVE);
+            switch (ToolBarController.getSelectedTool()) {
+                case moveone:
+                case movetree: db = source.startDragAndDrop(TransferMode.MOVE);
+                    break;
+                case copy: db = source.startDragAndDrop(TransferMode.COPY);
+                    break;
+                case select: db = source.startDragAndDrop(TransferMode.LINK);
+                    break;
+                default: db = source.startDragAndDrop(TransferMode.ANY);
+            }
+            
             db.setContent(cbc);
             event.consume();
             
@@ -138,64 +125,49 @@ public class NodeController extends AbstractController {
             double y = event.getY();
             Object source = event.getGestureSource();
             Object target = event.getGestureTarget();
-            if (target instanceof SimpleNode) {
-                if (event.getTransferMode()==TransferMode.LINK) {
-                    SimpleNode sns = (SimpleNode) source;
-                    SimpleNode snt = (SimpleNode) target;
-                    AbstractLink link;
-                    switch(ToolBarController.getLinkType()) {
-                        case 0: link = new EqualLink(sns, snt).add();
-                            break;
-                        case 1: link = new AddLink(sns, snt).add();
-                            break;
-                        case 2: link = new MultiLink(sns, snt).add();
-                            break;
-                        case 3: link = new DropLink(sns, snt).add();
-                            break;
-                        default: link = new SingleLink(sns, snt).add();
-                            break;
-                    }
-                    ((Graph)snt.getParent()).getChildren().add(link);
-                    link.toBack();
-                }
-            } else if (target instanceof NodeView) {
-                event.getTransferMode();
-                Dragboard db = event.getDragboard();
-                Object o = db.getContent(dataFormat);   // Is this actually getting a ref to our node model?
+            
+            Dragboard db = event.getDragboard();
+            Object o = db.getContent(dataFormat);       // what happens if wrong DataFormat? put inside type check?
+            
+            if (source instanceof NodeView && target instanceof NodeView) {
+                NodeView sourceNV = (NodeView) source;
+                NodeView targetNV = (NodeView) target;
+                
+                NodeModel targetNM = getModel();
+                // Is this actually getting a ref to our node model? No!
                 NodeModel sourceNM;
-                //if (o instanceof NodeModel) {
-                    NodeView sourceNV = (NodeView) source;
-                    //sourceNM = (NodeModel) o;
-                    Test t = (Test) o;
-                    System.out.println("test after " + t.toString());
-                    System.out.println("via static " + temp.toString());
-                    /*
-                     * Because the view held by a model is made transient it is null after
-                     * been placed on the drag board.
-                     */
-                    //sourceNM.setView(sourceNV);
-                    NodeView targetNV = (NodeView) target;
+                if (false && o instanceof NodeModel) {  // DISABLED
+                    sourceNM = (NodeModel) o;    
+                     /* Because the view held by a model is made transient it is null after
+                     * been placed on the drag board. */
+                    sourceNM.setView(sourceNV);
+                } else { 
+                    sourceNM = getSource();
+                }         
+
+                switch(event.getTransferMode()) {
+                    case COPY:
+                    case MOVE:
+                    case LINK:
                     // get the selected link type on the toolbar and convert it to a type the link factory understands
                     LinkType linkType = linkTypeAdapter(ToolBarController.getLinkType());
                     // create a new link using the factory and return it's view. 
-                    LinkController cont = linkFactory.makeLink(temp, getModel(), linkType);
-                    LinkView linkView = cont.getModel().getView();
-                    // set the position of the link view to the x y coords of the source and target nodes
-                    linkView.setPosition(sourceNV.getLayoutX(), sourceNV.getLayoutY(), targetNV.getLayoutX(), targetNV.getLayoutY());
+                    AbstractLinkView linkView = linkFactory.makeLink(sourceNM, targetNM, linkType).getModel().getView();
                     // add the view to the parent pane
                     ((Graph)sourceNV.getParent()).getChildren().add(linkView);
                     linkView.toBack();  // put the links behind nodes so that user can iteract with nodes
-                    System.out.println("Confirm 1 "+cont.getModel().getNode1().getLinks().size());
-                    System.out.println("Confirm 2 "+cont.getModel().getNode2().getLinks().size());
-
-                //}
+                    break;
+                }
             } 
             event.consume();
 
         }
     };
     
-    
+    /*
+     * Helper method that converts an int value from a selection type control
+     * and converts it into a type of link.
+     */
     private LinkType linkTypeAdapter(int selectedLink) {
         switch(selectedLink) {
             case 0: return LinkType.EQUALS;
