@@ -49,11 +49,11 @@ public class SimpleNode extends Parent implements Comparable<SimpleNode> {
         
         setOnMouseEntered(handleMouseEntered);
         setOnMouseExited(handleMouseExited);
-        setOnMouseClicked(mscproject.graph.controller.NodeController.handleMouseClicked);
+        setOnMouseClicked(handleMouseClicked);
         
         setOnDragDetected(handleDragDetected);
         setOnDragOver(handleDragOver);
-        setOnDragDropped(mscproject.graph.controller.NodeController.handleDragDropped);
+        //setOnDragDropped(mscproject.graph.controller.NodeController.handleDragDropped);
         
         // set style for each component, or have a master stylesheet for quick skinability?
         this.getStylesheets().add("resources/nodeStyle.css");

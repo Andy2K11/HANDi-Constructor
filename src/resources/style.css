@@ -65,6 +65,9 @@
     -fx-stroke-width: 4px;
 }
 
+.node {
+    -fx-fill: blue;
+}
 
 /* ID rules */
 #title {

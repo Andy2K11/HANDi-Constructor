@@ -20,7 +20,7 @@ public abstract class AbstractLink extends Parent {
         path.getStyleClass().add("link");
         this.setOnMouseEntered(mscproject.graph.controller.GraphController.handleMouseEntered);
         this.setOnMouseExited(mscproject.graph.controller.GraphController.handleMouseExited);
-        this.setOnMouseClicked(mscproject.graph.controller.LinkController.handleMouseClicked);
+        this.setOnMouseClicked(handleMouseClicked);
         this.setOnKeyPressed(mscproject.graph.controller.LinkController.handleKeyPressed);
 
         if (this instanceof Shapeable) {

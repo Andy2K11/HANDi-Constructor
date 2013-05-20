@@ -13,6 +13,8 @@ import mscproject.graph.Graph;
 import mscproject.graph.DropLink;
 import mscproject.graph.Shapeable;
 import mscproject.graph.SimpleNode;
+import mscproject.graph.factory.NodeFactory;
+import mscproject.graph.view.NodeView;
 import mscproject.ui.ToolBarController;
 
 /**
@@ -20,6 +22,9 @@ import mscproject.ui.ToolBarController;
  * @author Andy
  */
 public class GraphController {
+    
+    private static final NodeFactory nodeFactory = new NodeFactory();
+    //private Pane graph;
 
 /*****************************MOUSE EVENTS***************************************/    
     
@@ -64,8 +69,15 @@ public class GraphController {
                 switch (ToolBarController.getSelectedTool()) {
                     case create: 
                         switch(ToolBarController.getNodeType()) {
-                            case 0: SimpleNode sn = new SimpleNode(event.getX(), event.getY());
+                            case 0: 
+                                SimpleNode sn = new SimpleNode(event.getX(), event.getY());
                                 graph.getChildren().add(sn);
+                                break;
+                            // This is the new MVC approach using the Factory Pattern
+                            case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC).getModel().getView();
+                                node.setLayoutX(event.getX());
+                                node.setLayoutY(event.getY());
+                                graph.getChildren().add(node);
                                 break;
                         }
                         break;
@@ -111,14 +123,14 @@ public class GraphController {
         public void handle(DragEvent event) {
             double x = event.getX();
             double y = event.getY();
-            double originx = Double.valueOf(event.getDragboard().getString()).doubleValue();
+            //double originx = Double.valueOf(event.getDragboard().getString()).doubleValue();
             Node source = (Node) event.getSource();
             Node sourceGesture = (Node) event.getGestureSource();
             Node target = (Node) event.getGestureTarget();
             if (source instanceof Graph) {
                 event.acceptTransferModes(TransferMode.ANY);
                 if ((sourceGesture instanceof AbstractLink) && (sourceGesture instanceof Shapeable)) {  
-                    ((Shapeable)sourceGesture).setControlPoint(x-originx);
+                    //((Shapeable)sourceGesture).setControlPoint(x-originx);
                     ((AbstractLink)sourceGesture).updateLayout();
                     System.out.println("Reshaping link path");
                 } else {

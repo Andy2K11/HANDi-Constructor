@@ -12,13 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import loginfxml.MScLogin.Loginable;
+//import loginfxml.MScLogin.Loginable;
 
 /**
  *
  * @author Andy
  */
-public class MScProject extends Application implements Loginable {
+public class MScProject extends Application { // implements Loginable {
 
     private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("he-icon.png"));    
     String username = null;
@@ -37,13 +37,14 @@ public class MScProject extends Application implements Loginable {
         }
     }
     
+    /*
     @Override
     public void setUser(String username, Locale locale) {
         this.username = username; 
         this.locale = locale;
         showStage();
         System.out.println(username);
-    }
+    }*/
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -57,7 +58,8 @@ public class MScProject extends Application implements Loginable {
         stage.setTitle(bundle.getString("title"));
         stage.getIcons().add(ICON_32);
         stage.setScene(scene);
-        showStage();   
+        //showStage();   
+        stage.show();
     }
 
     /**
