@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
@@ -23,9 +24,9 @@ import javafx.scene.layout.FlowPane;
  */
 public class MScProjectViewController implements Initializable {
     
-    @FXML private MenuBar menu;
-    @FXML private MenuController menuController;
-    @FXML private TabPane diagramtabs;
+    @FXML private static MenuBar menu;
+    @FXML private static MenuController menuController;
+    @FXML private static TabPane diagramtabs;
     @FXML private FlowPane toolbar;
     @FXML private static Label status;
     
@@ -103,4 +104,7 @@ public class MScProjectViewController implements Initializable {
         status.setText(sb.toString());
     }
 
+    public static void setCursor(Cursor cursor) {
+        diagramtabs.setCursor(cursor);
+    }
 }

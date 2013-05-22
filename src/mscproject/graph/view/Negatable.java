@@ -1,4 +1,4 @@
-package mscproject.graph;
+package mscproject.graph.view;
 
 /**
  *

@@ -9,14 +9,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
-import mscproject.graph.AbstractLink;
-import mscproject.graph.MultiLink;
 import mscproject.graph.ScrollTab;
-import mscproject.graph.SimpleNode;
+import mscproject.graph.model.NodeModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -52,7 +50,8 @@ public class MenuController implements Initializable {
         activeTab = diagramtabs.getSelectionModel().getSelectedItem();
         if (activeTab instanceof ScrollTab) {
             ScrollTab st = (ScrollTab) activeTab;
-            st.getGraph().saveDiagram();
+            diagramtabs.setCursor(Cursor.HAND);
+            //st.getGraph().saveDiagram();
         }    
     }
     
@@ -67,6 +66,7 @@ public class MenuController implements Initializable {
         diagramtabs.getTabs().add(st);
         diagramtabs.getSelectionModel().select(st);
         //File loadFile = new File("diagram_1.HANDi");
+        /*
         try {
             FileReader fr = new FileReader(loadFile);
             JSONTokener jToken = new JSONTokener(fr);
@@ -75,7 +75,8 @@ public class MenuController implements Initializable {
             JSONArray jNodes = jObj.getJSONArray("Nodes");
             for (int i=0; i<jNodes.length(); i++) {
                 JSONObject jNode = jNodes.getJSONObject(i);
-                st.getGraph().getChildren().add(new SimpleNode(jNode.optDouble("X"), jNode.optDouble("Y"), jNode.getString("Name")));
+                nodeFactory
+                st.getGraph().getChildren().add(new NodeModel(jNode.optDouble("X"), jNode.optDouble("Y"), jNode.getString("Name")));
             }
             //for (int i=0; i<jNodes.length(); i++) {
                  //JSONObject jNode = jNodes.getJSONObject(i);
@@ -87,6 +88,7 @@ public class MenuController implements Initializable {
                         String node1String = jLink.getString("Node1");
                         String node2String = jLink.getString("Node2");
                         //search for node objects
+                        /*
                         SimpleNode node1 = null, node2 = null;
                         for (Node n: st.getGraph().getChildren()) {
                             if (n instanceof SimpleNode) {
@@ -118,7 +120,7 @@ public class MenuController implements Initializable {
             System.err.println(jObj.toString(4));
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
-        }
+        }*/
         //st.getGraph().getChildren().add(new SimpleNode(300.0, 250.0));
         
     }

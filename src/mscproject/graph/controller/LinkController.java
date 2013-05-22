@@ -8,13 +8,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import mscproject.graph.AbstractLink;
-import mscproject.graph.Negatable;
 import mscproject.graph.model.LinkModel;
 import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.Routable;
 import mscproject.ui.ToolBarController;
-import mscproject.ui.ToolBarController.Tool;
 
 /**
  *
@@ -50,18 +47,6 @@ public class LinkController extends AbstractController {
         @Override
         public void handle(MouseEvent event) {
             Node source = (Node) event.getSource();
-            if (source instanceof AbstractLink) {
-                AbstractLink link = (AbstractLink) source;
-                if (ToolBarController.getSelectedTool()==Tool.delete) {
-                    link.remove();
-                }
-                
-                if (event.isControlDown()) {
-                    //sl.toggleSelected();
-                } else if (source instanceof Negatable) {
-                    ((Negatable)link).negate();
-                }
-            }
             if (source instanceof AbstractLinkView) {
                 switch(ToolBarController.getSelectedTool()) {
                     case delete: getModel().delete();    //remove the node and it's links from model    
@@ -90,14 +75,14 @@ public EventHandler handleDragDetected = new EventHandler<MouseEvent>() {
     
 /********************************KEY EVENTS**************************************/    
     
-    public static EventHandler handleKeyPressed = new EventHandler<KeyEvent>() {
+    public EventHandler handleKeyPressed = new EventHandler<KeyEvent>() {
         @Override 
         public void handle(KeyEvent event) {
             Node source = (Node) event.getSource();
-            if (source instanceof AbstractLink) {
-                AbstractLink link = (AbstractLink) source;
+            if (source instanceof AbstractLinkView) {
+                AbstractLinkView link = (AbstractLinkView) source;
                 if (event.getCode()==KeyCode.DELETE) {
-                    link.remove();
+                    getModel().delete();
                 }           
             }
             event.consume();        //if link is focused, then only direct keys at link.

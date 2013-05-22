@@ -12,13 +12,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import mscproject.graph.Graph;
-import mscproject.graph.SimpleNode;
 import mscproject.graph.factory.LinkFactory;
 import mscproject.graph.model.LinkModel.LinkType;
 import mscproject.graph.model.NodeModel;
 import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.NodeView;
-import mscproject.graph.view.Routable;
 import mscproject.ui.ToolBarController;
 
 /**
@@ -50,6 +48,10 @@ public class NodeController extends AbstractController {
         model.getView().setOnMouseExited(handleMouseExited);
     }
 
+    public void saveTree() {
+        
+    }
+    
     public NodeModel getModel() {
         return model;
     }
@@ -182,14 +184,13 @@ public class NodeController extends AbstractController {
     
     
     
-    public static EventHandler handleKeyPressed = new EventHandler<KeyEvent>() {
+    public EventHandler handleKeyPressed = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
             Object source = event.getSource();
-            if (source instanceof SimpleNode) {
-                SimpleNode sn = (SimpleNode) source;
+            if (source instanceof NodeView) {
                 switch(event.getCode()) {
-                    case DELETE: sn.deleteNode();
+                    case DELETE: getModel().delete();
                         break;
                 }
             }

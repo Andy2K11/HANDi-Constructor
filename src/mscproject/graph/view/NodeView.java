@@ -7,6 +7,7 @@ package mscproject.graph.view;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import org.json.JSONObject;
 
 /**
  *
@@ -40,4 +41,10 @@ public class NodeView extends Parent {
         ((Pane)this.getParent()).getChildren().remove(this);
     }
     
+    public JSONObject getJNode() {
+        JSONObject jNode = new JSONObject();
+        jNode.put("x", this.getLayoutX());
+        jNode.put("y", this.getLayoutY());
+        return jNode;
+    }
 }

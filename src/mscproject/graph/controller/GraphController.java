@@ -8,13 +8,11 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import mscproject.graph.AbstractLink;
 import mscproject.graph.Graph;
-import mscproject.graph.DropLink;
-import mscproject.graph.Shapeable;
-import mscproject.graph.SimpleNode;
 import mscproject.graph.factory.NodeFactory;
+import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.NodeView;
+import mscproject.graph.view.Routable;
 import mscproject.ui.ToolBarController;
 
 /**
@@ -22,6 +20,10 @@ import mscproject.ui.ToolBarController;
  * @author Andy
  */
 public class GraphController {
+    
+    public GraphController(Graph graph) {
+        
+    }
     
     private static final NodeFactory nodeFactory = new NodeFactory();
     //private Pane graph;
@@ -70,9 +72,6 @@ public class GraphController {
                     case create: 
                         switch(ToolBarController.getNodeType()) {
                             case 0: 
-                                SimpleNode sn = new SimpleNode(event.getX(), event.getY());
-                                graph.getChildren().add(sn);
-                                break;
                             // This is the new MVC approach using the Factory Pattern
                             case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
                                 graph.getChildren().add(node);
@@ -94,14 +93,15 @@ public class GraphController {
         @Override
         public void handle(MouseEvent event) {
             double oldx = 0;
-            if (event.getSource() instanceof Shapeable) {
-                oldx = ((Shapeable)event.getSource()).getUserX();
+/***** To Do ************/            
+            if (event.getSource() instanceof Routable) {
+                //oldx = ((Routable)event.getSource());
             }
             ClipboardContent cbc = new ClipboardContent();
             cbc.putString(String.valueOf(event.getX()-oldx));
             Dragboard db;
             Node source = (Node) event.getSource();
-            if (source instanceof SimpleNode) {
+            if (source instanceof NodeView) {
                 if (event.isControlDown()) {
                     db = source.startDragAndDrop(TransferMode.COPY);
                 } else if (event.isShiftDown()) {
@@ -127,23 +127,14 @@ public class GraphController {
             Node target = (Node) event.getGestureTarget();
             if (source instanceof Graph) {
                 event.acceptTransferModes(TransferMode.ANY);
-                if ((sourceGesture instanceof AbstractLink) && (sourceGesture instanceof Shapeable)) {  
+                if ((sourceGesture instanceof AbstractLinkView) && (sourceGesture instanceof Routable)) {  
                     //((Shapeable)sourceGesture).setControlPoint(x-originx);
-                    ((AbstractLink)sourceGesture).updateLayout();
+                    //((AbstractLinkView)sourceGesture).updateLayout();
                     System.out.println("Reshaping link path");
                 } else {
                     event.consume();
                 }
-            } else if (source instanceof SimpleNode) {
-                event.acceptTransferModes(TransferMode.ANY);    //Changed from link temp
-                event.consume();
-            } else if (sourceGesture instanceof DropLink) {
-                event.acceptTransferModes(TransferMode.ANY);    
-                DropLink sl = (DropLink) sourceGesture;
-                //sl.setControlPoint(x);
-                sl.updateLayout();
-                //out.println("Moving Link");
-            }
+            } 
         }
     };
     
@@ -162,38 +153,27 @@ public class GraphController {
             //out.println("Drag dropped " + target.toString());
             if (target instanceof Graph) {
                 Graph targetTab = (Graph) target;
-                if (source instanceof SimpleNode) {
-                    SimpleNode sourceNode = (SimpleNode) source;
+                if (source instanceof NodeView) {
+                    NodeView sourceNode = (NodeView) source;
                     event.getTransferMode();
                     switch (ToolBarController.getSelectedTool()) {
-                        case movetree: moveTree(sourceNode, x, y);
+                        case movetree: //moveTree(sourceNode, x, y);
                             break;
                         case moveone:
-                            sourceNode.setLayoutX(x);
-                            sourceNode.setLayoutY(y);
-                            for (AbstractLink sl: sourceNode.getLinkList()) {
-                                if (sl instanceof Shapeable) {
-                                    ((Shapeable)sl).shapeLink();
-                                }
-                                sl.updateLayout();
-                            }
                             break;
                         case copy:
-                            SimpleNode sn = new SimpleNode(event.getX(), event.getY());
+                            NodeView sn = nodeFactory.makeNode(NodeFactory.NodeType.MVC, x, y).getModel().getView();
                             targetTab.getChildren().add(sn);
                             break;
                     }
-                } else if (source instanceof AbstractLink) {
-                    event.getTransferMode();
-                    AbstractLink link = (AbstractLink) source;
-                    link.updateLayout();
-                }
+                } 
             }
         }
     };
     
 /********************************HELPERS**************************************/   
     
+    /*
     private static void moveTree(SimpleNode sourceNode, double x, double y) {
         double rootNodeX = sourceNode.getLayoutX();
         double rootNodeY = sourceNode.getLayoutY();
@@ -209,6 +189,6 @@ public class GraphController {
                 }
             }
         }        
-    }
+    }*/
     
 }

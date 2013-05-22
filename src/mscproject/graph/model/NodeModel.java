@@ -6,9 +6,9 @@ package mscproject.graph.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import mscproject.graph.view.NodeView;
+import org.json.JSONObject;
 
 /**
  *
@@ -19,9 +19,8 @@ public class NodeModel implements Serializable {
     private String id;
     transient private NodeView view;  // the representation of this node
     private List<LinkModel> links = new ArrayList();
-    
     private static int numNodes = 0;
-    
+
     public NodeModel(NodeView view, String id) {
         this.id = id;
         this.view = view;
@@ -36,7 +35,7 @@ public class NodeModel implements Serializable {
     
     /**
      * When a node is removed all its links must also be delete (or they will
-     * have a 'dead end'.
+     * have a dead end.
      * The method calls deleteAllLinks() and then calls its own view delete method
      */
     public void delete() {
@@ -130,8 +129,16 @@ public class NodeModel implements Serializable {
     public static void setNumNodes(int numNodes) {
         NodeModel.numNodes = numNodes;
     }
-    
 
+    public JSONObject getJNode() {
+        JSONObject jNode = new JSONObject();
+        jNode.put("id", this.id);
+        for (LinkModel link : links) {
+            jNode.append("links", link.getId());
+        }
+        jNode.put("view", this.getView().getJNode());
+        return jNode;
+    }
     
     
 }

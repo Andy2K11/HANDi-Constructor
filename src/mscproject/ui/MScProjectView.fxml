@@ -10,7 +10,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
       fx:controller="mscproject.ui.MScProjectViewController"
-      stylesheets="resources/style.css"
+      stylesheets="resources/red.css"
       prefHeight="800" 
       prefWidth="1200" 
       onKeyPressed="#handleKeyPressed"

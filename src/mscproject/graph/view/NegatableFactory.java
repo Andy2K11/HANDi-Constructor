@@ -1,4 +1,4 @@
-package mscproject.graph;
+package mscproject.graph.view;
 
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;

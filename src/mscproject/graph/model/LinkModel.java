@@ -6,6 +6,7 @@ package mscproject.graph.model;
 
 import java.io.Serializable;
 import mscproject.graph.view.AbstractLinkView;
+import org.json.JSONObject;
 
 
 /**
@@ -78,7 +79,15 @@ public class LinkModel implements Serializable {
     public String getId() {
         return id;
     }
-    
+
+    public JSONObject getJNode() {
+        JSONObject jNode = new JSONObject();
+        jNode.put("id", this.id);
+        jNode.put("node1", this.getNode1().getId());
+        jNode.put("node2", this.getNode2().getId());
+        //jNode.put("view", this.getView().getJNode());
+        return jNode;
+    }    
     /************** Getters and Setters ************************/
     
     public NodeModel getNode1() {
