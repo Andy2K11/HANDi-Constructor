@@ -48,7 +48,7 @@
                        styleClass="status"
                        text="Status" 
                        prefWidth="1200" 
-                       prefHeight=" 50" 
+                       prefHeight="50" 
                        wrapText="true"/>
         </HBox>
     </bottom>

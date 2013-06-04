@@ -15,10 +15,18 @@
 
 .menu-bar{
     -fx-base: darkolivegreen;
+    -fx-border-insets: 25px;
+    -fx-padding: 10px;
+    -fx-font: 24pt;
 }
 
 .menu-bar .menu-button:hover,  .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
     -fx-background-color: olive;
+}
+
+.menu {
+    -fx-border-insets: 10px;
+    -fx-font: large;
 }
 
 .toolbar {

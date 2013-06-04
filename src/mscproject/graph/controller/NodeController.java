@@ -34,7 +34,8 @@ public class NodeController extends AbstractController {
     
     private static LinkFactory linkFactory = new LinkFactory();
     
-    public NodeController(NodeModel nodeM) {
+    
+    public NodeController(NodeModel nodeM, NodeView view) {
         this.model = nodeM;
         //nodes.add(this.model);  //needed?
         //this.view = nodeV;
@@ -46,6 +47,9 @@ public class NodeController extends AbstractController {
         
         model.getView().setOnMouseEntered(handleMouseEntered);
         model.getView().setOnMouseExited(handleMouseExited);
+        
+
+        
     }
 
     public void saveTree() {

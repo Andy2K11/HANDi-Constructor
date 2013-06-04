@@ -12,7 +12,8 @@
 <MenuBar 
         xmlns:fx="http://javafx.com/fxml" 
         fx:controller="mscproject.ui.MenuController"
-        stylesheets="resources/style.css">
+        stylesheets="resources/style.css"
+        prefHeight="50">
     <Menu text="%menubar.file">
         <MenuItem text="%menubar.file.new" onAction="#handleNewDiagram" />
         <MenuItem text="%menubar.file.save" onAction="#handleSaveDiagram" />

@@ -5,8 +5,9 @@
 package mscproject.graph.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mscproject.graph.view.NodeView;
 import org.json.JSONObject;
 
@@ -18,13 +19,16 @@ public class NodeModel implements Serializable {
     
     private String id;
     transient private NodeView view;  // the representation of this node
-    private List<LinkModel> links = new ArrayList();
+    private ObservableList<LinkModel> links = FXCollections.observableArrayList();
+    //private List<LinkModel> links = new ArrayList();
     private static int numNodes = 0;
 
     public NodeModel(NodeView view, String id) {
         this.id = id;
         this.view = view;
         numNodes++;
+        
+        
     }
     
     public NodeModel(NodeView view) {
@@ -118,7 +122,7 @@ public class NodeModel implements Serializable {
         return links;
     }
 
-    private void setLinks(List<LinkModel> links) {
+    private void setLinks(ObservableList<LinkModel> links) {
         this.links = links;
     }
 

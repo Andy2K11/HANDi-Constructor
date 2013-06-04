@@ -35,7 +35,7 @@ public class NodeFactory {
             case MVC:       
                 view = new NodeView(x, y);
                 model = new NodeModel(view);
-                controller = new NodeController(model);
+                controller = new NodeController(model, view);
                 break;
         }
         return controller;
