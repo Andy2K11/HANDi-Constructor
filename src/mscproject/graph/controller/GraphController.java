@@ -13,6 +13,10 @@ import mscproject.graph.factory.NodeFactory;
 import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.NodeView;
 import mscproject.graph.view.Routable;
+import mscproject.mvc.AbstractView;
+import mscproject.mvc.InterfaceController;
+import mscproject.mvc.factories.HandiFactory;
+import mscproject.mvc.factories.NetworkFactory;
 import mscproject.ui.ToolBarController;
 
 /**
@@ -26,6 +30,7 @@ public class GraphController {
     }
     
     private static final NodeFactory nodeFactory = new NodeFactory();
+    private static final NetworkFactory nFactory = new HandiFactory();
     //private Pane graph;
 
 /*****************************MOUSE EVENTS***************************************/    
@@ -71,8 +76,14 @@ public class GraphController {
                 switch (ToolBarController.getSelectedTool()) {
                     case create: 
                         switch(ToolBarController.getNodeType()) {
-                            case 0: 
-                            // This is the new MVC approach using the Factory Pattern
+                            case 0: InterfaceController controller = nFactory.createNode();
+                                AbstractView view = controller.getView();
+                                
+                                view.setLayoutX(event.getX());
+                                view.setLayoutY(event.getY());
+                                graph.getChildren().add(view);
+                                break;
+                                // This is the new MVC approach using the Factory Pattern
                             case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
                                 graph.getChildren().add(node);
                                 break;
