@@ -4,7 +4,6 @@
  */
 package mscproject.mvc;
 
-import mscproject.mvc.factories.ConnectionPathFactory;
 import javafx.scene.shape.Path;
 
 /**
@@ -16,7 +15,7 @@ public class GenericConnectionView extends AbstractView {
     Path connectionPath;
     Path negationMark;
     
-    private ConnectionPathFactory cpf = new ConnectionPathFactory();
+    //private ConnectionPathFactory cpf = new ConnectionPathFactory();
     
     public GenericConnectionView(GenericConnectionController controller) {
         super(controller);

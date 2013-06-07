@@ -1,5 +1,8 @@
 package mscproject.graph.controller;
 
+import development.factory.HandiNetworkFactory;
+import development.factory.NetworkFactory;
+import development.mvc.network.node.NodeView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -9,15 +12,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import mscproject.graph.Graph;
+import mscproject.ui.ToolBarController;
+
 import mscproject.graph.factory.NodeFactory;
 import mscproject.graph.view.AbstractLinkView;
-import mscproject.graph.view.NodeView;
 import mscproject.graph.view.Routable;
-import mscproject.mvc.AbstractView;
-import mscproject.mvc.InterfaceController;
-import mscproject.mvc.factories.HandiFactory;
-import mscproject.mvc.factories.NetworkFactory;
-import mscproject.ui.ToolBarController;
 
 /**
  *
@@ -25,12 +24,14 @@ import mscproject.ui.ToolBarController;
  */
 public class GraphController {
     
+    private static NetworkFactory factory = new HandiNetworkFactory();;
+    
     public GraphController(Graph graph) {
-        
+        //factory = new HandiNetworkFactory();
     }
     
-    private static final NodeFactory nodeFactory = new NodeFactory();
-    private static final NetworkFactory nFactory = new HandiFactory();
+    
+    static NodeFactory nodeFactory = new NodeFactory();
     //private Pane graph;
 
 /*****************************MOUSE EVENTS***************************************/    
@@ -76,17 +77,20 @@ public class GraphController {
                 switch (ToolBarController.getSelectedTool()) {
                     case create: 
                         switch(ToolBarController.getNodeType()) {
-                            case 0: InterfaceController controller = nFactory.createNode();
-                                AbstractView view = controller.getView();
-                                
+                            case 0: 
+                                development.mvc.network.node.AbstractNodeController controller = factory.createNode();
+                                development.mvc.AbstractView view = controller.getView();        
                                 view.setLayoutX(event.getX());
                                 view.setLayoutY(event.getY());
                                 graph.getChildren().add(view);
                                 break;
                                 // This is the new MVC approach using the Factory Pattern
-                            case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
-                                graph.getChildren().add(node);
-                                break;
+                            //case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
+                                //graph.getChildren().add(node);
+                                //break;                                // This is the new MVC approach using the Factory Pattern
+                            //case 1: NodeView node = nodeFactory.makeNode(NodeFactory.NodeType.MVC, event.getX(), event.getY()).getModel().getView();
+                                //graph.getChildren().add(node);
+                                //break;
                         }
                         break;
                     case select: //System.out.println("Select");
@@ -172,10 +176,10 @@ public class GraphController {
                             break;
                         case moveone:
                             break;
-                        case copy:
-                            NodeView sn = nodeFactory.makeNode(NodeFactory.NodeType.MVC, x, y).getModel().getView();
-                            targetTab.getChildren().add(sn);
-                            break;
+                        //case copy:
+                            //NodeView sn = nodeFactory.makeNode(NodeFactory.NodeType.MVC, x, y).getModel().getView();
+                            //targetTab.getChildren().add(sn);
+                            //break;
                     }
                 } 
             }

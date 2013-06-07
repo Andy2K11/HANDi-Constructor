@@ -1,12 +1,8 @@
 package mscproject.graph;
 
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import static mscproject.graph.controller.GraphController.*;
-import mscproject.graph.model.LinkModel;
-import mscproject.graph.model.NodeModel;
 import org.json.*;
 
 /**
