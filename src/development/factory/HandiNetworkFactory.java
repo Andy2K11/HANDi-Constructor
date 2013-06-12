@@ -32,7 +32,9 @@ public class HandiNetworkFactory implements NetworkFactory {
     @Override
     public AbstractConnectionController createConnection(AbstractNodeController node1, AbstractNodeController node2, Operation operation) {
         AbstractConnectionController controller = new ConnectionController(node1, node2);
+        controller.getModel().makeConnection();
         controller.getView().createPath(component.getConnectionPath(operation));
+        controller.getView().createNegate(component.getNegationPath(operation));
         return controller;
     }
 }

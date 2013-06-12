@@ -3,13 +3,19 @@ package development.mvc.network.connection;
 import development.mvc.AbstractModel;
 import development.mvc.network.node.AbstractNodeModel;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import org.json.JSONObject;
 
-public abstract class AbstractConnectionModel extends AbstractModel implements Operator {
+public abstract class AbstractConnectionModel extends AbstractModel implements Operator, NetworkConnection {
     
     protected Operation operator;
+    AbstractNodeModel node1, node2;
+    BooleanProperty negate = new SimpleBooleanProperty(false);
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operator) {
         super();
+        this.node1 = node1;
+        this.node2 = node2;
         this.operator = operator;
     }
     
@@ -19,25 +25,62 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
 
     @Override
     public Operation getOperation() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return operator;
     }
 
     @Override
     public void setOperation(Operation operator) {
         this.operator = operator;
     }
+    
     @Override
     public boolean isNegated() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return negate.get();
     }
 
     @Override
     public void negate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        negate.set(!negate.get());
     }
 
     @Override
     public BooleanProperty negateProperty() {
+        return negate;
+    }
+
+    @Override
+    public JSONObject getJSONObject() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AbstractNodeModel getNode1() {
+        return node1;
+    }
+
+    @Override
+    public AbstractNodeModel getNode2() {
+        return node2;
+    }
+
+    @Override
+    public boolean isBiDirectional() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean directionReversed() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void changeDirection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void makeConnection() {
+        node1.addConnection(this);
+        node2.addConnection(this);
     }
 }

@@ -10,6 +10,7 @@ package development.mvc.network.connection;
  */
 public class ConnectionView extends AbstractConnectionView {
     
+ 
     public ConnectionView(AbstractConnectionController controller) {
         super(controller);
     }

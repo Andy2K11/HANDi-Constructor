@@ -2,6 +2,8 @@ package mscproject.graph.controller;
 
 import development.factory.HandiNetworkFactory;
 import development.factory.NetworkFactory;
+import development.mvc.network.connection.AbstractConnectionView;
+import development.mvc.network.node.AbstractNodeView;
 import development.mvc.network.node.NodeView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -15,8 +17,9 @@ import mscproject.graph.Graph;
 import mscproject.ui.ToolBarController;
 
 import mscproject.graph.factory.NodeFactory;
-import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.Routable;
+import static mscproject.ui.ToolBarController.Tool.moveone;
+import static mscproject.ui.ToolBarController.Tool.movetree;
 
 /**
  *
@@ -80,8 +83,10 @@ public class GraphController {
                             case 0: 
                                 development.mvc.network.node.AbstractNodeController controller = factory.createNode();
                                 development.mvc.AbstractView view = controller.getView();        
-                                view.setLayoutX(event.getX());
-                                view.setLayoutY(event.getY());
+                                controller.getModel().setX(event.getX());
+                                controller.getModel().setY(event.getY());
+                                //view.setLayoutX(event.getX());
+                                //view.setLayoutY(event.getY());
                                 graph.getChildren().add(view);
                                 break;
                                 // This is the new MVC approach using the Factory Pattern
@@ -142,11 +147,19 @@ public class GraphController {
             Node target = (Node) event.getGestureTarget();
             if (source instanceof Graph) {
                 event.acceptTransferModes(TransferMode.ANY);
-                if ((sourceGesture instanceof AbstractLinkView) && (sourceGesture instanceof Routable)) {  
-                    //((Shapeable)sourceGesture).setControlPoint(x-originx);
-                    //((AbstractLinkView)sourceGesture).updateLayout();
-                    System.out.println("Reshaping link path");
+                if (sourceGesture instanceof AbstractConnectionView) {  
+                    //AbstractConnectionView conn = (AbstractConnectionView) sourceGesture;
+                    //conn.getPath().incrementControlX(x);
+                    //System.out.println("Reshaping link path");
                 } else {
+                    switch (ToolBarController.getSelectedTool()) {
+                        case movetree: //moveTree(sourceNode, x, y);
+                            break;
+                        case moveone:
+                            ((AbstractNodeView)sourceGesture).getController().getModel().setX(event.getX());
+                            ((AbstractNodeView)sourceGesture).getController().getModel().setY(event.getY());
+                            break;
+                    }
                     event.consume();
                 }
             } 

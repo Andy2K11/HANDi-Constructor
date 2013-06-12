@@ -11,8 +11,8 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
       fx:controller="mscproject.ui.MScProjectViewController"
       stylesheets="resources/red.css"
-      prefHeight="800" 
-      prefWidth="1200" 
+      minHeight="1684" 
+      minWidth="2384" 
       onKeyPressed="#handleKeyPressed"
       onKeyReleased="#handleKeyReleased"
       onMouseClicked="#handleMouseClicked"
@@ -42,7 +42,7 @@
             </children>
         </AnchorPane>
     </center>
-    <bottom>
+    <!--bottom>
         <HBox>
                 <Label fx:id="status"
                        styleClass="status"
@@ -51,6 +51,6 @@
                        prefHeight="50" 
                        wrapText="true"/>
         </HBox>
-    </bottom>
+    </bottom-->
 </BorderPane>
 

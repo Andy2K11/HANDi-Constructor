@@ -3,15 +3,18 @@ package development.mvc.network.node;
 import development.factory.NetworkFactory;
 import development.mvc.AbstractController;
 import development.mvc.network.connection.AbstractConnectionController;
-import development.mvc.network.connection.Operator;
+import development.mvc.network.connection.AbstractConnectionView;
+import development.mvc.network.connection.Operator.Operation;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import mscproject.graph.Graph;
 import mscproject.ui.ToolBarController;
 import static mscproject.ui.ToolBarController.Tool.copy;
 import static mscproject.ui.ToolBarController.Tool.moveone;
@@ -52,6 +55,17 @@ public abstract class AbstractNodeController extends AbstractController {
     }
     
     @Override
+    public EventHandler<MouseEvent> getOnMouseDraggedHandler() {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // do stuff
+                event.consume();
+            }
+        };
+    }
+    
+    @Override
     public EventHandler<MouseEvent> getOnDragDetectedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
@@ -81,11 +95,31 @@ public abstract class AbstractNodeController extends AbstractController {
         return new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                if (event.getGestureSource() instanceof AbstractNodeView && event.getGestureTarget() instanceof AbstractNodeView) {
-                    AbstractNodeView source = (AbstractNodeView) event.getGestureSource();
-                    AbstractNodeView target = (AbstractNodeView) event.getGestureTarget();
-                    AbstractConnectionController controller = factory.createConnection(source.getController(), target.getController(), Operator.Operation.ADDITION);
-                    //controller.getView().
+                Dragboard db = event.getDragboard();
+                db.getContent(DataFormat.RTF);
+                if (event.getTransferMode() == TransferMode.LINK) {
+                    if (event.getGestureSource() instanceof AbstractNodeView && event.getGestureTarget() instanceof AbstractNodeView) {
+                        AbstractNodeView source = (AbstractNodeView) event.getGestureSource();
+                        AbstractNodeView target = (AbstractNodeView) event.getGestureTarget();
+                        AbstractConnectionController controller 
+                                = factory.createConnection(source.getController(), target.getController(), linkTypeAdapter(ToolBarController.getLinkType()));
+                        
+                        /* Initialize the view with appropriate locations after which observers will
+                         take care of everything. */
+                        AbstractConnectionView view = controller.getView();
+                        view.getPath().setStartX(source.getController().getModel().getX());
+                        view.getPath().setStartY(source.getController().getModel().getY());
+                        view.getPath().setEndX(target.getController().getModel().getX());
+                        view.getPath().setEndY(target.getController().getModel().getY());
+                        //view.getPath().setControlX(target.getController().getModel().getX());
+                        //view.getPath().setControlY(source.getController().getModel().getY());
+                        view.getPath().updateLayout();
+                        view.getNegate().setLayoutX(view.getPath().getMiddleX());
+                        view.getNegate().setLayoutY(view.getPath().getMiddleY());
+                        view.getNegate().setVisible(controller.getModel().isNegated());
+                        ((Graph)source.getParent()).getChildren().add(view);
+                        view.toBack();
+                    }
                 }
                 event.consume();
             }
@@ -102,4 +136,19 @@ public abstract class AbstractNodeController extends AbstractController {
             } 
         };
     }
+    
+        /*
+     * Helper method that converts an int value from a selection type control
+     * and converts it into a type of link.
+     */
+    private Operation linkTypeAdapter(int selectedLink) {
+        switch(selectedLink) {
+            case 0: return Operation.EQUALITY;
+            case 1: return Operation.ADDITION;
+            case 2: return Operation.MULTIPLICATION;
+            case 3: ;
+            default: return Operation.NONE;
+        }
+    }
+    
 }

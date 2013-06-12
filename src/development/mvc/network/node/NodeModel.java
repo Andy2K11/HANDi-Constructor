@@ -20,4 +20,5 @@ public class NodeModel extends AbstractNodeModel {
     public JSONObject getJSONObject () {
         return new JSONObject();
     }
+
 }

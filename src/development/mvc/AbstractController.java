@@ -19,6 +19,7 @@ public abstract class AbstractController {
     public abstract AbstractView getView();
     
     public abstract EventHandler<MouseEvent> getOnMouseClickedHandler();
+    public abstract EventHandler<MouseEvent> getOnMouseDraggedHandler();
     public abstract EventHandler<MouseEvent> getOnDragDetectedHandler();
     public abstract EventHandler<DragEvent> getOnDragDroppedHandler();
     public abstract EventHandler<KeyEvent> getOnKeyPressedHandler(); 
@@ -38,7 +39,7 @@ public abstract class AbstractController {
         };
     }            
                 
-    public EventHandler getOnMouseExitedHandler() {
+    public EventHandler<MouseEvent> getOnMouseExitedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -57,12 +58,12 @@ public abstract class AbstractController {
         };
     }
     
-    public EventHandler getOnDragOverHandler() {
+    public EventHandler<DragEvent> getOnDragOverHandler() {
         return new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);
-                ((Node)event.getSource()).setEffect(new DropShadow());
+                //((Node)event.getSource()).setEffect(new DropShadow());
                 event.consume();
             }
         };
