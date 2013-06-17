@@ -53,13 +53,38 @@ public abstract class AbstractNodeController extends AbstractController {
             }
         };
     }
+    double dragOriginX;
+    double dragOriginY;
+    @Override
+    public EventHandler<MouseEvent> getOnMousePressedHandler() {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dragOriginX = event.getX();
+                dragOriginY = event.getY();
+                event.consume();
+            }
+        };
+    }
     
     @Override
     public EventHandler<MouseEvent> getOnMouseDraggedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // do stuff
+                Node source = (Node) event.getSource();
+                double x = event.getSceneX();
+                double y = event.getSceneY();
+                switch (ToolBarController.getSelectedTool()) {
+                        case movetree: //moveTree(sourceNode, x, y);
+                            break;
+                        case moveone:
+                            //((AbstractNodeView)source).getController().getModel().setX(event.getX());
+                            //((AbstractNodeView)source).getController().getModel().setY(event.getY());
+                            getModel().setX(getModel().getX() + event.getX());
+                            getModel().setY(getModel().getY() + event.getY());
+                            break;
+                    }
                 event.consume();
             }
         };
@@ -76,15 +101,17 @@ public abstract class AbstractNodeController extends AbstractController {
                 Node source = (Node) event.getSource();
                 switch (ToolBarController.getSelectedTool()) {
                     case moveone:
-                    case movetree: db = source.startDragAndDrop(TransferMode.MOVE);
+                    case movetree: //db = source.startDragAndDrop(TransferMode.MOVE);
                         break;
                     case copy: db = source.startDragAndDrop(TransferMode.COPY);
+                        db.setContent(cbc);
                         break;
                     case select: db = source.startDragAndDrop(TransferMode.LINK);
+                        db.setContent(cbc);
                         break;
                     default: db = source.startDragAndDrop(TransferMode.ANY);
+                        db.setContent(cbc);
                 }
-                db.setContent(cbc);
                 event.consume();
             } 
         };
@@ -111,8 +138,8 @@ public abstract class AbstractNodeController extends AbstractController {
                         view.getPath().setStartY(source.getController().getModel().getY());
                         view.getPath().setEndX(target.getController().getModel().getX());
                         view.getPath().setEndY(target.getController().getModel().getY());
-                        //view.getPath().setControlX(target.getController().getModel().getX());
-                        //view.getPath().setControlY(source.getController().getModel().getY());
+                        view.getPath().setControlX(target.getController().getModel().getX());
+                        view.getPath().setControlY(source.getController().getModel().getY());
                         view.getPath().updateLayout();
                         view.getNegate().setLayoutX(view.getPath().getMiddleX());
                         view.getNegate().setLayoutY(view.getPath().getMiddleY());
@@ -126,12 +153,13 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
+    
     @Override
     public EventHandler<KeyEvent> getOnKeyPressedHandler() {
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                // to do
+                
                 event.consume();
             } 
         };

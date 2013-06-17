@@ -16,6 +16,7 @@
  */
 package development.mvc.network.components;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.LineTo;
@@ -34,27 +35,49 @@ public class UnityConnectionPath extends AbstractConnectionPath {
     
     public UnityConnectionPath() {
         super();
+        this.middleX = new DoubleBinding() {
+            {
+                super.bind(start.xProperty(), end.xProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return start.getX() + (end.getX() - start.getX())/2;
+            }
+        };
+        this.middleY = new DoubleBinding() {
+            {
+                super.bind(start.yProperty(), end.yProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return start.getY() + (end.getY() - start.getY())/2;
+            }
+        };
         this.getElements().addAll(start, end);
     }
     
     @Override
     public void setStartX(double x) {
         start.setX(x);
+        //middleX.invalidate();
     }
 
     @Override
     public void setStartY(double y) {
         start.setY(y);
+        //middleY.invalidate();
     }
 
     @Override
     public void setEndX(double x) {
         end.setX(x);
+        //middleX.invalidate();
     }
 
     @Override
     public void setEndY(double y) {
         end.setY(y);
+        //middleY.invalidate();
     }
 
     @Override
@@ -99,7 +122,7 @@ public class UnityConnectionPath extends AbstractConnectionPath {
 
     @Override
     public void updateLayout() {
-        middleX.set( start.getX() + (end.getX() - start.getX())/2 );
-        middleY.set( start.getY() + (end.getY() - start.getY())/2 );
+      //  middleX.set( start.getX() + (end.getX() - start.getX())/2 );
+      //  middleY.set( start.getY() + (end.getY() - start.getY())/2 );
     }   
 }

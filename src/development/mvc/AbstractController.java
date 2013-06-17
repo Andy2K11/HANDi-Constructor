@@ -57,6 +57,17 @@ public abstract class AbstractController {
             }
         };
     }
+
+    
+    public EventHandler<MouseEvent> getOnMousePressedHandler() {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                
+                event.consume();
+            }
+        };
+    }
     
     public EventHandler<DragEvent> getOnDragOverHandler() {
         return new EventHandler<DragEvent>() {
@@ -65,6 +76,7 @@ public abstract class AbstractController {
                 event.acceptTransferModes(TransferMode.ANY);
                 //((Node)event.getSource()).setEffect(new DropShadow());
                 event.consume();
+                System.out.println("<DragEvent> Drag Over");
             }
         };
     }

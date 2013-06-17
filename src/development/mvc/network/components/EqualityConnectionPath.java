@@ -16,6 +16,7 @@
  */
 package development.mvc.network.components;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
@@ -33,6 +34,18 @@ public class EqualityConnectionPath extends AbstractConnectionPath {
     private static final double OFFSET = 3.0;
     public EqualityConnectionPath() {
         super();
+        this.middleX = new DoubleBinding() {
+            @Override
+            protected double computeValue() {
+                return start.getX() + (end.getX() - start.getX())/2;
+            }
+        };
+        this.middleY = new DoubleBinding() {
+            @Override
+            protected double computeValue() {
+                return start.getY() + (end.getY() - start.getY())/2;
+            }
+        };
         this.getElements().addAll(start, end, start2, end2);
     }
     
@@ -102,7 +115,7 @@ public class EqualityConnectionPath extends AbstractConnectionPath {
     
     @Override
     public void updateLayout() {
-        middleX.set( start.getX() + (end.getX() - start.getX())/2 );
-        middleY.set( start.getY() + (end.getY() - start.getY())/2 );
+       // middleX.set( start.getX() + (end.getX() - start.getX())/2 );
+       // middleY.set( start.getY() + (end.getY() - start.getY())/2 );
     }
 }

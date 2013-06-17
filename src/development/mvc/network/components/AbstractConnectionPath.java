@@ -4,8 +4,7 @@
  */
 package development.mvc.network.components;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.shape.Path;
 
 /**
@@ -14,8 +13,8 @@ import javafx.scene.shape.Path;
  */
 public abstract class AbstractConnectionPath extends Path {
     
-    DoubleProperty middleX = new SimpleDoubleProperty();
-    DoubleProperty middleY = new SimpleDoubleProperty();
+    DoubleBinding middleX;
+    DoubleBinding middleY;
     
     public abstract void setStartX(double x);
     public abstract void setStartY(double y);
@@ -73,11 +72,11 @@ public abstract class AbstractConnectionPath extends Path {
         return middleY.doubleValue();
     }
 
-    public DoubleProperty middleX() {
+    public DoubleBinding middleX() {
         return middleX;
     }
 
-    public DoubleProperty middleY() {
+    public DoubleBinding middleY() {
         return middleY;
     }
 }

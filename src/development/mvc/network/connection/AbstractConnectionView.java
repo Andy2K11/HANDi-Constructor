@@ -22,7 +22,7 @@ public abstract class AbstractConnectionView extends AbstractView {
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 //getPath().setStartX(newValue.doubleValue());
                 getPath().incrementStartX(newValue.doubleValue() - oldValue.doubleValue());
-                getPath().updateLayout();
+                //getPath().updateLayout();
             }    
         });
         
@@ -31,7 +31,7 @@ public abstract class AbstractConnectionView extends AbstractView {
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 //getPath().setStartY(newValue.doubleValue());
                 getPath().incrementStartY(newValue.doubleValue() - oldValue.doubleValue());
-                getPath().updateLayout();
+                //getPath().updateLayout();
             }    
         });
         
@@ -40,7 +40,7 @@ public abstract class AbstractConnectionView extends AbstractView {
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 //getPath().setEndX(newValue.doubleValue());
                 getPath().incrementEndX(newValue.doubleValue() - oldValue.doubleValue());
-                getPath().updateLayout();
+                //getPath().updateLayout();
             }    
         });
         
@@ -49,7 +49,7 @@ public abstract class AbstractConnectionView extends AbstractView {
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 //getPath().setEndY(newValue.doubleValue());
                 getPath().incrementEndY(newValue.doubleValue() - oldValue.doubleValue());
-                getPath().updateLayout();
+                //getPath().updateLayout();
             }    
         });  
     }
@@ -74,18 +74,21 @@ public abstract class AbstractConnectionView extends AbstractView {
     
     public void createNegate(Path negate) {
         this.negate = negate;
+        negate.setLayoutX(getPath().middleX().doubleValue());
         getPath().middleX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 getNegate().setLayoutX(newValue.doubleValue());
             }    
         });
+        negate.setLayoutY(getPath().middleY().doubleValue());
         getPath().middleY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
                 getNegate().setLayoutY(newValue.doubleValue());
             }    
-        }); 
+        });
+        negate.setVisible(controller.getModel().isNegated());
         controller.getModel().negateProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> value, Boolean oldValue, Boolean newValue) {

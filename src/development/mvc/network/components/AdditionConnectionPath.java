@@ -4,6 +4,7 @@
  */
 package development.mvc.network.components;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
@@ -20,6 +21,26 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
     
     public AdditionConnectionPath() {
         super();
+        
+        this.middleX = new DoubleBinding() {
+            {
+                super.bind(start.xProperty(), end.xProperty(), control.xProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return control.getX() + (bridge.getX() - control.getX())/2;
+            }
+        };
+        this.middleY = new DoubleBinding() {
+            {
+                super.bind(start.yProperty(), end.yProperty(), control.yProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return control.getY() + (bridge.getY() - control.getY())/2;
+            }
+        };
+        
         this.getElements().addAll(start, control, bridge, end);
     }
 
@@ -31,31 +52,39 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
     @Override
     public void setStartY(double y) {
         start.setY(y);
-        control.setY(start.getY());
+        
     }
 
     @Override
     public void setEndX(double x) {
         end.setX(x);
-        control.setX(end.getX() - (end.getX() - start.getX())/10);
-        bridge.setX(end.getX() - (end.getX() - start.getX())/10);
+        
     }
 
     @Override
     public void setEndY(double y) {
         end.setY(y);
-        bridge.setY(end.getY());
+        bridge.setY(y);
+        //middleY.invalidate();
     }
 
     @Override
     public void setControlX(double x) {
         control.setX(x);
+        bridge.setX(x);
+        //control.setX(end.getX() - (end.getX() - start.getX())/10);
+        //bridge.setX(end.getX() - (end.getX() - start.getX())/10);
+        //middleX.invalidate();
+        
     }
 
     @Override
     public void setControlY(double y) {
-        // do nothing - control y bound to start y
+        control.setY(y);
         //control.setY(start.getY());
+        //bridge.setY(end.getY());
+       // middleY.invalidate();
+        // do nothing - control y bound to start y
     }
 
     @Override
@@ -87,10 +116,34 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
     public double getEndY() {
         return end.getY();
     }
+    
+    @Override
+    public void incrementStartY(double dy) {
+        super.incrementStartY(dy);
+        incrementControlY(dy);
+    }
 
     @Override
-    public void updateLayout() {
-        middleX.set( control.getX() + (bridge.getX() - control.getX())/2 );
-        middleY.set( control.getY() + (bridge.getY() - control.getY())/2 );
+    public void incrementEndX(double dx) {
+        super.incrementEndX(dx);
+        incrementControlX(dx);
+        //setEndX(getEndX() + dx);
+        //setControlX(getControlX() + dx);
+        //bridge.setX(bridge.getX() + dx);
+        //middleX.invalidate();
     }
+    
+    @Override
+    public void incrementControlX(double dx) {
+        super.incrementControlX(dx);
+        bridge.setX(bridge.getX() + dx);
+    }
+    
+    @Override
+    public void updateLayout() {
+        //.set( control.getX() + (bridge.getX() - control.getX())/2 );
+        //middleY.set( control.getY() + (bridge.getY() - control.getY())/2 );
+    }
+    
+    
 }

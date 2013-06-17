@@ -14,17 +14,18 @@ public abstract class AbstractNodeView extends AbstractView {
         super(controller);
         this.controller = controller;
         
+
         controller.getModel().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                setLayoutX(newValue.doubleValue());
+                setTranslateX(newValue.doubleValue());
             }    
         });
         
         controller.getModel().doublePropertyY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                setLayoutY(newValue.doubleValue());
+                setTranslateY(newValue.doubleValue());
             }    
         });
     }

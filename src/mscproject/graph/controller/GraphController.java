@@ -156,8 +156,8 @@ public class GraphController {
                         case movetree: //moveTree(sourceNode, x, y);
                             break;
                         case moveone:
-                            ((AbstractNodeView)sourceGesture).getController().getModel().setX(event.getX());
-                            ((AbstractNodeView)sourceGesture).getController().getModel().setY(event.getY());
+                            //((AbstractNodeView)sourceGesture).getController().getModel().setX(event.getX());
+                            //((AbstractNodeView)sourceGesture).getController().getModel().setY(event.getY());
                             break;
                     }
                     event.consume();

@@ -91,13 +91,13 @@
     </TitledPane>
     <TitledPane styleClass="titledpane" text="Branches">
         <VBox>
-            <RadioButton fx:id="link1" 
+            <RadioButton fx:id="equal" 
                          selected="true" 
                          text="%toolbar.links.link1" 
                          prefHeight="10.0" 
                          toggleGroup="$linkselect" >
                 <graphic>
-                    <Path fx:id="connectionGraphic">
+                    <Path fx:id="equalityGraphic">
                         <elements>
                             <MoveTo x="10" y="-3" />
                             <LineTo x="-10" y="-3" />
@@ -107,13 +107,13 @@
                     </Path>
                 </graphic>
             </RadioButton>
-            <RadioButton fx:id="link2" 
+            <RadioButton fx:id="addition" 
                          selected="false" 
                          text="%toolbar.links.link2" 
                          prefHeight="10.0" 
                          toggleGroup="$linkselect" >
                 <graphic>
-                    <Path fx:id="connectionGraphic">
+                    <Path fx:id="additionGraphic">
                         <elements>
                             <MoveTo x="10" y="-5" />
                             <LineTo x="-10" y="-5" />
@@ -122,13 +122,13 @@
                     </Path>
                 </graphic>
             </RadioButton>                                
-            <RadioButton fx:id="link3" 
+            <RadioButton fx:id="multiplication" 
                          selected="false" 
                          text="%toolbar.links.link3" 
                          prefHeight="10.0" 
                          toggleGroup="$linkselect" >
                 <graphic>
-                    <Path fx:id="connectionGraphic">
+                    <Path fx:id="multiplicationGraphic">
                         <elements>
                             <MoveTo x="10" y="-5" />
                             <QuadCurveTo controlX="-10" controlY="-5" x="-10" y="5" />
@@ -136,13 +136,13 @@
                     </Path>
                 </graphic>
             </RadioButton>
-            <RadioButton fx:id="link4" 
+            <RadioButton fx:id="unity" 
                          selected="false" 
                          text="%toolbar.links.link4" 
                          prefHeight="10.0" 
                          toggleGroup="$linkselect" >
                 <graphic>
-                    <Path fx:id="connectionGraphic">
+                    <Path fx:id="unityGraphic">
                         <elements>
                             <MoveTo x="-10" y="-5" />
                             <LineTo x="10" y="5" />
@@ -150,7 +150,7 @@
                     </Path>
                 </graphic>
             </RadioButton>
-            <RadioButton fx:id="link5" 
+            <!--RadioButton fx:id="link5" 
                          selected="false" 
                          text="%toolbar.links.link5" 
                          prefHeight="10.0" 
@@ -163,7 +163,7 @@
                         </elements>
                     </Path>
                 </graphic>
-            </RadioButton>                                 
+            </RadioButton-->                                 
         </VBox>
     </TitledPane>               
   </FlowPane>

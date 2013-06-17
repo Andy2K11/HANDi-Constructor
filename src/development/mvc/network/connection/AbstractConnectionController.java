@@ -4,7 +4,9 @@ import development.mvc.AbstractController;
 import development.mvc.network.node.AbstractNodeController;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
@@ -38,6 +40,20 @@ public abstract class AbstractConnectionController extends AbstractController {
             public void handle(MouseEvent event) {
                 getModel().negate();
                 event.consume();
+                System.out.println("<MouseEvent> Mouse Clicked");
+            }
+        };
+    }
+    
+    @Override
+    public EventHandler<MouseEvent> getOnMousePressedHandler() {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
+                diffX = conn.getPath().getControlX() - event.getX();
+                System.out.println("<MouseEvent> Mouse Pressed" + diffX);
+                event.consume();
             }
         };
     }
@@ -45,15 +61,18 @@ public abstract class AbstractConnectionController extends AbstractController {
     /* The distance between the mouse pointer and the control point when the 
      * drag is started.
      */
-    private double diffX = 0.0;
+    private double diffX;
     
     @Override
     public EventHandler<MouseEvent> getOnMouseDraggedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {                
+            public void handle(MouseEvent event) {
+                
                 AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
-                conn.getPath().setControlX(event.getX() - diffX);
+                conn.getPath().setControlX(event.getX() + diffX);
+                //conn.getPath().setControlX(((AbstractConnectionView)event.getSource()).getPath().getControlX() + event.getX());
+                System.out.println("<MouseEvent> Dragged");
                 event.consume();
             }
         };
@@ -65,14 +84,18 @@ public abstract class AbstractConnectionController extends AbstractController {
             @Override
             public void handle(MouseEvent event) {
                 AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
-                diffX = event.getX() - conn.getPath().getControlX();
+                //diffX = conn.getPath().getControlX() - event.getX();
+                ClipboardContent cbc = new ClipboardContent();
+                cbc.putString(String.valueOf(diffX));
+                Dragboard db;
                 Node source = (Node) event.getSource();
-                source.startDragAndDrop(TransferMode.MOVE);
-                event.consume();
+                //db = source.startDragAndDrop(TransferMode.MOVE);
+                //db.setContent(cbc);
+                //event.consume();
+                System.out.println("<MouseEvent> Drag Detected: " + diffX);
             } 
         };
     }
-    
     
     @Override
     public EventHandler<DragEvent> getOnDragDroppedHandler() {
@@ -81,6 +104,7 @@ public abstract class AbstractConnectionController extends AbstractController {
             public void handle(DragEvent event) {
                 // to do
                 event.consume();
+                System.out.println("<DragEvent> Drag Dropped");
             }
         };
     }

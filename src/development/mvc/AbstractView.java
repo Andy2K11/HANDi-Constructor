@@ -10,12 +10,14 @@ public abstract class AbstractView extends Parent {
         this.setOnMouseEntered(controller.getOnMouseEnteredHandler());
         this.setOnMouseExited(controller.getOnMouseExitedHandler());
         this.setOnMouseClicked(controller.getOnMouseClickedHandler());
+        this.setOnMousePressed(controller.getOnMousePressedHandler());
         this.setOnMouseDragged(controller.getOnMouseDraggedHandler());
+        
         
         this.setOnDragDetected(controller.getOnDragDetectedHandler());
         this.setOnDragOver(controller.getOnDragOverHandler());
         this.setOnDragDropped(controller.getOnDragDroppedHandler());
-        
+
         this.setOnKeyPressed(controller.getOnKeyPressedHandler());
     }
     

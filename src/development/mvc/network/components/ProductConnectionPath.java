@@ -16,6 +16,7 @@
  */
 package development.mvc.network.components;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.QuadCurveTo;
 
@@ -31,6 +32,29 @@ public class ProductConnectionPath extends AbstractConnectionPath {
     
     public ProductConnectionPath() {
         super();
+        final double ratio = (2.0/3.0);
+        this.middleX = new DoubleBinding() {
+            {
+                super.bind(start.xProperty(), end.controlXProperty(), end.xProperty());
+            }
+            @Override
+            protected double computeValue() {
+                double scX = start.getX() + ((end.getControlX() - start.getX()) * ratio);
+                double ceX = end.getControlX() + ((end.getX() - end.getControlX()) * ratio);
+                return scX + ((ceX - scX) * ratio);
+            }
+        };
+        this.middleY = new DoubleBinding() {
+            {
+                super.bind(start.yProperty(), end.controlYProperty(), end.xProperty());
+            }
+            @Override
+            protected double computeValue() {
+                double scY = start.getY() + ((end.getControlY() - start.getY()) * ratio);
+                double ceY = end.getControlY() + ((end.getY() - end.getControlY()) * ratio);
+                return scY + ((ceY - scY) * ratio);
+            }
+        };
         this.getElements().addAll(start, end);
     }
     
@@ -41,14 +65,12 @@ public class ProductConnectionPath extends AbstractConnectionPath {
 
     @Override
     public void setStartY(double y) {
-        start.setY(y);
-        end.setControlY(start.getY() + controlY);
+        start.setY(y);    
     }
 
     @Override
     public void setEndX(double x) {
-        end.setX(x);
-        end.setControlX(end.getX() + controlX);
+        end.setX(x);    
     }
 
     @Override
@@ -58,12 +80,16 @@ public class ProductConnectionPath extends AbstractConnectionPath {
 
     @Override
     public void setControlX(double x) {
-        end.setControlX(end.getControlX() + x);
+        end.setControlX(x);
+        //controlX = x - end.getX();  // difference between set value and nominal value
+        //updateLayout();
     }
 
     @Override
     public void setControlY(double y) {
-        end.setControlY(end.getControlY() + y);
+        end.setControlY(y);
+        //controlY = y - start.getY();    // difference between set value and nominal value
+        //updateLayout();
     }
 
     @Override
@@ -96,23 +122,24 @@ public class ProductConnectionPath extends AbstractConnectionPath {
         return end.getY();
     }
     
-    
     @Override
-    public void incrementStartY(double dy) {
-        setStartY(getStartY() + dy);
-        setControlY(getControlY() + dy);
-        //setControlY(getStartY());
+    public void incrementEndX(double dx) {
+        //setEndX(getEndX() + dx);
+        //setControlX(getControlX() + dx);
+        super.incrementEndX(dx);
+        incrementControlX(dx);
     }
     
     @Override
-    public void incrementEndX(double dx) {
-        setEndX(getEndX() + dx);
-        setControlX(getControlX() + dx);
-        //setControlX(getEndX());
+    public void incrementStartY(double dy) {
+        super.incrementStartY(dy);
+        incrementControlY(dy);
     }
     
     @Override
     public void updateLayout() {
+        //end.setControlX(end.getX() + controlX);
+        //end.setControlY(start.getY() + controlY);
         /*
          * sc : start to control
          * ce : control to end
@@ -122,7 +149,8 @@ public class ProductConnectionPath extends AbstractConnectionPath {
         double scY = start.getY() + ((end.getControlY() - start.getY()) * ratio);
         double ceX = end.getControlX() + ((end.getX() - end.getControlX()) * ratio);
         double ceY = end.getControlY() + ((end.getY() - end.getControlY()) * ratio);
-        middleX.set( scX + ((ceX - scX) * ratio) );
-        middleY.set( scY + ((ceY - scY) * ratio) );
+       // middleX.set( scX + ((ceX - scX) * ratio) );
+       // middleY.set( scY + ((ceY - scY) * ratio) );
+        
     }
 }
