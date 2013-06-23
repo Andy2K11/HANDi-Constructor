@@ -15,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import mscproject.graph.Graph;
+import uk.co.corductive.msc.network.connection.NetworkConnection;
 import uk.co.corductive.msc.ui.ToolBarController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.copy;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.moveone;
@@ -48,11 +49,23 @@ public abstract class AbstractNodeController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // to do
+                switch(ToolBarController.getSelectedTool()) {
+                    case delete: remove();
+                }
                 event.consume();
             }
         };
     }
+    
+    public void remove() {
+        this.getView().remove();
+        for (NetworkConnection conn: this.getModel().getConnections()) {
+            conn.removeConnection((NetworkNode)this.getModel());
+        }
+        getModel().getConnections().clear();
+        // connection views are removed via list change listener
+    }
+    
     double dragOriginX;
     double dragOriginY;
     @Override

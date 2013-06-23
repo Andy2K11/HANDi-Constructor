@@ -5,6 +5,7 @@ import uk.co.corductive.msc.network.node.AbstractNodeModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.json.JSONObject;
+import uk.co.corductive.msc.network.node.NetworkNode;
 
 public abstract class AbstractConnectionModel extends AbstractModel implements Operator, NetworkConnection {
     
@@ -82,5 +83,23 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     public void makeConnection() {
         node1.addConnection(this);
         node2.addConnection(this);
+    }
+    
+    @Override
+    public void removeConnection() {
+        node1.removeConnection(this);
+        node2.removeConnection(this);
+    }
+    
+    
+    @Override
+    public void removeConnection(NetworkNode node) {
+        if (((NetworkNode)node1).equals(node)) {
+            node2.removeConnection(this);
+        } else if (((NetworkNode)node2).equals(node)) {
+            node1.removeConnection(this);
+        } else {
+            System.err.println("Error removing connection");
+        }
     }
 }

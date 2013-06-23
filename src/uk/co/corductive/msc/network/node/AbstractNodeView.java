@@ -3,7 +3,7 @@ package uk.co.corductive.msc.network.node;
 import uk.co.corductive.msc.mvc.AbstractView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.TextField;
+import mscproject.graph.Graph;
 
 public abstract class AbstractNodeView extends AbstractView {
     
@@ -36,5 +36,9 @@ public abstract class AbstractNodeView extends AbstractView {
     @Override
     public AbstractNodeController getController() {
         return controller;
+    }
+    
+    public void remove() {
+        ((Graph)this.getParent()).getChildren().remove(this);
     }
 }

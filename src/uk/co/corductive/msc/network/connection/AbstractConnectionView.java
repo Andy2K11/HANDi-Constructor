@@ -1,10 +1,14 @@
 package uk.co.corductive.msc.network.connection;
 
+import java.util.List;
 import uk.co.corductive.msc.mvc.AbstractView;
 import uk.co.corductive.msc.network.components.AbstractConnectionPath;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
 import javafx.scene.shape.Path;
+import mscproject.graph.Graph;
 
 public abstract class AbstractConnectionView extends AbstractView {
     
@@ -51,7 +55,9 @@ public abstract class AbstractConnectionView extends AbstractView {
                 getPath().incrementEndY(newValue.doubleValue() - oldValue.doubleValue());
                 //getPath().updateLayout();
             }    
-        });  
+        });
+        
+        
     }
         
     public AbstractConnectionPath getPath() {
@@ -70,6 +76,40 @@ public abstract class AbstractConnectionView extends AbstractView {
         path.getStyleClass().add("link");
         // temp test line -- move to factory
         //createNegate(new Circle(path.getMiddleX(), path.getMiddleY(), 5.0));
+        
+        controller.getModel().getNode1().getConnections().addListener(new ListChangeListener<NetworkConnection>() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                change.next();
+                
+                if(change.wasRemoved()) {
+                    List<NetworkConnection> connections = change.getRemoved();
+                    for (NetworkConnection conn: connections) {
+                        if(conn.equals((NetworkConnection) controller.getModel())) {
+                            remove();
+                        }
+                    }
+                }
+                System.out.println("List change on node1");
+            }
+        });
+        
+       controller.getModel().getNode2().getConnections().addListener(new ListChangeListener<NetworkConnection>() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                change.next();
+                
+                if(change.wasRemoved()) {
+                    List<NetworkConnection> connections = change.getRemoved();
+                    for (NetworkConnection conn: connections) {
+                        if(conn.equals((NetworkConnection) controller.getModel())) {
+                            remove();
+                        }
+                    }
+                }
+                System.out.println("List change on node2");
+            }
+        });
     }
     
     public void createNegate(Path negate) {
@@ -103,5 +143,17 @@ public abstract class AbstractConnectionView extends AbstractView {
     @Override
     public AbstractConnectionController getController() {
         return controller;
+    }
+    
+    public void remove() {
+        //this.getChildren().remove(this.getNegate());
+        //this.getChildren().remove(this.getPath());
+        if (this.getParent()!=null) {
+            List<Node> list = ((Graph)this.getParent()).getChildren();
+            if (list.contains(this)) {
+                    list.remove(this);
+            }
+        }
+        //controller.getModel().getNode1().doublePropertyX().removeListener(this);
     }
 }

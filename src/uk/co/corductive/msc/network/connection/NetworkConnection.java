@@ -18,5 +18,6 @@ public interface NetworkConnection {
     public void changeDirection();
     
     public void makeConnection();
-    //public void removeConnection();
+    public void removeConnection();
+    public void removeConnection(NetworkNode node);
 }

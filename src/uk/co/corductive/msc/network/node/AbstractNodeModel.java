@@ -69,5 +69,9 @@ public abstract class AbstractNodeModel extends AbstractModel implements Operand
     @Override
     public void removeConnection(NetworkConnection connection) {
         connections.remove(connection);
-    }    
+    }
+    
+    public ObservableList<NetworkConnection> getConnections() {
+        return connections;
+    }
 }

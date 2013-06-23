@@ -27,6 +27,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import uk.co.corductive.msc.ui.ToolBarController;
 
 public abstract class AbstractConnectionController extends AbstractController {
     
@@ -61,6 +62,10 @@ public abstract class AbstractConnectionController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                switch(ToolBarController.getSelectedTool()) {    
+                    case delete: remove();   
+                        break;
+                }
                 if (event.isStillSincePress()) {
                     getModel().negate();
                 }
@@ -68,6 +73,11 @@ public abstract class AbstractConnectionController extends AbstractController {
                 System.out.println("<MouseEvent> Mouse Clicked");
             }
         };
+    }
+    
+    public void remove() {
+        getModel().removeConnection();
+        getView().remove();
     }
     
     /**
