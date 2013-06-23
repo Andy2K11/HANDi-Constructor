@@ -17,7 +17,7 @@ import mscproject.graph.model.LinkModel.LinkType;
 import mscproject.graph.model.NodeModel;
 import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.NodeView;
-import mscproject.ui.ToolBarController;
+import uk.co.corductive.msc.ui.ToolBarController;
 
 /**
  *

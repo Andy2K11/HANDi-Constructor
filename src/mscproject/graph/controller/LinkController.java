@@ -11,7 +11,7 @@ import javafx.scene.input.TransferMode;
 import mscproject.graph.model.LinkModel;
 import mscproject.graph.view.AbstractLinkView;
 import mscproject.graph.view.Routable;
-import mscproject.ui.ToolBarController;
+import uk.co.corductive.msc.ui.ToolBarController;
 
 /**
  *

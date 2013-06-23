@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ToggleGroup?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="uk.co.corductive.msc.ui.UIController"
+      stylesheets="resources/red.css"
+      minHeight="600" 
+      minWidth="600" 
+      onKeyPressed="#handleKeyPressed"
+      onKeyReleased="#handleKeyReleased"
+      onMouseClicked="#handleMouseClicked"
+      >
+    <top>
+        <fx:include fx:id="menu" source="MenuBar.fxml" />
+    </top>
+    <center>
+        <AnchorPane id="AnchorPane" 
+                    styleClass="anchorpane"
+                    onMouseClicked="#handleMouseClicked">
+            <children>
+                <fx:include fx:id="toolbar" source="ToolBar.fxml"
+                            AnchorPane.leftAnchor="0.0" 
+                            AnchorPane.topAnchor="30.0" 
+                            AnchorPane.bottomAnchor="0.0" />
+                <TabPane fx:id="diagramtabs"
+                         AnchorPane.leftAnchor="85.0" 
+                         AnchorPane.rightAnchor="0.0" 
+                         AnchorPane.topAnchor="0.0"
+                         AnchorPane.bottomAnchor="0.0"
+                         onMouseClicked="#handleMouseClicked"
+                         >
+                    <!-- Tabs loaded programatically -->
+                </TabPane>
+            </children>
+        </AnchorPane>
+    </center>
+    <!--bottom>
+        <HBox>
+                <Label fx:id="status"
+                       styleClass="status"
+                       text="Status" 
+                       prefWidth="1200" 
+                       prefHeight="50" 
+                       wrapText="true"/>
+        </HBox>
+    </bottom-->
+</BorderPane>
+

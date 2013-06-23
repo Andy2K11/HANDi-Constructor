@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<MenuBar 
+        xmlns:fx="http://javafx.com/fxml" 
+        fx:controller="uk.co.corductive.msc.ui.MenuBarController"
+        stylesheets="resources/style.css"
+        prefHeight="50">
+    <Menu text="%menubar.file">
+        <MenuItem text="%menubar.file.new" onAction="#handleNewDiagram" />
+        <MenuItem text="%menubar.file.save" onAction="#handleSaveDiagram" />
+        <MenuItem text="%menubar.file.load" onAction="#handleLoadDiagram" />
+        <CheckMenuItem text="%menubar.file.finish" />
+        <SeparatorMenuItem />
+        <MenuItem text="%menubar.file.exit" onAction="#handleExit" />
+    </Menu>
+    <Menu text="%menubar.options">
+        <Menu text="%menubar.options.mode" >
+            <MenuItem text="%menubar.options.mode.design" />
+            <MenuItem text="%menubar.options.mode.experiment" />
+        </Menu>
+    </Menu>
+    <Menu text="%menubar.help">
+        <MenuItem text="Task Instructions" />
+        <Menu text="Nodes">
+            <MenuItem text="Node Overview"/>
+            <MenuItem text="Node1 Info"/>
+            <MenuItem text="Node2 Info"/>
+        </Menu>
+        <Menu text="Branches">
+            <MenuItem text="Link Overview"/>
+            <MenuItem text="Link1 Info"/>
+            <MenuItem text="Link2 Info"/>
+            <MenuItem text="Link3 Info"/>
+        </Menu>            
+    </Menu>
+    <Menu text="%menubar.about" >
+        <Menu text="%menubar.about.author" >
+            <MenuItem text="%menubar.about.author.a1" />
+            <MenuItem text="%menubar.about.author.a2" />
+        </Menu>
+        <MenuItem text="%menubar.about.ethics" />
+        <MenuItem text="%menubar.about.organisation" />
+    </Menu>
+</MenuBar>
+  

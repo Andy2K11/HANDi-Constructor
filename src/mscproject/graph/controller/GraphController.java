@@ -1,10 +1,10 @@
 package mscproject.graph.controller;
 
-import development.factory.HandiNetworkFactory;
-import development.factory.NetworkFactory;
-import development.mvc.network.connection.AbstractConnectionView;
-import development.mvc.network.node.AbstractNodeView;
-import development.mvc.network.node.NodeView;
+import uk.co.corductive.msc.factory.HandiNetworkFactory;
+import uk.co.corductive.msc.factory.NetworkFactory;
+import uk.co.corductive.msc.network.connection.AbstractConnectionView;
+import uk.co.corductive.msc.network.node.AbstractNodeView;
+import uk.co.corductive.msc.network.node.NodeView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -14,12 +14,12 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import mscproject.graph.Graph;
-import mscproject.ui.ToolBarController;
+import uk.co.corductive.msc.ui.ToolBarController;
 
 import mscproject.graph.factory.NodeFactory;
 import mscproject.graph.view.Routable;
-import static mscproject.ui.ToolBarController.Tool.moveone;
-import static mscproject.ui.ToolBarController.Tool.movetree;
+import static uk.co.corductive.msc.ui.ToolBarController.Tool.moveone;
+import static uk.co.corductive.msc.ui.ToolBarController.Tool.movetree;
 
 /**
  *
@@ -81,8 +81,8 @@ public class GraphController {
                     case create: 
                         switch(ToolBarController.getNodeType()) {
                             case 0: 
-                                development.mvc.network.node.AbstractNodeController controller = factory.createNode();
-                                development.mvc.AbstractView view = controller.getView();        
+                                uk.co.corductive.msc.network.node.AbstractNodeController controller = factory.createNode();
+                                uk.co.corductive.msc.mvc.AbstractView view = controller.getView();        
                                 controller.getModel().setX(event.getX());
                                 controller.getModel().setY(event.getY());
                                 //view.setLayoutX(event.getX());

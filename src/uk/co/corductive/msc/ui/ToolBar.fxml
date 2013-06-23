@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<FlowPane 
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="uk.co.corductive.msc.ui.ToolBarController"
+        orientation="vertical"
+        styleClass="flowpane"
+        onKeyPressed="#handleKeyPressed">
+    <fx:define>
+        <ToggleGroup fx:id="toolselect" />
+        <ToggleGroup fx:id="linkselect" />
+        <ToggleGroup fx:id="nodeselect" />      
+        <Tooltip fx:id="createToolTip" wrapText="true" text="%toolbar.tools.create.tooltip" prefWidth="300" />
+        <Tooltip fx:id="moveoneToolTip" wrapText="true" text="%toolbar.tools.moveone.tooltip" prefWidth="300" />
+        <Tooltip fx:id="node1ToolTip" wrapText="true" text="%toolbar.nodes.node1.tooltip" prefWidth="300" />       
+        <Tooltip fx:id="node2ToolTip" wrapText="true" text="%toolbar.nodes.node2.tooltip" prefWidth="300" /> 
+    </fx:define>
+    <TitledPane styleClass="titledpane" text="Tool">
+        <VBox>
+            <ToggleButton fx:id="create"
+                          text="%toolbar.tools.create"
+                          prefWidth="80"
+                          toggleGroup="$toolselect"
+                          tooltip="$createToolTip"
+                          onAction="#handleToolAction"
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>
+            <ToggleButton fx:id="moveone"
+                          text="%toolbar.tools.moveone"
+                          prefWidth="80"
+                          toggleGroup="$toolselect"
+                          tooltip="$moveoneToolTip"
+                          onAction="#handleToolAction" 
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>
+            <ToggleButton fx:id="movetree"
+                          text="%toolbar.tools.movetree"
+                          prefWidth="80"
+                          toggleGroup="$toolselect"
+                          onAction="#handleToolAction" 
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>
+            <ToggleButton fx:id="copy"
+                          text="%toolbar.tools.copy"
+                          prefWidth="80"
+                          toggleGroup="$toolselect"
+                          onAction="#handleToolAction"
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>
+            <ToggleButton fx:id="delete"
+                          text="%toolbar.tools.delete"
+                          prefWidth="80"
+                          toggleGroup="$toolselect"
+                          onAction="#handleToolAction"
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>                                                
+        </VBox>
+    </TitledPane>
+    <TitledPane styleClass="titledpane" text="Nodes">
+        <VBox> 
+            <RadioButton fx:id="node1button"
+                         selected="true"
+                         text="%toolbar.nodes.node1" 
+                         prefWidth="80" 
+                         tooltip="$node1ToolTip" 
+                         toggleGroup="$nodeselect" 
+                         onAction="#handleButtonAction"
+                         onDragDetected="#handleDragDetected">
+                <graphic>
+                    <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
+                </graphic>
+            </RadioButton>
+            <RadioButton text="%toolbar.nodes.node2" 
+                         prefWidth="80" 
+                         toggleGroup="$nodeselect"
+                         tooltip="$node2ToolTip">
+                <graphic>
+                    <Text text="\@" />
+                </graphic>
+            </RadioButton>
+        </VBox>
+    </TitledPane>
+    <TitledPane styleClass="titledpane" text="Branches">
+        <VBox>
+            <RadioButton fx:id="equal" 
+                         selected="true" 
+                         text="%toolbar.links.link1" 
+                         prefHeight="10.0" 
+                         toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="equalityGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-3" />
+                            <LineTo x="-10" y="-3" />
+                            <MoveTo x="10" y="3" />
+                            <LineTo x="-10" y="3" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>
+            <RadioButton fx:id="addition" 
+                         selected="false" 
+                         text="%toolbar.links.link2" 
+                         prefHeight="10.0" 
+                         toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="additionGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-5" />
+                            <LineTo x="-10" y="-5" />
+                            <LineTo x="-10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>                                
+            <RadioButton fx:id="multiplication" 
+                         selected="false" 
+                         text="%toolbar.links.link3" 
+                         prefHeight="10.0" 
+                         toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="multiplicationGraphic">
+                        <elements>
+                            <MoveTo x="10" y="-5" />
+                            <QuadCurveTo controlX="-10" controlY="-5" x="-10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>
+            <RadioButton fx:id="unity" 
+                         selected="false" 
+                         text="%toolbar.links.link4" 
+                         prefHeight="10.0" 
+                         toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="unityGraphic">
+                        <elements>
+                            <MoveTo x="-10" y="-5" />
+                            <LineTo x="10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton>
+            <!--RadioButton fx:id="link5" 
+                         selected="false" 
+                         text="%toolbar.links.link5" 
+                         prefHeight="10.0" 
+                         toggleGroup="$linkselect" >
+                <graphic>
+                    <Path fx:id="connectionGraphic">
+                        <elements>
+                            <MoveTo x="-10" y="-5" />
+                            <LineTo x="10" y="5" />
+                        </elements>
+                    </Path>
+                </graphic>
+            </RadioButton-->                                 
+        </VBox>
+    </TitledPane>               
+  </FlowPane>
