@@ -28,7 +28,7 @@
         <VBox>
             <ToggleButton fx:id="create"
                           text="%toolbar.tools.create"
-                          prefWidth="80"
+                          prefWidth="120"
                           toggleGroup="$toolselect"
                           tooltip="$createToolTip"
                           onAction="#handleToolAction"
@@ -36,7 +36,7 @@
             </ToggleButton>
             <ToggleButton fx:id="moveone"
                           text="%toolbar.tools.moveone"
-                          prefWidth="80"
+                          prefWidth="120"
                           toggleGroup="$toolselect"
                           tooltip="$moveoneToolTip"
                           onAction="#handleToolAction" 
@@ -44,21 +44,28 @@
             </ToggleButton>
             <ToggleButton fx:id="movetree"
                           text="%toolbar.tools.movetree"
-                          prefWidth="80"
+                          prefWidth="120"
                           toggleGroup="$toolselect"
                           onAction="#handleToolAction" 
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>
             <ToggleButton fx:id="copy"
                           text="%toolbar.tools.copy"
-                          prefWidth="80"
+                          prefWidth="120"
+                          toggleGroup="$toolselect"
+                          onAction="#handleToolAction"
+                          onMouseEntered="#handleMouseEntered">
+            </ToggleButton>
+            <ToggleButton fx:id="copytree"
+                          text="%toolbar.tools.copytree"
+                          prefWidth="120"
                           toggleGroup="$toolselect"
                           onAction="#handleToolAction"
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>
             <ToggleButton fx:id="delete"
                           text="%toolbar.tools.delete"
-                          prefWidth="80"
+                          prefWidth="120"
                           toggleGroup="$toolselect"
                           onAction="#handleToolAction"
                           onMouseEntered="#handleMouseEntered">
@@ -70,7 +77,7 @@
             <RadioButton fx:id="node1button"
                          selected="true"
                          text="%toolbar.nodes.node1" 
-                         prefWidth="80" 
+                         prefWidth="120" 
                          tooltip="$node1ToolTip" 
                          toggleGroup="$nodeselect" 
                          onAction="#handleButtonAction"
@@ -79,14 +86,14 @@
                     <Circle centerX="0.0" centerY="0.0" radius="7.0"/>
                 </graphic>
             </RadioButton>
-            <RadioButton text="%toolbar.nodes.node2" 
-                         prefWidth="80" 
+            <!--RadioButton text="%toolbar.nodes.node2" 
+                         prefWidth="120" 
                          toggleGroup="$nodeselect"
                          tooltip="$node2ToolTip">
                 <graphic>
                     <Text text="\@" />
                 </graphic>
-            </RadioButton>
+            </RadioButton-->
         </VBox>
     </TitledPane>
     <TitledPane styleClass="titledpane" text="Branches">

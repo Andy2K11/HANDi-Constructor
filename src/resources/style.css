@@ -36,7 +36,9 @@
 }
 
 .tab {
-    -fx-background-color: linear-gradient(navajowhite, linen);
+    -fx-background-color: linear-gradient(navajowhite, pink);
+    -fx-background-insets: 0 -30px 0 0;
+    -fx-padding: 0px 5px -2px 5px;
 }
 
 .tab-pane, .pane {

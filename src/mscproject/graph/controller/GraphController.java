@@ -1,5 +1,8 @@
 package mscproject.graph.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import uk.co.corductive.msc.factory.HandiNetworkFactory;
 import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
@@ -9,15 +12,24 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
 import mscproject.graph.Graph;
 import uk.co.corductive.msc.ui.ToolBarController;
 
 import mscproject.graph.factory.NodeFactory;
 import mscproject.graph.view.Routable;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import uk.co.corductive.msc.mvc.AbstractModel;
+import uk.co.corductive.msc.network.connection.AbstractConnectionController;
+import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
+import uk.co.corductive.msc.network.connection.Operator.Operation;
+import uk.co.corductive.msc.network.node.AbstractNodeController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.moveone;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.movetree;
 
@@ -28,9 +40,10 @@ import static uk.co.corductive.msc.ui.ToolBarController.Tool.movetree;
 public class GraphController {
     
     private static NetworkFactory factory = new HandiNetworkFactory();;
+    Graph graph = null;
     
     public GraphController(Graph graph) {
-        //factory = new HandiNetworkFactory();
+        this.graph = graph;
     }
     
     
@@ -85,8 +98,6 @@ public class GraphController {
                                 uk.co.corductive.msc.mvc.AbstractView view = controller.getView();        
                                 controller.getModel().setX(event.getX());
                                 controller.getModel().setY(event.getY());
-                                //view.setLayoutX(event.getX());
-                                //view.setLayoutY(event.getY());
                                 graph.getChildren().add(view);
                                 break;
                                 // This is the new MVC approach using the Factory Pattern
@@ -181,18 +192,83 @@ public class GraphController {
             //out.println("Drag dropped " + target.toString());
             if (target instanceof Graph) {
                 Graph targetTab = (Graph) target;
-                if (source instanceof NodeView) {
-                    NodeView sourceNode = (NodeView) source;
-                    event.getTransferMode();
-                    switch (ToolBarController.getSelectedTool()) {
-                        case movetree: //moveTree(sourceNode, x, y);
-                            break;
-                        case moveone:
-                            break;
-                        //case copy:
-                            //NodeView sn = nodeFactory.makeNode(NodeFactory.NodeType.MVC, x, y).getModel().getView();
-                            //targetTab.getChildren().add(sn);
-                            //break;
+                if (source instanceof AbstractNodeView) {   
+                    if (event.getTransferMode() == TransferMode.COPY) {
+                        uk.co.corductive.msc.network.node.AbstractNodeController controller;
+                        uk.co.corductive.msc.mvc.AbstractView view;
+                        
+                        Dragboard db = event.getDragboard();
+                        switch (ToolBarController.getSelectedTool()) {
+                            case copy:
+                                controller = factory.createNode();
+                                view = controller.getView();        
+                                controller.getModel().setX(event.getX());
+                                controller.getModel().setY(event.getY());
+                                controller.getModel().setValue((String) db.getContent(DataFormat.PLAIN_TEXT));
+                                targetTab.getChildren().add(view);
+                                break;
+                            case copytree:
+                                JSONObject jObject = (JSONObject) db.getContent(AbstractModel.dataFormat);
+                                Map<String, String> nameMap = new HashMap<>();
+                                
+                                JSONObject root = jObject.getJSONObject("root");
+                                double rootX = root.getDouble("x");
+                                double rootY = root.getDouble("y");
+                                controller = factory.createNode();
+                                view = controller.getView();        
+                                controller.getModel().setX(event.getX());
+                                controller.getModel().setY(event.getY());
+                                controller.getModel().setValue(root.getString("value"));
+                                //controller.getModel().setName(root.getString("name")+"cpy");
+                                nameMap.put(root.getString("name"), controller.getModel().getName());
+                                targetTab.getChildren().add(view);
+                                
+                                JSONArray array = jObject.getJSONArray("nodes");
+                                for (int i=0; i<array.length(); i++) {
+                                    JSONObject node = array.getJSONObject(i);
+                                    controller = factory.createNode();
+                                    view = controller.getView();        
+                                    controller.getModel().setX(event.getX() + (node.getDouble("x")) - rootX);
+                                    controller.getModel().setY(event.getY() + (node.getDouble("y")) - rootY);
+                                    controller.getModel().setValue(node.getString("value"));
+                                    //controller.getModel().setName(node.getString("name")+"cpy");
+                                    nameMap.put(node.getString("name"), controller.getModel().getName());
+                                    targetTab.getChildren().add(view);
+                                }
+                                
+                                /* add connections */
+                                JSONArray jLinks = jObject.optJSONArray("connections");
+                                
+                                if (jLinks!=null) {
+                                    System.out.println(jLinks.toString(4));
+                                    for (int i=0; i<jLinks.length(); i++) {
+                                        JSONObject link = jLinks.getJSONObject(i);
+                                        AbstractNodeController cont1 = null, cont2 = null;
+                                        String name1 = nameMap.get(link.getString("node1"));
+                                        String name2 = nameMap.get(link.getString("node2"));
+                                        List<Node> nodes = targetTab.getChildren();
+                                        for (Node n: nodes) {
+                                            if (n instanceof AbstractNodeView) {
+                                                if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
+                                                    cont1 = ((AbstractNodeView)n).getController();
+                                                } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
+                                                    cont2 = ((AbstractNodeView)n).getController();
+                                                }  
+                                            }
+                                        }
+                                        String opString = link.getString("operator");
+                                        Operation op = AbstractConnectionModel.stringOperation(opString);
+                                        if (cont1==null || cont2 ==null) {
+                                            System.err.println("Null node controller");
+                                        } else {
+                                            AbstractConnectionController connController = factory.createConnection(cont1, cont2, op);
+                                            factory.initConnection(connController, (Pane) targetTab);
+                                            System.out.println("Copy complete.");
+                                        }
+                                    }
+                                }
+                                break;
+                        }
                     }
                 } 
             }

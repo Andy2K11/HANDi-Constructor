@@ -17,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
+import mscproject.graph.ScrollTab;
 
 /**
  *
@@ -44,7 +45,10 @@ public class UIController implements Initializable {
 
     @FXML
     private void handleMouseClicked(MouseEvent event) {
-        System.out.println("Mouse clicked: Project Handler\n" + event.getSource().getClass().getName());
+        if (event.getClickCount() > 1) {
+            diagramtabs.getSelectionModel().getSelectedItem().getGraphic().setDisable(false);
+        }
+        event.consume();
     }
     
     /*
@@ -55,7 +59,7 @@ public class UIController implements Initializable {
     private void handleKeyPressed(KeyEvent event) {
         //MScProjectViewController.keyCode = event.getCode();
         System.err.println("Handle key: " + this.getClass().getName());
-        toolbar.getOnKeyPressed().handle(event);
+        //toolbar.getOnKeyPressed().handle(event);
         event.consume();
     }    
     
@@ -80,6 +84,8 @@ public class UIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menuController.setDiagramTabs(diagramtabs);
+        diagramtabs.getTabs().add(new ScrollTab());
+       
         /*menu.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

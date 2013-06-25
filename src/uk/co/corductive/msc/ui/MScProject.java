@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,10 +25,12 @@ import loginfxml.MScLogin.Loginable;
 public class MScProject extends Application implements Loginable {
 
     private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("he-icon.png"));    
-    String username = null;
-    Stage stage = null;
-    Locale locale = null;
-    Parent root = null;
+    private String username = null;
+    private Stage stage = null;
+    private Locale locale = null;
+    private Parent root = null;
+    
+    static String globalUser;
     
     /**
      * Read in any parameters set.
@@ -52,8 +55,7 @@ public class MScProject extends Application implements Loginable {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        //Locale britishEnglish = Locale.UK;
-        //Locale locale = new Locale("en", "GB", "Test");
+        
         ResourceBundle bundle = ResourceBundle.getBundle("resources.bundle", locale);
         root =  FXMLLoader.load(getClass().getResource("UI.fxml"), bundle);
         
@@ -61,7 +63,7 @@ public class MScProject extends Application implements Loginable {
         stage.setTitle(bundle.getString("title"));
         stage.getIcons().add(ICON_32);
         stage.setScene(scene);
-        stage.show();
+        showStage();
     }
 
     /*
@@ -71,19 +73,29 @@ public class MScProject extends Application implements Loginable {
      */
     private void showStage() {
         if (username!=null && stage!=null) {
-            stage.show();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                   stage.show();
+                   stage.setTitle(stage.getTitle()  + " : " + username);
+                } 
+            });
+            
         }
     }
     
     
     @Override
-    public void setUser(String username, Locale locale) {
-        this.username = username; 
-        this.locale = locale;
-        //showStage();
-        System.out.println(username);
+    public void setUser(String username) {
+        this.username = username;
+        MScProject.globalUser = username.substring(0, Math.min(8, username.length()));
+        showStage();
+        System.out.println(username + " passed to application:" + globalUser);
     }
         
+    public static String getGlobalUser() {
+        return globalUser;
+    }
     
     /**
      * The main() method is ignored in correctly deployed JavaFX application.

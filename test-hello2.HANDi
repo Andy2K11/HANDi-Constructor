@@ -1,0 +1,71 @@
+{
+    "title": "hello2",
+    "nodes": [
+        {
+            "name": "node_1cpycpy",
+            "value": "Hello",
+            "y": 179,
+            "x": 121
+        },
+        {
+            "name": "node_2cpy",
+            "value": "0.0",
+            "y": 251,
+            "x": 71
+        },
+        {
+            "name": "node_3cpycpy",
+            "value": "0.0",
+            "y": 247,
+            "x": 170
+        },
+        {
+            "name": "node_1cpycpy",
+            "value": "Hello",
+            "y": 180,
+            "x": 384
+        },
+        {
+            "name": "node_3cpycpy",
+            "value": "0.0",
+            "y": 248,
+            "x": 433
+        },
+        {
+            "name": "node_2cpy",
+            "value": "0.0",
+            "y": 252,
+            "x": 334
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_1cpycpy",
+            "name": "node_1cpycpy-node_2cpy",
+            "node2": "node_2cpy",
+            "operator": "ADDITION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1cpycpy",
+            "name": "node_1cpycpy-node_3cpycpy",
+            "node2": "node_3cpycpy",
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1cpycpy",
+            "name": "node_1-node_2",
+            "node2": "node_2cpy",
+            "operator": "ADDITION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1cpycpy",
+            "name": "node_1-node_3",
+            "node2": "node_3cpycpy",
+            "operator": "MULTIPLICATION"
+        }
+    ]
+}

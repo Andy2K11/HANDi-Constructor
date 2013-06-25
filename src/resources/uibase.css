@@ -1,0 +1,52 @@
+/* 
+    Document   : uibase
+    Created on : 24-Jun-2013, 10:08:25
+    Author     : Andy Keavey
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.root {
+    -fx-base: dimgray;
+    -fx-font-family: "sans-serif";
+}
+
+.menu-bar {
+    -fx-base: darkolivegreen;
+}
+
+.menu-bar .menu-button:hover,  .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background-color: olive;
+}
+
+.flowpane {
+    -fx-background-color: dimgray;
+}
+
+.scroll-pane {
+    -fx-background-color: linen;
+}
+
+.tab-pane {
+    -fx-background-color: dimgray;
+}
+
+.tab:selected {
+    -fx-background-color: linear-gradient(white, linen);
+}
+
+.tab .text-field {
+    -fx-background-color: transparent;
+}
+
+.link {
+    -fx-stroke: darkolivegreen;
+}
+
+.node {
+    -fx-fill: dimgray;
+}
+
+.node:hover {
+    -fx-fill: blue;
+}

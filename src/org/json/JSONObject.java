@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
@@ -93,7 +94,7 @@ import java.util.Set;
  * @author JSON.org
  * @version 2012-12-01
  */
-public class JSONObject {
+public class JSONObject implements Serializable {
     /**
      * The maximum number of keys in the key pool.
      */

@@ -1,9 +1,12 @@
 package uk.co.corductive.msc.network.node;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.mvc.AbstractController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionController;
-import uk.co.corductive.msc.network.connection.AbstractConnectionView;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -14,7 +17,10 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import mscproject.graph.Graph;
+import javafx.scene.layout.Pane;
+import org.json.JSONObject;
+import uk.co.corductive.msc.mvc.AbstractModel;
+import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
 import uk.co.corductive.msc.network.connection.NetworkConnection;
 import uk.co.corductive.msc.ui.ToolBarController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.copy;
@@ -28,6 +34,8 @@ public abstract class AbstractNodeController extends AbstractController {
     NetworkFactory factory;
     AbstractNodeModel model;
     AbstractNodeView view;
+    
+    private Set<NetworkNode> tree;
     
     protected AbstractNodeController(NetworkFactory factory) {
         super();
@@ -49,8 +57,12 @@ public abstract class AbstractNodeController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if (event.isAltDown()) {
+                    ((NodeView)getView()).toggleValue();
+                }
                 switch(ToolBarController.getSelectedTool()) {
                     case delete: remove();
+                        break;
                 }
                 event.consume();
             }
@@ -75,6 +87,7 @@ public abstract class AbstractNodeController extends AbstractController {
             public void handle(MouseEvent event) {
                 dragOriginX = event.getX();
                 dragOriginY = event.getY();
+                tree = getModel().getSubNodeTree();
                 event.consume();
             }
         };
@@ -90,13 +103,20 @@ public abstract class AbstractNodeController extends AbstractController {
                 double y = event.getSceneY();
                 switch (ToolBarController.getSelectedTool()) {
                         case movetree: //moveTree(sourceNode, x, y);
-                            break;
+                            for (NetworkNode node: tree) {
+                                AbstractNodeModel aNode = (AbstractNodeModel) node;
+                                aNode.setX(aNode.getX() + event.getX());
+                                aNode.setY(aNode.getY() + event.getY());
+                            }
+                            // also moveone
                         case moveone:
                             //((AbstractNodeView)source).getController().getModel().setX(event.getX());
                             //((AbstractNodeView)source).getController().getModel().setY(event.getY());
                             getModel().setX(getModel().getX() + event.getX());
                             getModel().setY(getModel().getY() + event.getY());
                             break;
+                        case copy:
+                            
                     }
                 event.consume();
             }
@@ -109,7 +129,7 @@ public abstract class AbstractNodeController extends AbstractController {
             @Override
             public void handle(MouseEvent event) {
                 ClipboardContent cbc = new ClipboardContent();
-                cbc.putString("");
+                cbc.putString(String.valueOf(getModel().getValue()));
                 Dragboard db;
                 Node source = (Node) event.getSource();
                 switch (ToolBarController.getSelectedTool()) {
@@ -117,6 +137,29 @@ public abstract class AbstractNodeController extends AbstractController {
                     case movetree: //db = source.startDragAndDrop(TransferMode.MOVE);
                         break;
                     case copy: db = source.startDragAndDrop(TransferMode.COPY);
+                        //cbc.putString(getModel().getJSONObject().toString());
+                        db.setContent(cbc);
+                        break;
+                    case copytree: db = source.startDragAndDrop(TransferMode.COPY);
+                        JSONObject j = new JSONObject();
+                        //getModel().setName(getModel().getName()+"cpy");
+                        j.put("root", getModel().getJSONObject());
+                        Set<NetworkNode> ts = getModel().getSubNodeTree();
+                        Set<NetworkConnection> connSet= new HashSet<>();    // using a set will prevent duplicates
+                        for (NetworkNode n: ts) {
+                            AbstractNodeModel nm = (AbstractNodeModel) n;
+                            //nm.setName(nm.getName()+"cpy");     /* new names must be different */
+                            j.append("nodes", nm.getJSONObject() );
+                            List<NetworkConnection> list = nm.getConnections();
+                            for (NetworkConnection nc: list) {
+                                connSet.add(nc);
+                            }
+                        }
+                        for (NetworkConnection nc: connSet) {
+                            j.append("connections", ((AbstractConnectionModel) nc).getJSONObject());
+                        }
+                        
+                        cbc.put(AbstractModel.dataFormat, j);
                         db.setContent(cbc);
                         break;
                     case select: db = source.startDragAndDrop(TransferMode.LINK);
@@ -136,29 +179,20 @@ public abstract class AbstractNodeController extends AbstractController {
             @Override
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
-                db.getContent(DataFormat.RTF);
+                String content = (String) db.getContent(DataFormat.PLAIN_TEXT);
                 if (event.getTransferMode() == TransferMode.LINK) {
                     if (event.getGestureSource() instanceof AbstractNodeView && event.getGestureTarget() instanceof AbstractNodeView) {
                         AbstractNodeView source = (AbstractNodeView) event.getGestureSource();
                         AbstractNodeView target = (AbstractNodeView) event.getGestureTarget();
                         AbstractConnectionController controller 
                                 = factory.createConnection(source.getController(), target.getController(), linkTypeAdapter(ToolBarController.getLinkType()));
-                        
-                        /* Initialize the view with appropriate locations after which observers will
-                         take care of everything. */
-                        AbstractConnectionView view = controller.getView();
-                        view.getPath().setStartX(source.getController().getModel().getX());
-                        view.getPath().setStartY(source.getController().getModel().getY());
-                        view.getPath().setEndX(target.getController().getModel().getX());
-                        view.getPath().setEndY(target.getController().getModel().getY());
-                        view.getPath().setControlX(target.getController().getModel().getX());
-                        view.getPath().setControlY(source.getController().getModel().getY());
-                        view.getPath().updateLayout();
-                        view.getNegate().setLayoutX(view.getPath().getMiddleX());
-                        view.getNegate().setLayoutY(view.getPath().getMiddleY());
-                        view.getNegate().setVisible(controller.getModel().isNegated());
-                        ((Graph)source.getParent()).getChildren().add(view);
-                        view.toBack();
+                        factory.initConnection(controller, (Pane)source.getParent());
+                    }
+                } else if (event.getTransferMode() == TransferMode.COPY) {
+                    switch (ToolBarController.getSelectedTool()) {
+                        case copy: 
+                            
+                            
                     }
                 }
                 event.consume();
@@ -191,5 +225,7 @@ public abstract class AbstractNodeController extends AbstractController {
             default: return Operation.NONE;
         }
     }
+    
+    
     
 }

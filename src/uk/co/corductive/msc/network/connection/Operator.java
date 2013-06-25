@@ -15,6 +15,7 @@ public interface Operator {
     
     public Operation getOperation();
     public void setOperation(Operation operator);
+    //public Operation stringOperation(String opString);
     public boolean isNegated();
     public void negate();
     public BooleanProperty negateProperty();

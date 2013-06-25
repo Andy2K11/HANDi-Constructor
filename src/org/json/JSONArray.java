@@ -25,6 +25,7 @@ package org.json;
  */
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Array;
@@ -79,7 +80,7 @@ import java.util.Map;
  * @author JSON.org
  * @version 2012-11-13
  */
-public class JSONArray {
+public class JSONArray implements Serializable {
 
     /**
      * The arrayList where the JSONArray's properties are kept.

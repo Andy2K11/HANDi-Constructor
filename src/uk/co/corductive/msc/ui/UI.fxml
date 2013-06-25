@@ -10,32 +10,30 @@
 <?import javafx.scene.control.ToggleGroup?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
       fx:controller="uk.co.corductive.msc.ui.UIController"
-      stylesheets="resources/red.css"
+      stylesheets="resources/uibase.css"
       minHeight="600" 
       minWidth="600" 
       onKeyPressed="#handleKeyPressed"
       onKeyReleased="#handleKeyReleased"
-      onMouseClicked="#handleMouseClicked"
       >
+    <!--stylesheets="resources/style.css"-->
     <top>
         <fx:include fx:id="menu" source="MenuBar.fxml" />
     </top>
     <center>
         <AnchorPane id="AnchorPane" 
-                    styleClass="anchorpane"
-                    onMouseClicked="#handleMouseClicked">
+                    styleClass="anchorpane">
             <children>
                 <fx:include fx:id="toolbar" source="ToolBar.fxml"
                             AnchorPane.leftAnchor="0.0" 
-                            AnchorPane.topAnchor="30.0" 
+                            AnchorPane.topAnchor="0.0" 
                             AnchorPane.bottomAnchor="0.0" />
                 <TabPane fx:id="diagramtabs"
-                         AnchorPane.leftAnchor="85.0" 
+                         AnchorPane.leftAnchor="124.0" 
                          AnchorPane.rightAnchor="0.0" 
                          AnchorPane.topAnchor="0.0"
                          AnchorPane.bottomAnchor="0.0"
-                         onMouseClicked="#handleMouseClicked"
-                         >
+                         onMouseClicked="#handleMouseClicked">
                     <!-- Tabs loaded programatically -->
                 </TabPane>
             </children>

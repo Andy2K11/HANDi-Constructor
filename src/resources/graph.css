@@ -1,0 +1,12 @@
+/* 
+    Document   : graph
+    Created on : 24-Jun-2013, 11:35:31
+    Author     : Andy Keavey
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.link {
+    -fx-stroke-width: 4px;
+}
+

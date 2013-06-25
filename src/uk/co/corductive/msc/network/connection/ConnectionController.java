@@ -4,6 +4,7 @@
  */
 package uk.co.corductive.msc.network.connection;
 
+import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 
 /**
@@ -12,9 +13,9 @@ import uk.co.corductive.msc.network.node.AbstractNodeController;
  */
 public class ConnectionController extends AbstractConnectionController {
     
-    public ConnectionController(AbstractNodeController node1, AbstractNodeController node2) {
+    public ConnectionController(AbstractNodeController node1, AbstractNodeController node2, Operation operator) {
         super(node1, node2);
-        this.model = new ConnectionModel(node1.getModel(), node2.getModel());
+        this.model = new ConnectionModel(node1.getModel(), node2.getModel(), operator);
         this.view = new ConnectionView(this);
     }
 

@@ -1,0 +1,45 @@
+{
+    "title": "name2",
+    "nodes": [
+        {
+            "name": "node_1cpy",
+            "value": "x",
+            "y": 131,
+            "x": 63
+        },
+        {
+            "name": "node_2cpy",
+            "value": "y",
+            "y": 222,
+            "x": 108
+        },
+        {
+            "name": "node_1cpy",
+            "value": "x",
+            "y": 130,
+            "x": 283
+        },
+        {
+            "name": "node_2cpy",
+            "value": "y",
+            "y": 221,
+            "x": 328
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_1cpy",
+            "name": "node_1cpy-node_2cpy",
+            "node2": "node_2cpy",
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": true,
+            "node1": "node_1cpy",
+            "name": "node_1-node_2",
+            "node2": "node_2cpy",
+            "operator": "MULTIPLICATION"
+        }
+    ]
+}

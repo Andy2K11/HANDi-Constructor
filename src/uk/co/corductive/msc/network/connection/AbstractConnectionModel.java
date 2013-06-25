@@ -12,12 +12,20 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     protected Operation operator;
     AbstractNodeModel node1, node2;
     BooleanProperty negate = new SimpleBooleanProperty(false);
+    BooleanProperty directional = new SimpleBooleanProperty(false);
+    BooleanProperty directionReversed = new SimpleBooleanProperty(false);
+    JSONObject jSONObject = new JSONObject();
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operator) {
         super();
         this.node1 = node1;
         this.node2 = node2;
         this.operator = operator;
+        setName(node1.getName() + "-" + node2.getName());
+    }
+    
+    protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, String operator) {
+        this(node1, node2, Operation.NONE);
     }
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2) {
@@ -32,6 +40,15 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     @Override
     public void setOperation(Operation operator) {
         this.operator = operator;
+    }
+    
+    public static Operation stringOperation(String opString){
+        switch(opString) {
+            case "EQUALITY": return Operation.EQUALITY;
+            case "MULTIPLICATION": return Operation.MULTIPLICATION;
+            case "ADDITION": return Operation.ADDITION;
+            default: return Operation.NONE;
+        }
     }
     
     @Override
@@ -50,11 +67,6 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     }
 
     @Override
-    public JSONObject getJSONObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public AbstractNodeModel getNode1() {
         return node1;
     }
@@ -63,22 +75,46 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     public AbstractNodeModel getNode2() {
         return node2;
     }
-
+    
     @Override
-    public boolean isBiDirectional() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AbstractNodeModel getOtherNode(NetworkNode node) {
+        if ( node.equals(getNode1()) ) {
+            return getNode2();
+        } else {
+            return getNode1();
+        } 
     }
 
     @Override
-    public boolean directionReversed() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isDirectional() {
+        return directional.get();
+    }
+
+    @Override
+    public void setDirectional(boolean direction) {
+        this.directional.set(direction);
+    }
+    
+    @Override
+    public boolean isDirectionReversed() {
+        return directionReversed.get();
     }
 
     @Override
     public void changeDirection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        directionReversed.set(!isDirectionReversed());
     }
 
+    @Override
+    public boolean isParent(NetworkNode node) {
+        if (this.isDirectional()) {
+            if ( (node.equals(getNode1()) && !isDirectionReversed()) || (node.equals(getNode2()) && isDirectionReversed()) ) {
+                return true;
+            }
+        } 
+        return false;
+    }
+    
     @Override
     public void makeConnection() {
         node1.addConnection(this);

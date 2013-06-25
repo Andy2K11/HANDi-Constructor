@@ -25,11 +25,11 @@ import javafx.scene.input.TransferMode;
  */
 public class ToolBarController implements Initializable {
     
-    @FXML private ToggleButton create, moveone, movetree, copy, delete;
+    @FXML private ToggleButton create, moveone, movetree, copy, copytree, delete;
     @FXML private ToggleButton node1button;
     @FXML private static ToggleGroup toolselect, linkselect, nodeselect;
     
-    public static enum Tool {select, create, moveone, movetree, copy, delete}
+    public static enum Tool {select, create, moveone, movetree, copy, copytree, delete}
     static Tool tool = Tool.select;
     
     public static Tool getSelectedTool() {
@@ -92,7 +92,7 @@ public class ToolBarController implements Initializable {
                 selectTool();
                 break;
         }
-        UIController.setStatus("Key: " + event.getCode().getName());
+        //UIController.setStatus("Key: " + event.getCode().getName());
         event.consume();
     }
     

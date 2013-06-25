@@ -10,11 +10,10 @@
     -fx-background-color: #333333;
     -fx-hgap: 0px;
     -fx-vgap: 0px;
-    -fx-padding: 0px;   /* make flush with window edges */
-    -fx-focused-base: red; 
+    -fx-padding: 0px;   /* make flush with window edges */ 
 }
 
-.menu-bar{
+.menu-bar {
     -fx-base: darkolivegreen;
 }
 
@@ -31,6 +30,12 @@
 }
 
 .tab {
+    -fx-background-color: linear-gradient(#333333, linen);
+    -fx-background-insets: 0 10px 0 0;
+    -fx-padding: 0 10px 0 0;
+}
+
+.tab:selected {
     -fx-background-color: linear-gradient(navajowhite, linen);
 }
 

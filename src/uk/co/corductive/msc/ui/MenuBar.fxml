@@ -12,8 +12,7 @@
 <MenuBar 
         xmlns:fx="http://javafx.com/fxml" 
         fx:controller="uk.co.corductive.msc.ui.MenuBarController"
-        stylesheets="resources/style.css"
-        prefHeight="50">
+        >
     <Menu text="%menubar.file">
         <MenuItem text="%menubar.file.new" onAction="#handleNewDiagram" />
         <MenuItem text="%menubar.file.save" onAction="#handleSaveDiagram" />
@@ -21,12 +20,6 @@
         <CheckMenuItem text="%menubar.file.finish" />
         <SeparatorMenuItem />
         <MenuItem text="%menubar.file.exit" onAction="#handleExit" />
-    </Menu>
-    <Menu text="%menubar.options">
-        <Menu text="%menubar.options.mode" >
-            <MenuItem text="%menubar.options.mode.design" />
-            <MenuItem text="%menubar.options.mode.experiment" />
-        </Menu>
     </Menu>
     <Menu text="%menubar.help">
         <MenuItem text="Task Instructions" />

@@ -4,20 +4,31 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
+import mscproject.graph.Graph;
 import mscproject.graph.ScrollTab;
-import mscproject.graph.model.NodeModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import uk.co.corductive.msc.factory.HandiNetworkFactory;
+import uk.co.corductive.msc.factory.NetworkFactory;
+import uk.co.corductive.msc.mvc.AbstractView;
+import uk.co.corductive.msc.network.connection.AbstractConnectionController;
+import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
+import uk.co.corductive.msc.network.connection.AbstractConnectionView;
+import uk.co.corductive.msc.network.connection.Operator.Operation;
+import uk.co.corductive.msc.network.node.AbstractNodeController;
+import uk.co.corductive.msc.network.node.AbstractNodeView;
 
 /**
  *
@@ -34,11 +45,8 @@ public class MenuBarController implements Initializable {
     
     @FXML
     private void handleNewDiagram(ActionEvent event) {
-        //DiagramModel diagram = new DiagramModel().createView("Test Diagram");
-        //TabDiagram tabDiagram = new TabDiagram();
-        //diagramtabs.getTabs().add(tabDiagram.getTab());
-        ScrollTab st = new ScrollTab();
         try {
+            ScrollTab st = new ScrollTab();
             diagramtabs.getTabs().add(st);
         } catch (NullPointerException ex) {
             System.err.println(ex);
@@ -51,77 +59,84 @@ public class MenuBarController implements Initializable {
         if (activeTab instanceof ScrollTab) {
             ScrollTab st = (ScrollTab) activeTab;
             diagramtabs.setCursor(Cursor.HAND);
-            //st.getGraph().saveDiagram();
+            st.getGraph().saveGraph();
         }    
     }
     
     @FXML
     private void handleLoadDiagram(ActionEvent event)  {
+        AbstractNodeController nodeController;
+        AbstractConnectionController connController;
+        
+        NetworkFactory factory = new HandiNetworkFactory();
+        
         //file select stuff here
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File(System.getProperty("user.dir")));
         File loadFile = fc.showOpenDialog(null);
         
-        ScrollTab st = new ScrollTab("Loaded_Diagram");
+        ScrollTab st = new ScrollTab("Loading...");
         diagramtabs.getTabs().add(st);
         diagramtabs.getSelectionModel().select(st);
         //File loadFile = new File("diagram_1.HANDi");
-        /*
+        
         try {
             FileReader fr = new FileReader(loadFile);
             JSONTokener jToken = new JSONTokener(fr);
             JSONObject jObj = new JSONObject(jToken);
-            String title = jObj.getString("Title");
-            JSONArray jNodes = jObj.getJSONArray("Nodes");
-            for (int i=0; i<jNodes.length(); i++) {
-                JSONObject jNode = jNodes.getJSONObject(i);
-                nodeFactory
-                st.getGraph().getChildren().add(new NodeModel(jNode.optDouble("X"), jNode.optDouble("Y"), jNode.getString("Name")));
+            String title = jObj.getString("title");
+            st.setName(title);
+            /* add nodes */
+            JSONArray jNodes = jObj.optJSONArray("nodes");
+            if (jNodes!=null) {
+                for (int i=0; i<jNodes.length(); i++) {
+                    AbstractView view;
+                    JSONObject node = jNodes.getJSONObject(i);
+                    String value = node.getString("value");
+                    nodeController = factory.createNode();
+                    view = nodeController.getView();        
+                    nodeController.getModel().setX(node.getDouble("x"));
+                    nodeController.getModel().setY(node.getDouble("y"));
+                    nodeController.getModel().setValue(value);
+                    nodeController.getModel().setName(node.getString("name"));
+
+                    st.getGraph().getChildren().add(view);
+                }
             }
-            //for (int i=0; i<jNodes.length(); i++) {
-                 //JSONObject jNode = jNodes.getJSONObject(i);
-                 //JSONArray links = jNode.optJSONArray("Links");
-                JSONArray jLinks = jObj.getJSONArray("Links");
-                if (!(jLinks==null)) {
-                    for (int j=0; j<jLinks.length(); j++) {
-                        JSONObject jLink = jLinks.getJSONObject(j);
-                        String node1String = jLink.getString("Node1");
-                        String node2String = jLink.getString("Node2");
-                        //search for node objects
-                        /*
-                        SimpleNode node1 = null, node2 = null;
-                        for (Node n: st.getGraph().getChildren()) {
-                            if (n instanceof SimpleNode) {
-                                SimpleNode seekNode = (SimpleNode) n;
-                                if (seekNode.getName().equals(node1String)) {
-                                    node1 = seekNode;
-                                } else if (seekNode.getName().equals(node2String)) {
-                                    node2 = seekNode;
-                                }
-                            }
-                        }
-                        if (node1!=null && node2!=null) {
-                            AbstractLink link = new MultiLink(node1, node2).add();
-                            st.getGraph().getChildren().add(link);
-                            link.toBack();
-                        }
-                        String type = jLink.getString("Type");
-                        if (type.equals("MultiLink")) {
-                        //    st.getGraph().getChildren().add(new MultiLink())
+            
+            /* add connections */
+            JSONArray jLinks = jObj.optJSONArray("connections");
+            if (jLinks!=null) {
+                for (int i=0; i<jLinks.length(); i++) {
+                    JSONObject link = jLinks.getJSONObject(i);
+                    AbstractNodeController cont1 = null, cont2 = null;
+                    String name1 = link.getString("node1");
+                    String name2 = link.getString("node2");
+                    List<Node> nodes = st.getGraph().getChildren();
+                    for (Node n: nodes) {
+                        if (n instanceof AbstractNodeView) {
+                            if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
+                                cont1 = ((AbstractNodeView)n).getController();
+                            } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
+                                cont2 = ((AbstractNodeView)n).getController();
+                            }  
                         }
                     }
-                 } else {
-                     JSONObject jLink = jObj.optJSONObject("Links");
-                     String node1String = jLink.getString("Node1");
-                     String node2String = jLink.getString("Node2");
-                 }
-            //}
-            st.setText(title);
-            System.err.println(jObj.toString(4));
+                    Operation op = AbstractConnectionModel.stringOperation(link.getString("operator"));
+                    if (cont1==null || cont2 ==null) {
+                        System.err.println("Null node controller");
+                    } else {
+                        connController = factory.createConnection(cont1, cont2, op);
+                        factory.initConnection(connController, st.getGraph());
+                    }
+                }
+                st.setText(title);
+                //System.err.println(jObj.toString(4));
+            }
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
-        }*/
-        //st.getGraph().getChildren().add(new SimpleNode(300.0, 250.0));
+        }
+        
         
     }
     

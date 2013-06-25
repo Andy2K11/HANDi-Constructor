@@ -1,0 +1,44 @@
+{
+    "title": "time",
+    "nodes": [
+        {
+            "name": "node_1",
+            "value": "0.0",
+            "date": 1372196652778,
+            "y": 133,
+            "x": 182
+        },
+        {
+            "name": "node_2",
+            "value": "0.0",
+            "date": 1372196653216,
+            "y": 182,
+            "x": 136
+        },
+        {
+            "name": "node_3",
+            "value": "0.0",
+            "date": 1372196654326,
+            "y": 180,
+            "x": 209
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_3",
+            "node2": "node_3",
+            "date": 1372196666098,
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_2",
+            "node2": "node_2",
+            "date": 1372196664058,
+            "operator": "MULTIPLICATION"
+        }
+    ]
+}

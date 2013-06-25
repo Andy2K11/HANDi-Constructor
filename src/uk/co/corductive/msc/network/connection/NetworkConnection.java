@@ -13,9 +13,13 @@ import uk.co.corductive.msc.network.node.NetworkNode;
 public interface NetworkConnection {
     public NetworkNode getNode1();
     public NetworkNode getNode2();
-    public boolean isBiDirectional();
-    public boolean directionReversed();
+    public NetworkNode getOtherNode(NetworkNode node);
+    
+    public boolean isDirectional();
+    public void setDirectional(boolean direction);
+    public boolean isDirectionReversed();     // is node2 parent instead of node1
     public void changeDirection();
+    public boolean isParent(NetworkNode node);
     
     public void makeConnection();
     public void removeConnection();

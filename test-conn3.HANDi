@@ -1,0 +1,109 @@
+{
+    "title": "conn3",
+    "nodes": [
+        {
+            "name": "node_1",
+            "value": "a",
+            "y": 96,
+            "x": 101
+        },
+        {
+            "name": "node_2",
+            "value": "b",
+            "y": 97,
+            "x": 264
+        },
+        {
+            "name": "node_3",
+            "value": "c",
+            "y": 167,
+            "x": 100
+        },
+        {
+            "name": "node_4",
+            "value": "d",
+            "y": 228,
+            "x": 65
+        },
+        {
+            "name": "node_5",
+            "value": "e",
+            "y": 230,
+            "x": 142
+        },
+        {
+            "name": "node_11",
+            "value": "c",
+            "y": 160,
+            "x": 288
+        },
+        {
+            "name": "node_12",
+            "value": "d",
+            "y": 221,
+            "x": 253
+        },
+        {
+            "name": "node_13",
+            "value": "c",
+            "y": 201,
+            "x": 465
+        },
+        {
+            "name": "node_14",
+            "value": "d",
+            "y": 262,
+            "x": 430
+        },
+        {
+            "name": "node_15",
+            "value": "e",
+            "y": 264,
+            "x": 507
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_13",
+            "name": "node_13-node_15",
+            "node2": "node_15",
+            "operator": "NONE"
+        },
+        {
+            "negate": false,
+            "node1": "node_13",
+            "name": "node_13-node_14",
+            "node2": "node_14",
+            "operator": "NONE"
+        },
+        {
+            "negate": false,
+            "node1": "node_3",
+            "name": "node_3-node_5",
+            "node2": "node_5",
+            "operator": "ADDITION"
+        },
+        {
+            "negate": false,
+            "node1": "node_3",
+            "name": "node_3-node_4",
+            "node2": "node_4",
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_3",
+            "node2": "node_3",
+            "operator": "NONE"
+        },
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_2",
+            "node2": "node_2",
+            "operator": "EQUALITY"
+        }
+    ]
+}

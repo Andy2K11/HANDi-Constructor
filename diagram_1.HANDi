@@ -1,77 +1,52 @@
 {
-    "Links": [
+    "title": "diagram_1",
+    "nodes": [
         {
-            "Node2": "node9",
-            "Type": "DropLink",
-            "Node1": "node8"
+            "name": "node_1",
+            "value": "1.0",
+            "y": 80,
+            "x": 137
         },
         {
-            "Node2": "node2",
-            "Type": "DropLink",
-            "Node1": "node1"
+            "name": "node_2",
+            "value": "2.0",
+            "y": 125,
+            "x": 137
         },
         {
-            "Node2": "node3",
-            "Type": "DropLink",
-            "Node1": "node0"
+            "name": "node_3",
+            "value": "3.1",
+            "y": 190,
+            "x": 92
+        },
+        {
+            "name": "node_4",
+            "value": "3.2",
+            "y": 180,
+            "x": 188
         }
     ],
-    "Nodes": [
+    "connections": [
         {
-            "Name": "node0",
-            "Y": 122,
-            "X": 173
+            "negate": false,
+            "node1": "node_2",
+            "name": "node_2-node_4",
+            "node2": "node_4",
+            "operator": "NONE"
         },
         {
-            "Name": "node1",
-            "Y": 124,
-            "X": 336
+            "negate": false,
+            "node1": "node_2",
+            "name": "node_2-node_3",
+            "node2": "node_3",
+            "operator": "NONE"
         },
         {
-            "Name": "node2",
-            "Y": 188,
-            "X": 338
-        },
-        {
-            "Name": "node3",
-            "Y": 183,
-            "X": 171
-        },
-        {
-            "Name": "node4",
-            "Y": 254,
-            "X": 104
-        },
-        {
-            "Name": "node5",
-            "Y": 264,
-            "X": 208
-        },
-        {
-            "Name": "node6",
-            "Y": 263,
-            "X": 303
-        },
-        {
-            "Name": "node7",
-            "Y": 262,
-            "X": 379
-        },
-        {
-            "Name": "node8",
-            "Y": 118,
-            "X": 530
-        },
-        {
-            "Name": "node9",
-            "Y": 183,
-            "X": 531
-        },
-        {
-            "Name": "node10",
-            "Y": 260,
-            "X": 528
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_2",
+            "node2": "node_2",
+            "operator": "NONE"
         }
-    ],
-    "Title": "diagram_1"
+    ]
 }

@@ -10,6 +10,6 @@ package uk.co.corductive.msc.network.node;
  * @author Andy
  */
 public interface Operand {
-    public double getValue();
-    public void setValue(double value);
+    public String getValue();
+    public void setValue(String value);
 }

@@ -1,0 +1,65 @@
+{
+    "title": "conn2",
+    "nodes": [
+        {
+            "name": "node_1",
+            "value": "a",
+            "y": 96,
+            "x": 101
+        },
+        {
+            "name": "node_2",
+            "value": "b",
+            "y": 97,
+            "x": 264
+        },
+        {
+            "name": "node_3",
+            "value": "c",
+            "y": 152,
+            "x": 97
+        },
+        {
+            "name": "node_4",
+            "value": "d",
+            "y": 213,
+            "x": 62
+        },
+        {
+            "name": "node_5",
+            "value": "e",
+            "y": 212,
+            "x": 147
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_2",
+            "node2": "node_2",
+            "operator": "EQUALITY"
+        },
+        {
+            "negate": true,
+            "node1": "node_1",
+            "name": "node_1-node_3",
+            "node2": "node_3",
+            "operator": "NONE"
+        },
+        {
+            "negate": false,
+            "node1": "node_3",
+            "name": "node_3-node_4",
+            "node2": "node_4",
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_3",
+            "name": "node_3-node_5",
+            "node2": "node_5",
+            "operator": "ADDITION"
+        }
+    ]
+}
