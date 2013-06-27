@@ -21,8 +21,6 @@ import javafx.scene.layout.Pane;
 import mscproject.graph.Graph;
 import uk.co.corductive.msc.ui.ToolBarController;
 
-import mscproject.graph.factory.NodeFactory;
-import mscproject.graph.view.Routable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.corductive.msc.mvc.AbstractModel;
@@ -46,9 +44,6 @@ public class GraphController {
         this.graph = graph;
     }
     
-    
-    static NodeFactory nodeFactory = new NodeFactory();
-    //private Pane graph;
 
 /*****************************MOUSE EVENTS***************************************/    
     
@@ -124,10 +119,6 @@ public class GraphController {
         @Override
         public void handle(MouseEvent event) {
             double oldx = 0;
-/***** To Do ************/            
-            if (event.getSource() instanceof Routable) {
-                //oldx = ((Routable)event.getSource());
-            }
             ClipboardContent cbc = new ClipboardContent();
             cbc.putString(String.valueOf(event.getX()-oldx));
             Dragboard db;
@@ -277,22 +268,5 @@ public class GraphController {
     
 /********************************HELPERS**************************************/   
     
-    /*
-    private static void moveTree(SimpleNode sourceNode, double x, double y) {
-        double rootNodeX = sourceNode.getLayoutX();
-        double rootNodeY = sourceNode.getLayoutY();
-        for (Node node: sourceNode.getSubTree()) {
-            if (node instanceof SimpleNode) {
-                SimpleNode sn = (SimpleNode) node;
-                double diffX = sn.getLayoutX() - rootNodeX;
-                double diffY = sn.getLayoutY() - rootNodeY;
-                sn.setLayoutX(x+diffX);
-                sn.setLayoutY(y+diffY);
-                for (AbstractLink link: sn.getLinkList()) {
-                        link.updateLayout();   
-                }
-            }
-        }        
-    }*/
     
 }

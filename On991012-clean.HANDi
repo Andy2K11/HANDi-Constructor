@@ -1,0 +1,119 @@
+{
+    "title": "clean",
+    "nodes": [
+        {
+            "name": "node_1",
+            "value": "0.0",
+            "date": 1372326088459,
+            "y": 278,
+            "x": 197
+        },
+        {
+            "name": "node_2",
+            "value": "0.0",
+            "date": 1372326089321,
+            "y": 336,
+            "x": 148
+        },
+        {
+            "name": "node_3",
+            "value": "0.0",
+            "date": 1372326090187,
+            "y": 338,
+            "x": 230
+        },
+        {
+            "name": "node_4",
+            "value": "0.0",
+            "date": 1372326091263,
+            "y": 206,
+            "x": 193
+        },
+        {
+            "name": "node_5",
+            "value": "0.0",
+            "date": 1372326112311,
+            "y": 201,
+            "x": 410
+        },
+        {
+            "name": "node_6",
+            "value": "0.0",
+            "date": 1372326112311,
+            "y": 273,
+            "x": 414
+        },
+        {
+            "name": "node_7",
+            "value": "0.0",
+            "date": 1372326112312,
+            "y": 331,
+            "x": 365
+        },
+        {
+            "name": "node_8",
+            "value": "0.0",
+            "date": 1372326112312,
+            "y": 333,
+            "x": 447
+        }
+    ],
+    "connections": [
+        {
+            "negate": false,
+            "node1": "node_4",
+            "name": "node_4-node_5",
+            "node2": "node_5",
+            "date": 1372326116461,
+            "operator": "EQUALITY"
+        },
+        {
+            "negate": false,
+            "node1": "node_6",
+            "name": "node_6-node_8",
+            "node2": "node_8",
+            "date": 1372326112315,
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_6",
+            "name": "node_6-node_7",
+            "node2": "node_7",
+            "date": 1372326112314,
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_5",
+            "name": "node_5-node_6",
+            "node2": "node_6",
+            "date": 1372326112314,
+            "operator": "NONE"
+        },
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_3",
+            "node2": "node_3",
+            "date": 1372326102550,
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_1",
+            "name": "node_1-node_2",
+            "node2": "node_2",
+            "date": 1372326100178,
+            "operator": "MULTIPLICATION"
+        },
+        {
+            "negate": false,
+            "node1": "node_4",
+            "name": "node_4-node_1",
+            "node2": "node_1",
+            "date": 1372326096064,
+            "operator": "NONE"
+        }
+    ]
+}
