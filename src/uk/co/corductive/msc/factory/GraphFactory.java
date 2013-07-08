@@ -16,15 +16,18 @@
  */
 package uk.co.corductive.msc.factory;
 
-import uk.co.corductive.msc.network.components.AbstractConnectionPath;
-import uk.co.corductive.msc.network.connection.Operator;
+import mscproject.graph.GraphController;
+import mscproject.graph.ScrollTab;
 
 /**
  *
  * @author Andy Keavey
  */
-public abstract class AbstractComponentFactory {
+public class GraphFactory {
     
-    public abstract AbstractConnectionPath getConnectionPath(Operator.Operation operator);
-    
+    public ScrollTab createGraph() {
+        ScrollTab tab = new ScrollTab();
+        tab.setGraph(new GraphController().getView());
+        return tab;
+    }
 }

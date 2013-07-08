@@ -159,7 +159,7 @@ public abstract class AbstractNodeController extends AbstractController {
                             j.append("connections", ((AbstractConnectionModel) nc).getJSONObject());
                         }
                         
-                        cbc.put(AbstractModel.dataFormat, j);
+                        cbc.put(AbstractModel.JSON_FORMAT, j);
                         db.setContent(cbc);
                         break;
                     case select: db = source.startDragAndDrop(TransferMode.LINK);
@@ -184,9 +184,7 @@ public abstract class AbstractNodeController extends AbstractController {
                     if (event.getGestureSource() instanceof AbstractNodeView && event.getGestureTarget() instanceof AbstractNodeView) {
                         AbstractNodeView source = (AbstractNodeView) event.getGestureSource();
                         AbstractNodeView target = (AbstractNodeView) event.getGestureTarget();
-                        AbstractConnectionController controller 
-                                = factory.createConnection(source.getController(), target.getController(), linkTypeAdapter(ToolBarController.getLinkType()));
-                        factory.initConnection(controller, (Pane)source.getParent());
+                        factory.createConnection(source.getController(), target.getController(), linkTypeAdapter(ToolBarController.getLinkType()), (Pane)source.getParent());
                     }
                 } else if (event.getTransferMode() == TransferMode.COPY) {
                     switch (ToolBarController.getSelectedTool()) {

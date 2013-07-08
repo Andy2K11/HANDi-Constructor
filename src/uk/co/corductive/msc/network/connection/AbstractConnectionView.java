@@ -7,19 +7,31 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.shape.Path;
-import mscproject.graph.Graph;
+import mscproject.graph.GraphView;
 
-public abstract class AbstractConnectionView extends AbstractView {
+public abstract class AbstractConnectionView extends Parent implements AbstractView {
     
     AbstractConnectionPath path;
     AbstractConnectionController controller;
     Path negate;
     
     protected AbstractConnectionView(AbstractConnectionController controller) {
-        super(controller);
         this.controller = controller;
+        
+        this.setOnMouseEntered(controller.getOnMouseEnteredHandler());
+        this.setOnMouseExited(controller.getOnMouseExitedHandler());
+        this.setOnMouseClicked(controller.getOnMouseClickedHandler());
+        this.setOnMousePressed(controller.getOnMousePressedHandler());
+        this.setOnMouseDragged(controller.getOnMouseDraggedHandler());
+        
+        this.setOnDragDetected(controller.getOnDragDetectedHandler());
+        this.setOnDragOver(controller.getOnDragOverHandler());
+        this.setOnDragDropped(controller.getOnDragDroppedHandler());
 
+        this.setOnKeyPressed(controller.getOnKeyPressedHandler());
+        
         AbstractConnectionModel model = controller.getModel();
         model.getNode1().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
@@ -149,7 +161,7 @@ public abstract class AbstractConnectionView extends AbstractView {
         //this.getChildren().remove(this.getNegate());
         //this.getChildren().remove(this.getPath());
         if (this.getParent()!=null) {
-            List<Node> list = ((Graph)this.getParent()).getChildren();
+            List<Node> list = ((GraphView)this.getParent()).getChildren();
             if (list.contains(this)) {
                     list.remove(this);
             }

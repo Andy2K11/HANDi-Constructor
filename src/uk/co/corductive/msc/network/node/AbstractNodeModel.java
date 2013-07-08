@@ -89,7 +89,6 @@ public abstract class AbstractNodeModel extends AbstractModel implements Operand
     public Set<NetworkNode> getSubNodeTree() {
         Set<NetworkNode> tree = new TreeSet<>();
         tree = buildTree(tree);
-        System.out.println("Tree size " + tree.size());
         return tree;
     }
     

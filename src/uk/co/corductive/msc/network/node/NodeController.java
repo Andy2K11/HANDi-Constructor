@@ -17,5 +17,4 @@ public class NodeController extends AbstractNodeController {
         this.model = new NodeModel();
         this.view = new NodeView(this);
     }
-
 }

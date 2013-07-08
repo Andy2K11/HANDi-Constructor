@@ -5,7 +5,6 @@
 package uk.co.corductive.msc.ui;
 
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,8 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.FlowPane;
-import mscproject.graph.ScrollTab;
 
 /**
  *
@@ -28,27 +25,38 @@ public class UIController implements Initializable {
     @FXML private static MenuBar menu;
     @FXML private static MenuBarController menuController;
     @FXML private static TabPane diagramtabs;
-    @FXML private FlowPane toolbar;
-    @FXML private static Label status;
     
     public static boolean delete = false;
     public static KeyCode keyCode = KeyCode.UNDEFINED;
     public static final int NONE = 0;
     public static final int DELETE = 3;
-
-    @FXML private RadioButton link1, link2, link3;
-    private static int linkType = 0;
         
     public static KeyCode getKeyCode() {
         return keyCode;
     }
 
+    /**
+     * Allows the name of the diagram to be changed when the tab header is double clicked.
+     * 
+     * @param event 
+     */
     @FXML
     private void handleMouseClicked(MouseEvent event) {
         if (event.getClickCount() > 1) {
             diagramtabs.getSelectionModel().getSelectedItem().getGraphic().setDisable(false);
         }
         event.consume();
+    }
+    
+    @FXML
+    private void handleDragOver(DragEvent event) {
+        event.acceptTransferModes(TransferMode.ANY);
+        event.getTransferMode();
+        //diagramtabs.getSelectionModel().selectNext();
+        int t = (int) event.getX()/10;
+        if (event.getGestureSource() instanceof Tab) {
+            diagramtabs.getSelectionModel().select(t);
+        }
     }
     
     /*
@@ -73,41 +81,9 @@ public class UIController implements Initializable {
         //keyCode = NONE;
     }
     
-
-    
-    @FXML
-    private void handleDragOver(DragEvent event) {
-        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-        event.consume();
-    }
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menuController.setDiagramTabs(diagramtabs);
-        diagramtabs.getTabs().add(new ScrollTab());
-       
-        /*menu.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                menuController.setDiagramTabs(diagramtabs);
-                System.err.println("Filter set");
-            }
-        });*/
-        
-    }
-    
-    private static LinkedList<String> msgHistory = new LinkedList();
-    public static void setStatus(String msg) {
-        msgHistory.addFirst(msg);
-        if (msgHistory.size()>3) {
-            msgHistory.removeLast();
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String s: msgHistory) {
-            sb.append(s);
-            sb.append("\n");
-        }
-        status.setText(sb.toString());
     }
 
     public static void setCursor(Cursor cursor) {

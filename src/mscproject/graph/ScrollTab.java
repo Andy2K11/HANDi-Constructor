@@ -1,51 +1,64 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2013 Andy Keavey
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package mscproject.graph;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 
 /**
  *
  * @author Andy
  */
 public class ScrollTab extends Tab {
-    private ScrollPane scrollPane;
-    private Graph graph;
-    private static int tabNum = 0;
     private TextField nameField;
+    private ScrollPane scrollPane;
+    private static int tabNum = 0;
+    private final Tab thisTab = this;
     
+    public ScrollTab() {
+        this("diagram_" + (tabNum+1));
+    }
+
     public ScrollTab(final String name) {
         super();
         tabNum++;
+        
         scrollPane = new ScrollPane();
-        graph = new Graph(name);
-        scrollPane.setContent(graph);
         this.setContent(scrollPane);
         
         nameField = new TextField(name);
         this.setGraphic(nameField);
         nameField.setText(name);
         nameField.setPrefColumnCount(name.length());
-
         nameField.setDisable(true);
-     
+
         nameField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                graph.setId(nameField.getText());
                 nameField.setPrefColumnCount(name.length());
-                System.out.println("Diagram name changed");
                 nameField.setDisable(true);
                 event.consume();
             }
@@ -59,28 +72,49 @@ public class ScrollTab extends Tab {
                 }
             }
         });
-        
-        graph.nameProperty().bind(nameField.textProperty());
-        //nameField.textProperty().bind(graph.nameProperty());
-        
-        /* nameField.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent>() {
+        nameField.setOnDragOver(new EventHandler<DragEvent>() {
             @Override
-            public void handle(InputMethodEvent event) {
-                System.out.println("Changing name");
+            public void handle(DragEvent event) {
+                event.acceptTransferModes(TransferMode.ANY);
+                event.getTransferMode();
+                event.consume();
+                getTabPane().getSelectionModel().select(thisTab);
             }
-        }); */
+        });
+        
+        nameField.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                event.acceptTransferModes(TransferMode.ANY);
+                event.getTransferMode();
+                //getTabPane().getSelectionModel().select((Tab)event.getGestureTarget());
+            }
+        });
+        
+        this.setOnClosed(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                // do stuff
+            }
+        });
+        
+    }
+    
+    /**
+     * As setContent is a final method, use this method instead to add a Node to 
+     * a ScrollTab.
+     * 
+     * @param node 
+     */
+    public void setGraph(Node node) {
+        scrollPane.setContent(node);
+    }
+    
+    public Node getGraph() {
+        return scrollPane.getContent();
     }
     
     public void setName(String name) {
         nameField.setText(name);
     }
-    
-    public ScrollTab() {
-        this("diagram_" + (tabNum+1));
-    }
-
-    public Graph getGraph() {
-        return graph;
-    }
-
 }

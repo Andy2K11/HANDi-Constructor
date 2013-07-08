@@ -14,17 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uk.co.corductive.msc.factory;
+package mscproject.graph;
 
-import uk.co.corductive.msc.network.components.AbstractConnectionPath;
-import uk.co.corductive.msc.network.connection.Operator;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.Node;
+import org.json.*;
 
 /**
  *
- * @author Andy Keavey
+ * @author Andy
  */
-public abstract class AbstractComponentFactory {
+public class GraphView extends AbstractGraphView {
     
-    public abstract AbstractConnectionPath getConnectionPath(Operator.Operation operator);
+        
+    public GraphView(AbstractGraphController controller) {
+        super(controller);
+        this.setMinSize(1200, 800);
+        this.setMaxSize(1200, 800);
+        this.getStyleClass().add("graph");
+        this.getStylesheets().add("resources/graph.css");
+    }
     
+
+     
+    public JSONObject getJSONObject() {
+        JSONObject jGraph = new JSONObject();
+        for(Node node: this.getChildren()) {
+            
+        }
+        return jGraph;
+    }
 }

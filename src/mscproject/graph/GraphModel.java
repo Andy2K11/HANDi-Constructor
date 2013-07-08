@@ -14,17 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uk.co.corductive.msc.factory;
+package mscproject.graph;
 
-import uk.co.corductive.msc.network.components.AbstractConnectionPath;
-import uk.co.corductive.msc.network.connection.Operator;
+import org.json.JSONObject;
 
 /**
  *
  * @author Andy Keavey
  */
-public abstract class AbstractComponentFactory {
-    
-    public abstract AbstractConnectionPath getConnectionPath(Operator.Operation operator);
+public class GraphModel extends AbstractGraphModel {
+
+    @Override
+    public JSONObject getJSONObject() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

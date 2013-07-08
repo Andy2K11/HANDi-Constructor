@@ -16,7 +16,6 @@
       onKeyPressed="#handleKeyPressed"
       onKeyReleased="#handleKeyReleased"
       >
-    <!--stylesheets="resources/style.css"-->
     <top>
         <fx:include fx:id="menu" source="MenuBar.fxml" />
     </top>
@@ -33,21 +32,12 @@
                          AnchorPane.rightAnchor="0.0" 
                          AnchorPane.topAnchor="0.0"
                          AnchorPane.bottomAnchor="0.0"
-                         onMouseClicked="#handleMouseClicked">
+                         onMouseClicked="#handleMouseClicked"
+                         onDragOver="#handleDragOver" >
                     <!-- Tabs loaded programatically -->
                 </TabPane>
             </children>
         </AnchorPane>
     </center>
-    <!--bottom>
-        <HBox>
-                <Label fx:id="status"
-                       styleClass="status"
-                       text="Status" 
-                       prefWidth="1200" 
-                       prefHeight="50" 
-                       wrapText="true"/>
-        </HBox>
-    </bottom-->
 </BorderPane>
 
