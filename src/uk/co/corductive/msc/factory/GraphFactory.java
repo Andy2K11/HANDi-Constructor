@@ -17,8 +17,8 @@
 package uk.co.corductive.msc.factory;
 
 import javafx.scene.control.TextField;
-import mscproject.graph.AbstractGraphController;
-import mscproject.graph.GraphController;
+import uk.co.corductive.msc.graph.AbstractGraphController;
+import uk.co.corductive.msc.graph.GraphController;
 import uk.co.corductive.msc.ui.ScrollTab;
 
 /**

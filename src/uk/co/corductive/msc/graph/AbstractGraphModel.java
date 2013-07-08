@@ -14,21 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package mscproject.graph;
+package uk.co.corductive.msc.graph;
 
-import org.json.JSONObject;
+import uk.co.corductive.msc.mvc.AbstractModel;
 
 /**
  *
  * @author Andy Keavey
  */
-public class GraphModel extends AbstractGraphModel {
-
-    @Override
-    public JSONObject getJSONObject() {
-        JSONObject jGraph = new JSONObject();
-        jGraph.put("title", getName());
-        return jGraph;
-    }
+public abstract class AbstractGraphModel extends AbstractModel {
     
 }

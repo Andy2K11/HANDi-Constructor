@@ -14,14 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package mscproject.graph;
+package uk.co.corductive.msc.graph;
 
-import uk.co.corductive.msc.mvc.AbstractModel;
+import javafx.scene.Node;
+import org.json.*;
 
 /**
  *
- * @author Andy Keavey
+ * @author Andy
  */
-public abstract class AbstractGraphModel extends AbstractModel {
+public class GraphView extends AbstractGraphView {
     
+        
+    public GraphView(AbstractGraphController controller) {
+        super(controller);
+        this.setMinSize(1200, 800);
+        this.setMaxSize(1200, 800);
+        this.getStyleClass().add("graph");
+        this.getStylesheets().add("resources/graph.css");
+    }
+    
+
+     
+    public JSONObject getJSONObject() {
+        JSONObject jGraph = new JSONObject();
+        for(Node node: this.getChildren()) {
+            
+        }
+        return jGraph;
+    }
 }

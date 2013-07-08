@@ -55,7 +55,7 @@ public abstract class AbstractConnectionController extends AbstractController {
      * Checks if the mouse has been still (not a mouse drag) and then 
      * toggles the model's negate boolean.
      * 
-     * @return 
+     * @return EventHandler<MouseEvent>
      */
     @Override
     public EventHandler<MouseEvent> getOnMouseClickedHandler() {
@@ -109,6 +109,10 @@ public abstract class AbstractConnectionController extends AbstractController {
      */
     private double diffX;
     
+    /**
+     *
+     * @return
+     */
     @Override
     public EventHandler<MouseEvent> getOnMouseDraggedHandler() {
         return new EventHandler<MouseEvent>() {

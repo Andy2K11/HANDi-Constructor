@@ -27,7 +27,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
-import mscproject.graph.AbstractGraphView;
+import uk.co.corductive.msc.graph.AbstractGraphView;
 
 /**
  *
@@ -113,7 +113,7 @@ public class ScrollTab extends Tab {
      * As setContent is a final method, use this method instead to add a Node to 
      * a ScrollTab.
      * 
-     * @param node 
+     * @param view 
      */
     public void setGraph(AbstractGraphView view) {
         scrollPane.setContent(view);
