@@ -26,7 +26,6 @@ import uk.co.corductive.msc.network.node.NodeView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
@@ -38,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.corductive.msc.mvc.AbstractController;
 import uk.co.corductive.msc.mvc.AbstractModel;
-import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
@@ -59,8 +57,6 @@ public abstract class AbstractGraphController extends AbstractController {
         super();
         
     }
-    
-    public abstract boolean saveGraph();
 
     /**
      * Handles both moving and copying of nodes, and the reshaping of the link path?

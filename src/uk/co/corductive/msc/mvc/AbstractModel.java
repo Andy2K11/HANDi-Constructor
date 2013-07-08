@@ -16,24 +16,30 @@
  */
 package uk.co.corductive.msc.mvc;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.input.DataFormat;
 import org.json.JSONObject;
 
 public abstract class AbstractModel {
     
     public static final DataFormat JSON_FORMAT = new DataFormat("json");
-    protected String name;
+    protected StringProperty name = new SimpleStringProperty();
     
     protected AbstractModel() {
         super();
     }
     
     public String getName() {
-        return this.name;
+        return name.getValue();
     }
     
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
     }
     
     public abstract JSONObject getJSONObject();

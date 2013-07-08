@@ -26,7 +26,9 @@ public class GraphModel extends AbstractGraphModel {
 
     @Override
     public JSONObject getJSONObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject jGraph = new JSONObject();
+        jGraph.put("title", getName());
+        return jGraph;
     }
     
 }

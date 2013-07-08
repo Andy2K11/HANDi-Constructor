@@ -27,6 +27,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import uk.co.corductive.msc.mvc.AbstractView;
 
 /**
  *
@@ -55,6 +56,9 @@ public class ScrollTab extends Tab {
         nameField.setPrefColumnCount(name.length());
         nameField.setDisable(true);
 
+        /*
+         * When the user hits enter after editing, the text field is disabled.
+         */
         nameField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -64,6 +68,11 @@ public class ScrollTab extends Tab {
             }
         });
         
+        /*
+         * If the focus is lost, then fire an action event. This means clicking
+         * away from the text field will have the same effect as hitting enter.
+         * * * isFocused becomes false!
+         */
         nameField.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> value, Boolean oldValue, Boolean newValue) {
@@ -106,12 +115,12 @@ public class ScrollTab extends Tab {
      * 
      * @param node 
      */
-    public void setGraph(Node node) {
-        scrollPane.setContent(node);
+    public void setGraph(AbstractGraphView view) {
+        scrollPane.setContent(view);
     }
     
-    public Node getGraph() {
-        return scrollPane.getContent();
+    public AbstractGraphView getGraph() {
+        return (AbstractGraphView) scrollPane.getContent();
     }
     
     public void setName(String name) {

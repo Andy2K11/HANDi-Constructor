@@ -16,16 +16,6 @@
  */
 package mscproject.graph;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-import javafx.scene.Node;
-import org.json.JSONObject;
-import uk.co.corductive.msc.network.connection.AbstractConnectionView;
-import uk.co.corductive.msc.network.node.AbstractNodeView;
-import uk.co.corductive.msc.ui.MScProject;
-
 /**
  *
  * @author Andy Keavey
@@ -36,35 +26,5 @@ public class GraphController extends AbstractGraphController {
         super();
         this.view = new GraphView(this);
         this.model = new GraphModel();
-    }
-    
-    @Override
-    public boolean saveGraph() {
-        JSONObject jGraph = new JSONObject();
-        jGraph.put("title", getModel().getName());
-        List<Node> list = this.getView().getChildren();
-        for (Node n: list) {
-            if (n instanceof AbstractNodeView) {
-                jGraph.append("nodes", ((AbstractNodeView)n).getController().getModel().getJSONObject());
-            } else if (n instanceof AbstractConnectionView) {
-                jGraph.append("connections", ((AbstractConnectionView)n).getController().getModel().getJSONObject());
-            }    
-        }
-        try {
-            File saveFile = new File(MScProject.getGlobalUser() + "-" + getModel().getName() + ".HANDi");
-            System.err.println(saveFile.exists());
-            if (!saveFile.exists()) {
-                saveFile.createNewFile();
-                FileWriter fw = new FileWriter(saveFile);
-                fw.write(jGraph.toString(4));
-                fw.flush();
-                fw.close();
-                return true;
-            }
-            return false;
-        } catch (IOException ex) {
-            System.err.println(ex);
-            return false;
-        }
-    }
+    }  
 }

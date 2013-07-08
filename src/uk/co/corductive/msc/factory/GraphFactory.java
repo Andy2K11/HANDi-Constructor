@@ -16,6 +16,8 @@
  */
 package uk.co.corductive.msc.factory;
 
+import javafx.scene.control.TextField;
+import mscproject.graph.AbstractGraphController;
 import mscproject.graph.GraphController;
 import mscproject.graph.ScrollTab;
 
@@ -27,7 +29,10 @@ public class GraphFactory {
     
     public ScrollTab createGraph() {
         ScrollTab tab = new ScrollTab();
-        tab.setGraph(new GraphController().getView());
+        AbstractGraphController controller = new GraphController();
+        tab.setGraph(controller.getView());
+        controller.getModel().nameProperty().bindBidirectional(((TextField)tab.getGraphic()).textProperty());
+        
         return tab;
     }
 }
