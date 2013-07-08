@@ -24,7 +24,7 @@ import loginfxml.MScLogin.Loginable;
  */
 public class MScProject extends Application implements Loginable {
 
-    private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("he-icon.png"));    
+    private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("/resources/he-icon.png"));    
     private String username = null;
     private Stage stage = null;
     private Locale locale = null;

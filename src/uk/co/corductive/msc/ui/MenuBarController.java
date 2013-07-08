@@ -35,7 +35,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import mscproject.graph.AbstractGraphView;
 import mscproject.graph.GraphView;
-import mscproject.graph.ScrollTab;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
