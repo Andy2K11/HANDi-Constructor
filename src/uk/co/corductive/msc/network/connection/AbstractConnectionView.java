@@ -49,6 +49,7 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
         this.setOnKeyPressed(controller.getOnKeyPressedHandler());
         
         AbstractConnectionModel model = controller.getModel();
+        
         model.getNode1().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
@@ -127,6 +128,10 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
                 }
             }
         });
+       
+       /* Note that we are binding the model to the view-path element, not vice versa */
+       controller.getModel().doublePropertyControlX().bind(path.doublePropertyControlX());
+       controller.getModel().doublePropertyControlY().bind(path.doublePropertyControlY());
     }
     
     public void createNegate(Path negate) {

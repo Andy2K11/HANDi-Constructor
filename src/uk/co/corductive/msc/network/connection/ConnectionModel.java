@@ -27,7 +27,7 @@ import org.json.JSONObject;
 public class ConnectionModel extends AbstractConnectionModel {
     private Date d = new Date();
     private long time;
-    public static enum Conn {NAME("name"), NEGATE("negate"), OPERATOR("operator"), NODE1("node1"), NODE2("node2"), DATE("date");
+    public static enum Conn {NAME("name"), NEGATE("negate"), OPERATOR("operator"), NODE1("node1"), NODE2("node2"), CONTROLX("controlX"), CONTROLY("controlY"), DATE("date");
         private String string;
         Conn(String string) {
             this.string = string;
@@ -53,6 +53,8 @@ public class ConnectionModel extends AbstractConnectionModel {
         jSONObject.put(Conn.OPERATOR.getString(), this.getOperation().toString());
         jSONObject.put(Conn.NODE1.getString(), this.getNode1().getName());
         jSONObject.put(Conn.NODE2.getString(), this.getNode2().getName());
+        jSONObject.put(Conn.CONTROLX.getString(), this.getControlX());
+        jSONObject.put(Conn.CONTROLY.getString(), this.getControlY());
         jSONObject.put(Conn.DATE.getString(), time);
         return jSONObject;
     }

@@ -26,7 +26,7 @@ import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
 import uk.co.corductive.msc.network.connection.ConnectionController;
-import uk.co.corductive.msc.network.connection.ConnectionModel;
+import uk.co.corductive.msc.network.connection.ConnectionModel.Conn;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
@@ -98,7 +98,9 @@ public class HandiNetworkFactory implements NetworkFactory {
                 System.err.println("Null node controller");
             } else {
                 AbstractConnectionController connController = createConnection(cont1, cont2, op, targetTab);
-                if (link.getBoolean(ConnectionModel.Conn.NEGATE.getString()) == true) connController.getModel().negate();
+                if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
+                connController.getView().getPath().setControlX(link.getDouble(Conn.CONTROLX.getString()));
+                connController.getView().getPath().setControlY(link.getDouble(Conn.CONTROLY.getString()));
             }
         }
     }
@@ -115,6 +117,8 @@ public class HandiNetworkFactory implements NetworkFactory {
         view.getPath().setEndY(target.getY());
         view.getPath().setControlX(target.getX());
         view.getPath().setControlY(source.getY());
+        view.getPath().middleX().invalidate();
+        view.getPath().middleY().invalidate();
         view.getNegate().setLayoutX(view.getPath().getMiddleX());
         view.getNegate().setLayoutY(view.getPath().getMiddleY());
         view.getNegate().setVisible(controller.getModel().isNegated());

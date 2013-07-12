@@ -17,6 +17,7 @@
 package uk.co.corductive.msc.network.components;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
@@ -110,5 +111,15 @@ public class UnityConnectionPath extends AbstractConnectionPath {
     @Override
     public double getControlY() {
         return -Double.MAX_VALUE;
-    }   
+    }
+    
+    @Override
+    public DoubleProperty doublePropertyControlX() {
+        return end.xProperty();
+    }
+
+    @Override
+    public DoubleProperty doublePropertyControlY() {
+        return end.yProperty();
+    }
 }

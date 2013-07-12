@@ -179,7 +179,8 @@ public abstract class AbstractNodeController extends AbstractController {
                             }
                         }
                         for (NetworkConnection nc: connSet) {
-                            j.append("connections", ((AbstractConnectionModel) nc).getJSONObject());
+                            AbstractConnectionModel model = (AbstractConnectionModel) nc;
+                            j.append("connections", model.getJSONObject());
                         }
                         
                         cbc.put(AbstractModel.JSON_FORMAT, j);

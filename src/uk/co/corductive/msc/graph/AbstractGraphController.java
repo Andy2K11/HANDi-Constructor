@@ -91,19 +91,27 @@ public abstract class AbstractGraphController extends AbstractController {
                                     double diffX = event.getX() - root.getDouble("x");
                                     double diffY = event.getY() - root.getDouble("y");
 
-                                    /* Create nodes and replace node names in connection JSON Objects with new names */
+                                    /* Create nodes and replace node names in connection JSON Objects with new names 
+                                     * Adjust position of nodes in relation to starting position
+                                     */
                                     JSONArray array = jObject.optJSONArray("nodes");
+                                    JSONArray conns = jObject.optJSONArray("connections");
                                     for (int i=0; i<array.length(); i++) {
                                         JSONObject node = array.getJSONObject(i);
                                         controller = factory.createNode(node.getDouble("x") + diffX, node.getDouble("y") + diffY, targetTab);
                                         controller.getModel().setValue(node.getString("value"));
-                                        JSONArray conns = jObject.optJSONArray("connections");
                                         /* replace names in connections JSONArray with new names of created nodes */
                                         for (int j=0; j<conns.length(); j++) {
                                             JSONObject conn = conns.getJSONObject(j);
                                             if(conn.getString(Conn.NODE1.getString()).equals(node.getString("name"))) conn.put(Conn.NODE1.getString(), controller.getModel().getName());
                                             if(conn.getString(Conn.NODE2.getString()).equals(node.getString("name"))) conn.put(Conn.NODE2.getString(), controller.getModel().getName());
                                         }
+                                    }
+                                    /* adjust position of control points on connections */
+                                    for (int i=0; i<conns.length(); i++) {
+                                        JSONObject conn = conns.getJSONObject(i);
+                                        conn.put(Conn.CONTROLX.getString(), conn.getDouble(Conn.CONTROLX.getString()) + diffX);
+                                        conn.put(Conn.CONTROLY.getString(), conn.getDouble(Conn.CONTROLY.getString()) + diffY); 
                                     }
                                     /* add connections */
                                     factory.createConnectionsFromJSON(jObject.optJSONArray("connections"), targetTab);

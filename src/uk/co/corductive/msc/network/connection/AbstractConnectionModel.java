@@ -19,17 +19,21 @@ package uk.co.corductive.msc.network.connection;
 import uk.co.corductive.msc.mvc.AbstractModel;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import org.json.JSONObject;
 import uk.co.corductive.msc.network.node.NetworkNode;
 
-public abstract class AbstractConnectionModel extends AbstractModel implements Operator, NetworkConnection {
+public abstract class AbstractConnectionModel extends AbstractModel implements Operator, NetworkConnection, DisplayableConnection {
     
     protected Operation operator;
     AbstractNodeModel node1, node2;
     BooleanProperty negate = new SimpleBooleanProperty(false);
     BooleanProperty directional = new SimpleBooleanProperty(false);
     BooleanProperty directionReversed = new SimpleBooleanProperty(false);
+    DoubleProperty controlX = new SimpleDoubleProperty();
+    DoubleProperty controlY = new SimpleDoubleProperty();
     JSONObject jSONObject = new JSONObject();
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operator) {
@@ -153,5 +157,25 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
         } else {
             System.err.println("Error removing connection");
         }
+    }
+
+    @Override
+    public double getControlX() {
+        return controlX.doubleValue();
+    }
+
+    @Override
+    public double getControlY() {
+        return controlY.doubleValue();
+    }
+
+    @Override
+    public DoubleProperty doublePropertyControlX() {
+        return controlX;
+    }
+
+    @Override
+    public DoubleProperty doublePropertyControlY() {
+        return controlY;
     }
 }

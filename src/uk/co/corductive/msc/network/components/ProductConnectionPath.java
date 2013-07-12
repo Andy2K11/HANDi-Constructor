@@ -18,6 +18,7 @@
 package uk.co.corductive.msc.network.components;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.MoveTo;
@@ -31,10 +32,10 @@ public class ProductConnectionPath extends AbstractConnectionPath {
 
     private MoveTo start = new MoveTo();
     private QuadCurveTo end = new QuadCurveTo();
-    private double controlX=0.0, controlY=0.0;
     
     public ProductConnectionPath() {
         super();
+        
         final double ratio = (2.0/3.0);
         this.middleX = new DoubleBinding() {
             {
@@ -136,14 +137,12 @@ public class ProductConnectionPath extends AbstractConnectionPath {
     }
     
     @Override
-    public void incrementEndX(double dx) {
-        super.incrementEndX(dx);
-        incrementControlX(dx);
+    public DoubleProperty doublePropertyControlX() {
+        return end.controlXProperty();
     }
-    
+
     @Override
-    public void incrementStartY(double dy) {
-        super.incrementStartY(dy);
-        incrementControlY(dy);
+    public DoubleProperty doublePropertyControlY() {
+        return end.controlYProperty();
     }
 }

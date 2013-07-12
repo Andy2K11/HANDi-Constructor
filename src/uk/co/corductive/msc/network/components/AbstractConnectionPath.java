@@ -17,6 +17,7 @@
 package uk.co.corductive.msc.network.components;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.shape.Path;
 
 /**
@@ -42,34 +43,8 @@ public abstract class AbstractConnectionPath extends Path {
     public abstract double getControlX();
     public abstract double getControlY();
     
-    //public abstract void updateLayout();
-
-    /* Provide some default behaviours for the incrementations. Some paths
-     * will override in order to change control positions too.
-     */
-    public void incrementStartX(double dx) {
-        setStartX(getStartX() + dx);
-    }
-
-    public void incrementStartY(double dy) {
-        setStartY(getStartY() + dy);
-    }
-
-    public void incrementEndX(double dx) {
-        setEndX(getEndX() + dx);
-    }
-
-    public void incrementEndY(double dy) {
-        setEndY(getEndY() + dy);
-    }   
-    
-    public void incrementControlX(double x) {
-        setControlX(getControlX() + x);
-    }
-    
-    public void incrementControlY(double y) {
-        setControlY(getControlY() + y);
-    }
+    public abstract DoubleProperty doublePropertyControlX();
+    public abstract DoubleProperty doublePropertyControlY();
     
     public double getMiddleX() {
         return middleX.doubleValue();
