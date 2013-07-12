@@ -24,6 +24,10 @@ import org.json.JSONObject;
  */
 public class GraphModel extends AbstractGraphModel {
 
+    GraphModel() {
+        super();
+    }
+    
     @Override
     public JSONObject getJSONObject() {
         JSONObject jGraph = new JSONObject();

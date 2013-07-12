@@ -82,15 +82,11 @@ public class ProductConnectionPath extends AbstractConnectionPath {
     @Override
     public void setControlX(double x) {
         end.setControlX(x);
-        //controlX = x - end.getX();  // difference between set value and nominal value
-        //updateLayout();
     }
 
     @Override
     public void setControlY(double y) {
         end.setControlY(y);
-        //controlY = y - start.getY();    // difference between set value and nominal value
-        //updateLayout();
     }
 
     @Override
@@ -125,8 +121,6 @@ public class ProductConnectionPath extends AbstractConnectionPath {
     
     @Override
     public void incrementEndX(double dx) {
-        //setEndX(getEndX() + dx);
-        //setControlX(getControlX() + dx);
         super.incrementEndX(dx);
         incrementControlX(dx);
     }
@@ -135,23 +129,5 @@ public class ProductConnectionPath extends AbstractConnectionPath {
     public void incrementStartY(double dy) {
         super.incrementStartY(dy);
         incrementControlY(dy);
-    }
-    
-    @Override
-    public void updateLayout() {
-        //end.setControlX(end.getX() + controlX);
-        //end.setControlY(start.getY() + controlY);
-        /*
-         * sc : start to control
-         * ce : control to end
-         */
-        double ratio = 2.0 / 3.0;
-        double scX = start.getX() + ((end.getControlX() - start.getX()) * ratio);
-        double scY = start.getY() + ((end.getControlY() - start.getY()) * ratio);
-        double ceX = end.getControlX() + ((end.getX() - end.getControlX()) * ratio);
-        double ceY = end.getControlY() + ((end.getY() - end.getControlY()) * ratio);
-       // middleX.set( scX + ((ceX - scX) * ratio) );
-       // middleY.set( scY + ((ceY - scY) * ratio) );
-        
     }
 }

@@ -100,7 +100,7 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
         this.path = path;
         this.getChildren().add(path);
         path.toBack();
-        path.updateLayout();    // initialize middle x, y position
+        //path.updateLayout();    // initialize middle x, y position
         path.getStyleClass().add("link");
         // temp test line -- move to factory
         //createNegate(new Circle(path.getMiddleX(), path.getMiddleY(), 5.0));

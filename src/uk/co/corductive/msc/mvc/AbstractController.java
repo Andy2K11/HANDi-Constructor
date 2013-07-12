@@ -46,8 +46,6 @@ public abstract class AbstractController {
                 Object source = event.getSource();
                 if (source instanceof Node) {
                     Node sourceNode = (Node) source;
-                    //sourceNode.requestFocus();
-                    //sourceNode.setEffect(new DropShadow());
                 }
                 event.consume();
             }

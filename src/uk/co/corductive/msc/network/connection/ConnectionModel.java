@@ -27,7 +27,16 @@ import org.json.JSONObject;
 public class ConnectionModel extends AbstractConnectionModel {
     private Date d = new Date();
     private long time;
-    
+    public static enum Conn {NAME("name"), NEGATE("negate"), OPERATOR("operator"), NODE1("node1"), NODE2("node2"), DATE("date");
+        private String string;
+        Conn(String string) {
+            this.string = string;
+        }
+        public String getString() {
+            return string;
+        }
+    }
+        
     public ConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operation) {
         super(node1, node2, operation);
         time = d.getTime();
@@ -39,12 +48,12 @@ public class ConnectionModel extends AbstractConnectionModel {
     
     @Override
     public JSONObject getJSONObject () {
-        jSONObject.put("name", this.getName());
-        jSONObject.put("negate", this.isNegated());
-        jSONObject.put("operator", this.getOperation().toString());
-        jSONObject.put("node1", this.getNode1().getName());
-        jSONObject.put("node2", this.getNode2().getName());
-        jSONObject.put("date", time);
+        jSONObject.put(Conn.NAME.getString(), this.getName());
+        jSONObject.put(Conn.NEGATE.getString(), this.isNegated());
+        jSONObject.put(Conn.OPERATOR.getString(), this.getOperation().toString());
+        jSONObject.put(Conn.NODE1.getString(), this.getNode1().getName());
+        jSONObject.put(Conn.NODE2.getString(), this.getNode2().getName());
+        jSONObject.put(Conn.DATE.getString(), time);
         return jSONObject;
     }
 }

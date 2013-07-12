@@ -69,33 +69,24 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
 
     @Override
     public void setEndX(double x) {
-        end.setX(x);
-        
+        end.setX(x);    
     }
 
     @Override
     public void setEndY(double y) {
         end.setY(y);
         bridge.setY(y);
-        //middleY.invalidate();
     }
 
     @Override
     public void setControlX(double x) {
         control.setX(x);
-        bridge.setX(x);
-        //control.setX(end.getX() - (end.getX() - start.getX())/10);
-        //bridge.setX(end.getX() - (end.getX() - start.getX())/10);
-        //middleX.invalidate();
-        
+        bridge.setX(x);   
     }
 
     @Override
     public void setControlY(double y) {
         control.setY(y);
-        //control.setY(start.getY());
-        //bridge.setY(end.getY());
-       // middleY.invalidate();
         // do nothing - control y bound to start y
     }
 
@@ -139,23 +130,11 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
     public void incrementEndX(double dx) {
         super.incrementEndX(dx);
         incrementControlX(dx);
-        //setEndX(getEndX() + dx);
-        //setControlX(getControlX() + dx);
-        //bridge.setX(bridge.getX() + dx);
-        //middleX.invalidate();
     }
     
     @Override
     public void incrementControlX(double dx) {
         super.incrementControlX(dx);
         bridge.setX(bridge.getX() + dx);
-    }
-    
-    @Override
-    public void updateLayout() {
-        //.set( control.getX() + (bridge.getX() - control.getX())/2 );
-        //middleY.set( control.getY() + (bridge.getY() - control.getY())/2 );
-    }
-    
-    
+    }    
 }

@@ -24,4 +24,7 @@ import uk.co.corductive.msc.mvc.AbstractModel;
  */
 public abstract class AbstractGraphModel extends AbstractModel {
     
+    AbstractGraphModel() {
+        super();
+    }
 }

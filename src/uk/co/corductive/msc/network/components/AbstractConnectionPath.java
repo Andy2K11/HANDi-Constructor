@@ -42,12 +42,7 @@ public abstract class AbstractConnectionPath extends Path {
     public abstract double getControlX();
     public abstract double getControlY();
     
-    public abstract void updateLayout();
-    
-    //public abstract void incrementStartX(double dx);
-    //public abstract void incrementStartY(double dy);
-    //public abstract void incrementEndX(double dx);
-    //public abstract void incrementEndY(double dy);
+    //public abstract void updateLayout();
 
     /* Provide some default behaviours for the incrementations. Some paths
      * will override in order to change control positions too.

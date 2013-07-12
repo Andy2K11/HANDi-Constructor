@@ -44,6 +44,7 @@ import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
+import uk.co.corductive.msc.network.connection.ConnectionModel.Conn;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.node.AbstractNodeView;
@@ -90,72 +91,77 @@ public class MenuBarController implements Initializable {
         
         NetworkFactory gFactory = new HandiNetworkFactory();
         
-        //file select stuff here
+        // file select stuff here
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File(System.getProperty("user.dir")));
         File loadFile = fc.showOpenDialog(null);
         
-        /* create a new empty tab - add to tab pane - select new tab */
-        ScrollTab tab = factory.createGraph();
-        diagramtabs.getTabs().add(tab);
-        diagramtabs.getSelectionModel().select(tab);     // switch to newly loaded diagram
-        //File loadFile = new File("diagram_1.HANDi");
-        
-        try {
-            FileReader fr = new FileReader(loadFile);
-            JSONTokener jToken = new JSONTokener(fr);
-            JSONObject jObj = new JSONObject(jToken);
-            String title = jObj.getString("title");
-           
-            tab.setName(title);
-            /* add nodes */
-            JSONArray jNodes = jObj.optJSONArray("nodes");
-            if (jNodes!=null) {
-                for (int i=0; i<jNodes.length(); i++) {
-                    JSONObject jNode = jNodes.getJSONObject(i);
-                    String value = jNode.getString("value");
-                    nodeController = gFactory.createNode(jNode.getDouble("x"), jNode.getDouble("y"), tab.getGraph());
-                    nodeController.getModel().setValue(value);
-                    nodeController.getModel().setName(jNode.getString("name"));
+        if (loadFile!=null) {
+            /* create a new empty tab - add to tab pane - select new tab */
+            ScrollTab tab = factory.createGraph();
+            diagramtabs.getTabs().add(tab);
+            diagramtabs.getSelectionModel().select(tab);     // switch to newly loaded diagram
+
+            try {
+                FileReader fr = new FileReader(loadFile);
+                JSONTokener jToken = new JSONTokener(fr);
+                JSONObject jObj = new JSONObject(jToken);
+                String title = jObj.getString("title");
+
+                tab.setName(title);
+                /* add nodes */
+                JSONArray jNodes = jObj.optJSONArray("nodes");
+                if (jNodes!=null) {
+                    for (int i=0; i<jNodes.length(); i++) {
+                        JSONObject jNode = jNodes.getJSONObject(i);
+                        String value = jNode.getString("value");
+                        nodeController = gFactory.createNode(jNode.getDouble("x"), jNode.getDouble("y"), tab.getGraph());
+                        nodeController.getModel().setValue(value);
+                        nodeController.getModel().setName(jNode.getString("name"));
+                    }
                 }
-            }
-            
-            /* add connections */
-            JSONArray jLinks = jObj.optJSONArray("connections");
-            if (jLinks!=null) {
-                for (int i=0; i<jLinks.length(); i++) {
-                    JSONObject link = jLinks.getJSONObject(i);
-                    AbstractNodeController cont1 = null, cont2 = null;
-                    String name1 = link.getString("node1");
-                    String name2 = link.getString("node2");
-                    Node node = tab.getGraph();
-                    if (node instanceof AbstractGraphView) {
-                        List<Node> nodes = ((AbstractGraphView)node).getChildren();
-                        for (Node n: nodes) {
-                            if (n instanceof AbstractNodeView) {
-                                if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
-                                    cont1 = ((AbstractNodeView)n).getController();
-                                } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
-                                    cont2 = ((AbstractNodeView)n).getController();
-                                }  
+
+                /* add connections */
+                JSONArray jLinks = jObj.optJSONArray("connections");
+                if (jLinks!=null) {
+                    for (int i=0; i<jLinks.length(); i++) {
+                        JSONObject link = jLinks.getJSONObject(i);
+
+                        /* Most of the work here is finding the correct nodes to link to
+                         * by their name, the nodes must be added first so we need to 
+                         * find their actual object reference.
+                         */
+                        AbstractNodeController cont1 = null, cont2 = null;
+                        String name1 = link.getString("node1");
+                        String name2 = link.getString("node2");
+                        Node node = tab.getGraph();
+                        if (node instanceof AbstractGraphView) {
+                            List<Node> nodes = ((AbstractGraphView)node).getChildren();
+                            for (Node n: nodes) {
+                                if (n instanceof AbstractNodeView) {
+                                    if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
+                                        cont1 = ((AbstractNodeView)n).getController();
+                                    } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
+                                        cont2 = ((AbstractNodeView)n).getController();
+                                    }  
+                                }
                             }
-                        }
-                        Operation op = AbstractConnectionModel.stringOperation(link.getString("operator"));
-                        if (cont1==null || cont2 ==null) {
-                            System.err.println("Null node controller");
-                        } else {
-                            connController = gFactory.createConnection(cont1, cont2, op, (Pane)tab.getGraph());
+                            Operation op = AbstractConnectionModel.stringOperation(link.getString("operator"));
+                            if (cont1==null || cont2 ==null) {
+                                System.err.println("Null node controller");
+                            } else {
+                                connController = gFactory.createConnection(cont1, cont2, op, (Pane)tab.getGraph());
+                                if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
+                            }
                         }
                     }
                 }
-                // tab.setText(title);  // title is displayed via text field.
-                // System.err.println(jObj.toString(4));
+            } catch (FileNotFoundException ex) {
+                System.err.println(ex);
+            }  catch (NullPointerException ex) {
+                System.err.println("The most likely cause for this exception is the "
+                        + "user cancelling the load diagram dialog box");
             }
-        } catch (FileNotFoundException ex) {
-            System.err.println(ex);
-        }  catch (NullPointerException ex) {
-            System.err.println("The most likely cause for this exception is the "
-                    + "user cancelling the load diagram dialog box");
         }
     }
     

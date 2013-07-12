@@ -23,6 +23,7 @@ import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.mvc.AbstractController;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -48,7 +49,7 @@ public abstract class AbstractNodeController extends AbstractController {
     NetworkFactory factory;
     AbstractNodeModel model;
     AbstractNodeView view;
-    
+    double maxX, maxY;
     private Set<NetworkNode> tree;
     
     protected AbstractNodeController(NetworkFactory factory) {
@@ -57,12 +58,12 @@ public abstract class AbstractNodeController extends AbstractController {
     }
     
     @Override
-    public AbstractNodeView getView() {
+    public final AbstractNodeView getView() {
         return view;
     }
 
     @Override
-    public AbstractNodeModel getModel() {
+    public final AbstractNodeModel getModel() {
         return model;
     }
     
@@ -102,6 +103,9 @@ public abstract class AbstractNodeController extends AbstractController {
                 dragOriginX = event.getX();
                 dragOriginY = event.getY();
                 tree = getModel().getSubNodeTree();
+                Bounds bounds = getView().getParent().getBoundsInLocal();
+                maxX = bounds.getMaxX();
+                maxY = bounds.getMaxY();
                 event.consume();
             }
         };
@@ -112,26 +116,32 @@ public abstract class AbstractNodeController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Node source = (Node) event.getSource();
-                double x = event.getSceneX();
-                double y = event.getSceneY();
+                
                 switch (ToolBarController.getSelectedTool()) {
-                        case movetree: //moveTree(sourceNode, x, y);
+                    case movetree:
+                        boolean outOfBounds = false;
+                        for (NetworkNode node: tree) {
+                            AbstractNodeModel aNode = (AbstractNodeModel) node;
+                            if (aNode.getX() + event.getX() < 0.0 || aNode.getY() + event.getY() < 0.0
+                                    || getModel().getX() + event.getX() < 0.0 || getModel().getY() + event.getY() < 0.0
+                                    || aNode.getX() + event.getX() > maxX || aNode.getY() + event.getY() > maxY
+                                    || getModel().getX() + event.getX() > maxX || getModel().getY() + event.getY() > maxY) outOfBounds = true;
+                        }
+                        if (!outOfBounds) {
                             for (NetworkNode node: tree) {
                                 AbstractNodeModel aNode = (AbstractNodeModel) node;
                                 aNode.setX(aNode.getX() + event.getX());
                                 aNode.setY(aNode.getY() + event.getY());
                             }
-                            // also moveone
-                        case moveone:
-                            //((AbstractNodeView)source).getController().getModel().setX(event.getX());
-                            //((AbstractNodeView)source).getController().getModel().setY(event.getY());
                             getModel().setX(getModel().getX() + event.getX());
                             getModel().setY(getModel().getY() + event.getY());
-                            break;
-                        case copy:
-                            
-                    }
+                        }
+                        break;
+                    case moveone:
+                        getModel().setX(getModel().getX() + event.getX());
+                        getModel().setY(getModel().getY() + event.getY());
+                        break;
+                }
                 event.consume();
             }
         };
@@ -156,7 +166,6 @@ public abstract class AbstractNodeController extends AbstractController {
                         break;
                     case copytree: db = source.startDragAndDrop(TransferMode.COPY);
                         JSONObject j = new JSONObject();
-                        //getModel().setName(getModel().getName()+"cpy");
                         j.put("root", getModel().getJSONObject());
                         Set<NetworkNode> ts = getModel().getSubNodeTree();
                         Set<NetworkConnection> connSet= new HashSet<>();    // using a set will prevent duplicates
@@ -224,7 +233,7 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
-        /*
+    /*
      * Helper method that converts an int value from a selection type control
      * and converts it into a type of link.
      */

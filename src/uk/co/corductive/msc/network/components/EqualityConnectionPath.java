@@ -112,10 +112,4 @@ public class EqualityConnectionPath extends AbstractConnectionPath {
     public double getControlY() {
         return -Double.MAX_VALUE;
     }
-    
-    @Override
-    public void updateLayout() {
-       // middleX.set( start.getX() + (end.getX() - start.getX())/2 );
-       // middleY.set( start.getY() + (end.getY() - start.getY())/2 );
-    }
 }

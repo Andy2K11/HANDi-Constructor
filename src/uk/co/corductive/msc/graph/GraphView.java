@@ -26,16 +26,14 @@ import org.json.*;
 public class GraphView extends AbstractGraphView {
     
         
-    public GraphView(AbstractGraphController controller) {
+    GraphView(AbstractGraphController controller) {
         super(controller);
-        this.setMinSize(1200, 800);
-        this.setMaxSize(1200, 800);
+        this.setMinSize(780, 580);
+        this.setMaxSize(600, 400);
         this.getStyleClass().add("graph");
         this.getStylesheets().add("resources/graph.css");
     }
-    
 
-     
     public JSONObject getJSONObject() {
         JSONObject jGraph = new JSONObject();
         for(Node node: this.getChildren()) {

@@ -19,14 +19,20 @@
     -fx-background-color: olive;
 }
 
+/* the toolbar */
 .flowpane {
     -fx-background-color: dimgray;
 }
 
-.scroll-pane {
+.scroll-pane{
+    -fx-background-color: dimgray;
+}
+
+.graph {
     -fx-background-color: linen;
 }
 
+/* Visible when no tab diagrams are open */
 .tab-pane {
     -fx-background-color: dimgray;
 }
@@ -37,6 +43,11 @@
 
 .tab .text-field {
     -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-insets: 0px 10px 0px 0px;
+    -fx-padding: 0px 10px 0px 0px;
 }
 
 .link {

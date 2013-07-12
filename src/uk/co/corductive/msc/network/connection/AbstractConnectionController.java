@@ -20,13 +20,9 @@ package uk.co.corductive.msc.network.connection;
 import uk.co.corductive.msc.mvc.AbstractController;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import uk.co.corductive.msc.ui.ToolBarController;
 
 public abstract class AbstractConnectionController extends AbstractController {
@@ -120,8 +116,6 @@ public abstract class AbstractConnectionController extends AbstractController {
             public void handle(MouseEvent event) {
                 AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
                 conn.getPath().setControlX(event.getX() + diffX);
-                //conn.getPath().setControlX(((AbstractConnectionView)event.getSource()).getPath().getControlX() + event.getX());
-                System.out.println("<MouseEvent> Dragged");
                 event.consume();
             }
         };
@@ -132,16 +126,8 @@ public abstract class AbstractConnectionController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
-                //diffX = conn.getPath().getControlX() - event.getX();
-                ClipboardContent cbc = new ClipboardContent();
-                cbc.putString(String.valueOf(diffX));
-                Dragboard db;
-                Node source = (Node) event.getSource();
-                //db = source.startDragAndDrop(TransferMode.MOVE);
-                //db.setContent(cbc);
-                //event.consume();
-                System.out.println("<MouseEvent> Drag Detected: " + diffX);
+                // drag events not used
+                event.consume();
             } 
         };
     }
@@ -151,9 +137,8 @@ public abstract class AbstractConnectionController extends AbstractController {
         return new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                // to do
+                // not used
                 event.consume();
-                System.out.println("<DragEvent> Drag Dropped");
             }
         };
     }

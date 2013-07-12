@@ -45,11 +45,12 @@ public class ScrollTab extends Tab {
 
     public ScrollTab(final String name) {
         super();
+        this.getStyleClass().add("scroll-tab");
         tabNum++;
         
         scrollPane = new ScrollPane();
         this.setContent(scrollPane);
-        
+        //scrollPane.setMaxSize(700, 500);
         nameField = new TextField(name);
         this.setGraphic(nameField);
         nameField.setText(name);

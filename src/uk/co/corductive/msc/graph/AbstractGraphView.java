@@ -29,7 +29,7 @@ public abstract class AbstractGraphView extends Pane implements AbstractView {
     private StringProperty name = new SimpleStringProperty();
     AbstractGraphController controller;
     
-    public AbstractGraphView(AbstractGraphController controller) {
+    AbstractGraphView(AbstractGraphController controller) {
         super();
         this.controller = controller;
         

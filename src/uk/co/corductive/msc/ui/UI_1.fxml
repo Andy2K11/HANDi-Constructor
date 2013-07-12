@@ -21,7 +21,6 @@
     </top>
     <center>
         <AnchorPane id="AnchorPane" 
-                    fx:id="anchor"
                     styleClass="anchorpane">
             <children>
                 <fx:include fx:id="toolbar" source="ToolBar.fxml"
@@ -29,7 +28,6 @@
                             AnchorPane.topAnchor="0.0" 
                             AnchorPane.bottomAnchor="0.0" />
                 <TabPane fx:id="diagramtabs"
-                         styleClass="tabpane"
                          AnchorPane.leftAnchor="124.0" 
                          AnchorPane.rightAnchor="0.0" 
                          AnchorPane.topAnchor="0.0"

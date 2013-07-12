@@ -59,12 +59,20 @@ public abstract class AbstractNodeModel extends AbstractModel implements Operand
     
     @Override
     public void setX(double x) {
-        this.x.set(x);
+        if (x > 0.0) {
+            this.x.set(x);
+        } else {
+            System.err.println("Warning: object out of bounds");
+        }
     }
     
     @Override
     public void setY(double y) {
-        this.y.set(y);
+        if (y > 0.0) {
+            this.y.set(y);
+        } else {
+            System.err.println("Warning: object out of bounds");
+        }
     }
     
     @Override

@@ -17,8 +17,6 @@
 package uk.co.corductive.msc.network.components;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
@@ -30,8 +28,6 @@ public class UnityConnectionPath extends AbstractConnectionPath {
 
     MoveTo start = new MoveTo();
     LineTo end = new LineTo();
-    
-
     
     public UnityConnectionPath() {
         super();
@@ -59,25 +55,21 @@ public class UnityConnectionPath extends AbstractConnectionPath {
     @Override
     public void setStartX(double x) {
         start.setX(x);
-        //middleX.invalidate();
     }
 
     @Override
     public void setStartY(double y) {
         start.setY(y);
-        //middleY.invalidate();
     }
 
     @Override
     public void setEndX(double x) {
         end.setX(x);
-        //middleX.invalidate();
     }
 
     @Override
     public void setEndY(double y) {
         end.setY(y);
-        //middleY.invalidate();
     }
 
     @Override
@@ -118,11 +110,5 @@ public class UnityConnectionPath extends AbstractConnectionPath {
     @Override
     public double getControlY() {
         return -Double.MAX_VALUE;
-    }  
-
-    @Override
-    public void updateLayout() {
-      //  middleX.set( start.getX() + (end.getX() - start.getX())/2 );
-      //  middleY.set( start.getY() + (end.getY() - start.getY())/2 );
     }   
 }

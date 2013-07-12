@@ -37,7 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.corductive.msc.mvc.AbstractController;
 import uk.co.corductive.msc.mvc.AbstractModel;
+import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
+import uk.co.corductive.msc.network.connection.AbstractConnectionView;
+import uk.co.corductive.msc.network.connection.ConnectionModel;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.create;
@@ -128,8 +131,8 @@ public abstract class AbstractGraphController extends AbstractController {
                                         if (cont1==null || cont2 ==null) {
                                             System.err.println("Null node controller");
                                         } else {
-                                            factory.createConnection(cont1, cont2, op, targetTab);
-                                            System.out.println("Copy complete.");
+                                            AbstractConnectionController connController = factory.createConnection(cont1, cont2, op, targetTab);
+                                            if (link.getBoolean(ConnectionModel.Conn.NEGATE.getString()) == true) connController.getModel().negate();
                                         }
                                     }
                                 }
@@ -168,6 +171,7 @@ public abstract class AbstractGraphController extends AbstractController {
                                     break;
                             }
                             break;
+                        default:    // for all other cases request focus (may enter value into object field)
                         case select:
                             graph.requestFocus();
                             break;
@@ -183,7 +187,10 @@ public abstract class AbstractGraphController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // to do
+                Node node = (Node) event.getSource();
+                if (node instanceof AbstractConnectionView) {
+                    
+                }
             }
         };
     }
@@ -193,9 +200,6 @@ public abstract class AbstractGraphController extends AbstractController {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                double oldx = 0;
-                ClipboardContent cbc = new ClipboardContent();
-                cbc.putString(String.valueOf(event.getX()-oldx));
                 Dragboard db;
                 Node source = (Node) event.getSource();
                 if (source instanceof NodeView) {
@@ -206,10 +210,12 @@ public abstract class AbstractGraphController extends AbstractController {
                     } else {
                         db = source.startDragAndDrop(TransferMode.LINK);
                     }
+                    ClipboardContent cbc = new ClipboardContent();
+                    db.setContent(cbc);
                 } else {
-                    db = source.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+                    //db = source.startDragAndDrop(TransferMode.COPY_OR_MOVE);
                 }
-                db.setContent(cbc);
+                event.consume();
             }
         };
     }
