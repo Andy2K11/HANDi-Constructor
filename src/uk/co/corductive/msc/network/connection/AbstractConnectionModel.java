@@ -16,6 +16,9 @@
  */
 package uk.co.corductive.msc.network.connection;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.BooleanBinding;
 import uk.co.corductive.msc.mvc.AbstractModel;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
 import javafx.beans.property.BooleanProperty;
@@ -31,7 +34,7 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     AbstractNodeModel node1, node2;
     BooleanProperty negate = new SimpleBooleanProperty(false);
     BooleanProperty directional = new SimpleBooleanProperty(false);
-    BooleanProperty directionReversed = new SimpleBooleanProperty(false);
+    BooleanBinding directionReversed;
     DoubleProperty controlX = new SimpleDoubleProperty();
     DoubleProperty controlY = new SimpleDoubleProperty();
     JSONObject jSONObject = new JSONObject();
@@ -42,6 +45,8 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
         this.node2 = node2;
         this.operator = operator;
         setName(node1.getName() + "-" + node2.getName());
+        
+        
     }
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, String operator) {
@@ -122,7 +127,7 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
 
     @Override
     public void changeDirection() {
-        directionReversed.set(!isDirectionReversed());
+        directionReversed = directionReversed.not();
     }
 
     @Override
@@ -147,7 +152,13 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
         node2.removeConnection(this);
     }
     
-    
+    /*
+     * If a node is initiating the removal of a connection (i.e. the node is being
+     * deleted) then we need to remove the connection from the other node to which
+     * this connection is connected. 
+     * It is important not to try to remove the connection from the node being 
+     * deleted as this will cause a race condition.
+     */
     @Override
     public void removeConnection(NetworkNode node) {
         if (((NetworkNode)node1).equals(node)) {

@@ -48,37 +48,37 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
 
         this.setOnKeyPressed(controller.getOnKeyPressedHandler());
         
-        AbstractConnectionModel model = controller.getModel();
+        final AbstractConnectionModel model = controller.getModel();
         
         model.getNode1().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                getPath().setStartX(newValue.doubleValue());
-                //getPath().incrementStartX(newValue.doubleValue() - oldValue.doubleValue());
+                if (!model.isDirectionReversed()) getPath().setStartX(newValue.doubleValue());
+                else getPath().setEndX(newValue.doubleValue());
             }    
         });
         
         model.getNode1().doublePropertyY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                getPath().setStartY(newValue.doubleValue());
-                //getPath().incrementStartY(newValue.doubleValue() - oldValue.doubleValue());
+                if (!model.isDirectionReversed()) getPath().setStartY(newValue.doubleValue());
+                else getPath().setEndY(newValue.doubleValue());
             }    
         });
         
         model.getNode2().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                getPath().setEndX(newValue.doubleValue());
-                //getPath().incrementEndX(newValue.doubleValue() - oldValue.doubleValue());
+                if (!model.isDirectionReversed()) getPath().setEndX(newValue.doubleValue());
+                else getPath().setStartX(newValue.doubleValue());
             }    
         });
         
         model.getNode2().doublePropertyY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                getPath().setEndY(newValue.doubleValue());
-                //getPath().incrementEndY(newValue.doubleValue() - oldValue.doubleValue());
+                if (!model.isDirectionReversed()) getPath().setEndY(newValue.doubleValue());
+                else getPath().setStartY(newValue.doubleValue());
             }    
         });
         

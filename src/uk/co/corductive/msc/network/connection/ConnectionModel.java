@@ -17,6 +17,9 @@
 package uk.co.corductive.msc.network.connection;
 
 import java.util.Date;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
 import org.json.JSONObject;
 
@@ -40,6 +43,36 @@ public class ConnectionModel extends AbstractConnectionModel {
     public ConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operation) {
         super(node1, node2, operation);
         time = d.getTime();
+        
+        /*
+         * For HANDi the y-axis value determines a node's position in the 
+         * hierarchy. When the y value of either connected node changes, check
+         * if the direction and thus configure parent in relationship.
+         */
+        directionReversed = new BooleanBinding() {
+            {
+                super.bind(getNode1().doublePropertyY(), getNode2().doublePropertyY());
+            }
+            @Override
+            protected boolean computeValue() {
+                if (getNode2().getY() < getNode1().getY()) return true;
+                else return false;
+            }
+        };
+        /*
+         * If direction is changed then call x, y positions for both nodes so that
+         * values will be recalculated. This will cause change listeners in connection
+         * view to update path layout.
+         */
+        directionReversed.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> value, Boolean oldValue, Boolean newValue) {
+                getNode1().doublePropertyX().getValue();
+                getNode1().doublePropertyY().getValue();
+                getNode2().doublePropertyX().getValue();
+                getNode2().doublePropertyY().getValue();
+            }
+        });
     }
     
     public ConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2) {

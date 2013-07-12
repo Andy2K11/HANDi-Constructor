@@ -27,10 +27,29 @@ public interface NetworkConnection {
     public NetworkNode getNode2();
     public NetworkNode getOtherNode(NetworkNode node);
     
+    /**
+     * Determines if this connection has a parent - child relationship or if
+     * both connected nodes are considered to be on an equal level. 
+     * 
+     * @return whether or not this connection is hierarchical.
+     */
     public boolean isDirectional();
     public void setDirectional(boolean direction);
+    /**
+     * Nominally, node1 is defined to be the parent node. If this method returns 
+     * true then node2 has been defined as parent.
+     * 
+     * @return true if node2 is parent, false if node1 is parent
+     */
     public boolean isDirectionReversed();     // is node2 parent instead of node1
     public void changeDirection();
+    
+    /**
+     * Used to discover if the node supplied as an argument is the parent node.
+     * 
+     * @param node the node to be confirmed as parent.
+     * @return true if node is parent, false in all other conditions.
+     */
     public boolean isParent(NetworkNode node);
     
     public void makeConnection();
