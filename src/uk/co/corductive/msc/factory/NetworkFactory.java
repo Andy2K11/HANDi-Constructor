@@ -17,6 +17,8 @@
 package uk.co.corductive.msc.factory;
 
 import javafx.scene.layout.Pane;
+import org.json.JSONArray;
+import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
@@ -29,8 +31,6 @@ import uk.co.corductive.msc.network.connection.Operator.Operation;
 public interface NetworkFactory {
         
     public AbstractNodeController createNode(double x, double y, Pane pane);
-    //public AbstractNodeController initNode(AbstractNodeController controller, double x, double y, Pane pane);
-    
     public AbstractConnectionController createConnection(AbstractNodeController node1, AbstractNodeController node2, Operation operation, Pane pane);
-    //public void initConnection(AbstractConnectionController controller, Pane pane);
+    public void createConnectionsFromJSON(JSONArray array, AbstractGraphView view);
 }

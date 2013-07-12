@@ -31,9 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.graph.GraphView;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,10 +40,7 @@ import uk.co.corductive.msc.factory.GraphFactory;
 import uk.co.corductive.msc.factory.HandiNetworkFactory;
 import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.network.connection.AbstractConnectionController;
-import uk.co.corductive.msc.network.connection.AbstractConnectionModel;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
-import uk.co.corductive.msc.network.connection.ConnectionModel.Conn;
-import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.node.AbstractNodeView;
 
@@ -58,6 +53,7 @@ public class MenuBarController implements Initializable {
     private TabPane diagramtabs;
     private Tab activeTab;
     private GraphFactory factory = new GraphFactory();
+    private NetworkFactory nFactory = new HandiNetworkFactory();
     
     void setDiagramTabs(final TabPane pane) {
         diagramtabs = pane;
@@ -122,40 +118,7 @@ public class MenuBarController implements Initializable {
                 }
 
                 /* add connections */
-                JSONArray jLinks = jObj.optJSONArray("connections");
-                if (jLinks!=null) {
-                    for (int i=0; i<jLinks.length(); i++) {
-                        JSONObject link = jLinks.getJSONObject(i);
-
-                        /* Most of the work here is finding the correct nodes to link to
-                         * by their name, the nodes must be added first so we need to 
-                         * find their actual object reference.
-                         */
-                        AbstractNodeController cont1 = null, cont2 = null;
-                        String name1 = link.getString("node1");
-                        String name2 = link.getString("node2");
-                        Node node = tab.getGraph();
-                        if (node instanceof AbstractGraphView) {
-                            List<Node> nodes = ((AbstractGraphView)node).getChildren();
-                            for (Node n: nodes) {
-                                if (n instanceof AbstractNodeView) {
-                                    if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
-                                        cont1 = ((AbstractNodeView)n).getController();
-                                    } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
-                                        cont2 = ((AbstractNodeView)n).getController();
-                                    }  
-                                }
-                            }
-                            Operation op = AbstractConnectionModel.stringOperation(link.getString("operator"));
-                            if (cont1==null || cont2 ==null) {
-                                System.err.println("Null node controller");
-                            } else {
-                                connController = gFactory.createConnection(cont1, cont2, op, (Pane)tab.getGraph());
-                                if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
-                            }
-                        }
-                    }
-                }
+                nFactory.createConnectionsFromJSON(jObj.optJSONArray("connections"), tab.getGraph());
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             }  catch (NullPointerException ex) {
@@ -196,7 +159,7 @@ public class MenuBarController implements Initializable {
         
     }
     
-    public boolean saveGraph(GraphView view) {
+    private boolean saveGraph(GraphView view) {
         /* get the JSON model data for the graph as a whole */
         JSONObject jGraph = view.getController().getModel().getJSONObject();
         

@@ -167,11 +167,11 @@ public abstract class AbstractNodeController extends AbstractController {
                     case copytree: db = source.startDragAndDrop(TransferMode.COPY);
                         JSONObject j = new JSONObject();
                         j.put("root", getModel().getJSONObject());
+                        j.append("nodes", getModel().getJSONObject());
                         Set<NetworkNode> ts = getModel().getSubNodeTree();
                         Set<NetworkConnection> connSet= new HashSet<>();    // using a set will prevent duplicates
                         for (NetworkNode n: ts) {
                             AbstractNodeModel nm = (AbstractNodeModel) n;
-                            //nm.setName(nm.getName()+"cpy");     /* new names must be different */
                             j.append("nodes", nm.getJSONObject() );
                             List<NetworkConnection> list = nm.getConnections();
                             for (NetworkConnection nc: list) {

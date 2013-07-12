@@ -18,6 +18,8 @@
 package uk.co.corductive.msc.network.components;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.QuadCurveTo;
 
@@ -57,6 +59,20 @@ public class ProductConnectionPath extends AbstractConnectionPath {
             }
         };
         this.getElements().addAll(start, end);
+        
+        start.yProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
+                setControlY(getControlY() + (newValue.doubleValue() - oldValue.doubleValue()));
+            }    
+        });
+        
+        end.xProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
+                setControlX(getControlX() + (newValue.doubleValue() - oldValue.doubleValue()));
+            }    
+        });
     }
     
     @Override

@@ -32,7 +32,6 @@ public class GraphFactory {
         AbstractGraphController controller = new GraphController();
         tab.setGraph(controller.getView());
         controller.getModel().nameProperty().bindBidirectional(((TextField)tab.getGraphic()).textProperty());
-        
         return tab;
     }
 }

@@ -52,36 +52,32 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
         model.getNode1().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                //getPath().setStartX(newValue.doubleValue());
-                getPath().incrementStartX(newValue.doubleValue() - oldValue.doubleValue());
-                //getPath().updateLayout();
+                getPath().setStartX(newValue.doubleValue());
+                //getPath().incrementStartX(newValue.doubleValue() - oldValue.doubleValue());
             }    
         });
         
         model.getNode1().doublePropertyY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                //getPath().setStartY(newValue.doubleValue());
-                getPath().incrementStartY(newValue.doubleValue() - oldValue.doubleValue());
-                //getPath().updateLayout();
+                getPath().setStartY(newValue.doubleValue());
+                //getPath().incrementStartY(newValue.doubleValue() - oldValue.doubleValue());
             }    
         });
         
         model.getNode2().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                //getPath().setEndX(newValue.doubleValue());
-                getPath().incrementEndX(newValue.doubleValue() - oldValue.doubleValue());
-                //getPath().updateLayout();
+                getPath().setEndX(newValue.doubleValue());
+                //getPath().incrementEndX(newValue.doubleValue() - oldValue.doubleValue());
             }    
         });
         
         model.getNode2().doublePropertyY().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
-                //getPath().setEndY(newValue.doubleValue());
-                getPath().incrementEndY(newValue.doubleValue() - oldValue.doubleValue());
-                //getPath().updateLayout();
+                getPath().setEndY(newValue.doubleValue());
+                //getPath().incrementEndY(newValue.doubleValue() - oldValue.doubleValue());
             }    
         });
         
@@ -100,16 +96,12 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
         this.path = path;
         this.getChildren().add(path);
         path.toBack();
-        //path.updateLayout();    // initialize middle x, y position
         path.getStyleClass().add("link");
-        // temp test line -- move to factory
-        //createNegate(new Circle(path.getMiddleX(), path.getMiddleY(), 5.0));
         
         controller.getModel().getNode1().getConnections().addListener(new ListChangeListener<NetworkConnection>() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
                 change.next();
-                
                 if(change.wasRemoved()) {
                     List<NetworkConnection> connections = change.getRemoved();
                     for (NetworkConnection conn: connections) {
@@ -118,7 +110,6 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
                         }
                     }
                 }
-                System.out.println("List change on node1");
             }
         });
         
@@ -126,7 +117,6 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
             @Override
             public void onChanged(ListChangeListener.Change change) {
                 change.next();
-                
                 if(change.wasRemoved()) {
                     List<NetworkConnection> connections = change.getRemoved();
                     for (NetworkConnection conn: connections) {
@@ -135,7 +125,6 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
                         }
                     }
                 }
-                System.out.println("List change on node2");
             }
         });
     }
@@ -174,14 +163,11 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
     }
     
     public void remove() {
-        //this.getChildren().remove(this.getNegate());
-        //this.getChildren().remove(this.getPath());
         if (this.getParent()!=null) {
             List<Node> list = ((GraphView)this.getParent()).getChildren();
             if (list.contains(this)) {
                     list.remove(this);
             }
         }
-        //controller.getModel().getNode1().doublePropertyX().removeListener(this);
     }
 }
