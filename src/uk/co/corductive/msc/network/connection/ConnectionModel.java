@@ -59,20 +59,7 @@ public class ConnectionModel extends AbstractConnectionModel {
                 else return false;
             }
         };
-        /*
-         * If direction is changed then call x, y positions for both nodes so that
-         * values will be recalculated. This will cause change listeners in connection
-         * view to update path layout.
-         */
-        directionReversed.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> value, Boolean oldValue, Boolean newValue) {
-                getNode1().doublePropertyX().getValue();
-                getNode1().doublePropertyY().getValue();
-                getNode2().doublePropertyX().getValue();
-                getNode2().doublePropertyY().getValue();
-            }
-        });
+        
     }
     
     public ConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2) {

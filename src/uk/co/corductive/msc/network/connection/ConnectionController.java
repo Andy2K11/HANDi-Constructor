@@ -16,6 +16,8 @@
  */
 package uk.co.corductive.msc.network.connection;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 
@@ -29,6 +31,26 @@ public class ConnectionController extends AbstractConnectionController {
         super(node1, node2);
         this.model = new ConnectionModel(node1.getModel(), node2.getModel(), operator);
         this.view = new ConnectionView(this);
+        
+        /*
+         * If direction is changed re-initialize positions of paths.
+         */
+        model.directionReversed.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> value, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    view.getPath().setEndX(getModel().getNode1().getX());
+                    view.getPath().setEndY(getModel().getNode1().getY());
+                    view.getPath().setStartX(getModel().getNode2().getX());
+                    view.getPath().setStartY(getModel().getNode2().getY());
+                } else {
+                    view.getPath().setEndX(getModel().getNode2().getX());
+                    view.getPath().setEndY(getModel().getNode2().getY());
+                    view.getPath().setStartX(getModel().getNode1().getX());
+                    view.getPath().setStartY(getModel().getNode1().getY());
+                }
+            }
+        });
     }
 
 }

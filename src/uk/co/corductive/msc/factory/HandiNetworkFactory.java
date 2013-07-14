@@ -115,8 +115,8 @@ public class HandiNetworkFactory implements NetworkFactory {
         view.getPath().setStartY(source.getY());
         view.getPath().setEndX(target.getX());
         view.getPath().setEndY(target.getY());
-        view.getPath().setControlX(target.getX());
-        view.getPath().setControlY(source.getY());
+        //view.getPath().setControlX(target.getX());
+        //view.getPath().setControlY(source.getY());
         view.getPath().middleX().invalidate();
         view.getPath().middleY().invalidate();
         view.getNegate().setLayoutX(view.getPath().getMiddleX());

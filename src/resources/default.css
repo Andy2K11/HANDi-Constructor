@@ -1,0 +1,16 @@
+/* 
+    Document   : default
+    Created on : 14-Jul-2013, 11:52:27
+    Author     : Andy Keavey
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.line{
+    -fx-fill: transparent;
+    -fx-stroke: dimgray;
+}

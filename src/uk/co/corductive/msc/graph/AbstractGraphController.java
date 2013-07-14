@@ -36,6 +36,8 @@ import uk.co.corductive.msc.mvc.AbstractModel;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
 import uk.co.corductive.msc.network.connection.ConnectionModel.Conn;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
+import uk.co.corductive.msc.network.node.NodeController;
+import uk.co.corductive.msc.network.node.NodeModel;
 import uk.co.corductive.msc.network.node.NodeView;
 
 /**
@@ -100,6 +102,7 @@ public abstract class AbstractGraphController extends AbstractController {
                                         JSONObject node = array.getJSONObject(i);
                                         controller = factory.createNode(node.getDouble("x") + diffX, node.getDouble("y") + diffY, targetTab);
                                         controller.getModel().setValue(node.getString("value"));
+                                        if (controller instanceof NodeController) ((NodeModel)controller.getModel()).setComplex(node.getInt("complex"));
                                         /* replace names in connections JSONArray with new names of created nodes */
                                         for (int j=0; j<conns.length(); j++) {
                                             JSONObject conn = conns.getJSONObject(j);
@@ -118,6 +121,9 @@ public abstract class AbstractGraphController extends AbstractController {
                                     break;
                             }
                         }
+                    } else if (event.getTransferMode() == TransferMode.COPY) {
+                        // source is tool bar
+                        factory.createNode(event.getX(), event.getY(), targetTab);
                     }
                 } 
             }

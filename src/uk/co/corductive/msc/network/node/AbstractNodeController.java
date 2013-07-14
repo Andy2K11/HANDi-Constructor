@@ -67,22 +67,7 @@ public abstract class AbstractNodeController extends AbstractController {
         return model;
     }
     
-    @Override
-    public EventHandler<MouseEvent> getOnMouseClickedHandler() {
-        return new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.isAltDown()) {
-                    ((NodeView)getView()).toggleValue();
-                }
-                switch(ToolBarController.getSelectedTool()) {
-                    case delete: remove();
-                        break;
-                }
-                event.consume();
-            }
-        };
-    }
+    
     
     public void remove() {
         this.getView().remove();
@@ -158,7 +143,8 @@ public abstract class AbstractNodeController extends AbstractController {
                 Node source = (Node) event.getSource();
                 switch (ToolBarController.getSelectedTool()) {
                     case moveone:
-                    case movetree: //db = source.startDragAndDrop(TransferMode.MOVE);
+                    case movetree: // do nothing, use mouse drag instead. 
+                        // nb: this case is required to prevent default action
                         break;
                     case copy: db = source.startDragAndDrop(TransferMode.COPY);
                         //cbc.putString(getModel().getJSONObject().toString());
@@ -182,15 +168,13 @@ public abstract class AbstractNodeController extends AbstractController {
                             AbstractConnectionModel model = (AbstractConnectionModel) nc;
                             j.append("connections", model.getJSONObject());
                         }
-                        
                         cbc.put(AbstractModel.JSON_FORMAT, j);
                         db.setContent(cbc);
-                        break;
-                    case select: db = source.startDragAndDrop(TransferMode.LINK);
+                        break;                        
+                    default: // If not a move or copy then assume link is to be created.
+                        db = source.startDragAndDrop(TransferMode.LINK);
                         db.setContent(cbc);
                         break;
-                    default: db = source.startDragAndDrop(TransferMode.ANY);
-                        db.setContent(cbc);
                 }
                 event.consume();
             } 

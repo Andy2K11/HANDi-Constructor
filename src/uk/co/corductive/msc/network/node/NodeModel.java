@@ -17,6 +17,8 @@
 package uk.co.corductive.msc.network.node;
 
 import java.util.Date;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.json.JSONObject;
 
 /**
@@ -26,18 +28,40 @@ import org.json.JSONObject;
 public class NodeModel extends AbstractNodeModel {
     private Date d = new Date();
     private long time;
+    private IntegerProperty complex = new SimpleIntegerProperty(0);
     
     public NodeModel() {
         super();
         time = d.getTime();
     }
         
+    public void setComplex(int complex) {
+        this.complex.set(complex);
+    }
+    
+    public int getComplex() {
+        return this.complex.get();
+    }
+    
+    public void incrementComplex() {
+        if (complex.get() < 3) {
+            complex.set(complex.get() + 1);
+        } else {
+            complex.set(0);
+        }
+    }
+    
+    public IntegerProperty complexIntegerProperty() {
+        return complex;
+    }
+    
     @Override
     public JSONObject getJSONObject () {
         jSONObject.put("name", getName());
         jSONObject.put("value", getValue());
         jSONObject.put("x", getX());
         jSONObject.put("y", getY());
+        jSONObject.put("complex", getComplex());
         jSONObject.put("date", time);
         return jSONObject;
     }

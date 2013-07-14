@@ -16,6 +16,8 @@
  */
 package uk.co.corductive.msc.ui;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,6 +29,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import uk.co.corductive.msc.login.MScLogin.Loginable;
 
 /**
@@ -35,13 +39,15 @@ import uk.co.corductive.msc.login.MScLogin.Loginable;
  */
 public class MScProject extends Application implements Loginable {
 
+    public static final String property = System.getProperties().getProperty("user.home");
+    
     private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("/resources/he-icon.png"));    
     private String username = null;
     private Stage stage = null;
     private Locale locale = null;
     private Parent root = null;
     
-    static String globalUser;
+    private static String globalUser;
     
     /**
      * Read in any parameters set.
@@ -99,7 +105,7 @@ public class MScProject extends Application implements Loginable {
     @Override
     public void setUser(String username) {
         this.username = username;
-        MScProject.globalUser = username.substring(0, Math.min(8, username.length()));
+        MScProject.globalUser = username.substring(0, Math.min(12, username.length()));
         showStage();
         System.out.println(username + " passed to application:" + globalUser);
     }
@@ -107,6 +113,12 @@ public class MScProject extends Application implements Loginable {
     public static String getGlobalUser() {
         return globalUser;
     }
+    
+    public static String getFilePath() {
+        return property + File.separator + "msc" + File.separator + getGlobalUser();
+    }
+    
+    
     
     /**
      * The main() method is ignored in correctly deployed JavaFX application.

@@ -23,6 +23,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.ui.ToolBarController;
 
 public abstract class AbstractConnectionController extends AbstractController {
@@ -59,14 +60,15 @@ public abstract class AbstractConnectionController extends AbstractController {
             @Override
             public void handle(MouseEvent event) {
                 switch(ToolBarController.getSelectedTool()) {    
-                    case delete: remove();   
+                    case delete: 
+                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("delete-connection", getModel().getName());
+                        remove();
                         break;
                 }
                 if (event.isStillSincePress()) {
                     getModel().negate();
                 }
                 event.consume();
-                System.out.println("<MouseEvent> Mouse Clicked");
             }
         };
     }

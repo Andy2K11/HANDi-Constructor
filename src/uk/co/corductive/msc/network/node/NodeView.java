@@ -18,7 +18,9 @@ package uk.co.corductive.msc.network.node;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Arc;
 import javafx.scene.shape.Circle;
+import static uk.co.corductive.msc.network.node.AbstractNodeView.DEFAULT_RADIUS;
 
 /**
  *
@@ -29,23 +31,32 @@ public class NodeView extends AbstractNodeView {
     private Circle node = new Circle(0, 0, DEFAULT_RADIUS);
     TextField value = new TextField();
     Label name = new Label();
+    Arc complex = new Arc(0, -2*DEFAULT_RADIUS, DEFAULT_RADIUS, DEFAULT_RADIUS, -90, 90);
     
     public NodeView(AbstractNodeController controller) {
         super(controller);
-        this.getChildren().add(node);
-        this.getChildren().add(value);
-        //this.getChildren().add(name);
+        this.getChildren().addAll(node, value, complex, name);
+        
         value.setLayoutX(10.0);
         value.setLayoutY(-30.0);
         value.setPrefColumnCount(8);
         value.textProperty().bindBidirectional(getController().getModel().value);
         value.setVisible(false);
+        
         name.setLayoutX(-70.0);
         name.setLayoutY(-30.0);
         name.setText(getController().getModel().getName());
+        name.setVisible(false);
+        
+        complex.lengthProperty().bind(((NodeModel)getController().getModel()).complexIntegerProperty().multiply(90));
+        complex.getStyleClass().add("line");
     }
     
     public void toggleValue() {
         value.setVisible(!value.isVisible());
+    }
+    
+    public void toggleName() {
+        name.setVisible(!name.isVisible());
     }
 }

@@ -75,7 +75,7 @@ public class ToolBarController implements Initializable {
     @FXML
     private void handleDragDetected(MouseEvent event) {
         Node source = ((Node)event.getSource());
-        Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
+        Dragboard db = source.startDragAndDrop(TransferMode.COPY);
         ClipboardContent content = new ClipboardContent();
         content.putString("");
         db.setContent(content);

@@ -104,7 +104,7 @@ public class ScrollTab extends Tab {
         this.setOnClosed(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                // do stuff
+                
             }
         });
         

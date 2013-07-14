@@ -16,7 +16,11 @@
  */
 package uk.co.corductive.msc.network.node;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import uk.co.corductive.msc.factory.NetworkFactory;
+import uk.co.corductive.msc.ui.ToolBarController;
+import static uk.co.corductive.msc.ui.ToolBarController.Tool.delete;
 
 /**
  *
@@ -28,5 +32,28 @@ public class NodeController extends AbstractNodeController {
         super(factory);
         this.model = new NodeModel();
         this.view = new NodeView(this);
+    }
+    
+    @Override
+    public EventHandler<MouseEvent> getOnMouseClickedHandler() {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isAltDown()) {
+                    ((NodeView)getView()).toggleValue();
+                } else if (event.isControlDown()) {
+                    ((NodeView)getView()).toggleName();
+                } else {
+                    switch(ToolBarController.getSelectedTool()) {
+                        case delete: remove();
+                            break;
+                        default:
+                            if (event.isStillSincePress()) ((NodeModel)getModel()).incrementComplex();
+                            break;
+                    }
+                }
+                event.consume();
+            }
+        };
     }
 }

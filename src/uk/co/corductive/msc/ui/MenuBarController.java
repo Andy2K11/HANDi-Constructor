@@ -43,6 +43,8 @@ import uk.co.corductive.msc.network.connection.AbstractConnectionController;
 import uk.co.corductive.msc.network.connection.AbstractConnectionView;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.node.AbstractNodeView;
+import uk.co.corductive.msc.network.node.NodeController;
+import uk.co.corductive.msc.network.node.NodeModel;
 
 /**
  *
@@ -54,7 +56,7 @@ public class MenuBarController implements Initializable {
     private Tab activeTab;
     private GraphFactory factory = new GraphFactory();
     private NetworkFactory nFactory = new HandiNetworkFactory();
-    
+
     void setDiagramTabs(final TabPane pane) {
         diagramtabs = pane;
     }
@@ -76,7 +78,6 @@ public class MenuBarController implements Initializable {
                 GraphView graph = (GraphView) node;
                 saveGraph(graph);
             }
-            
         }    
     }
     
@@ -89,7 +90,12 @@ public class MenuBarController implements Initializable {
         
         // file select stuff here
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        String path = MScProject.getFilePath();
+        File pathFile = new File(path);
+        if (!pathFile.exists()) {
+            pathFile.mkdirs();
+        }
+        fc.setInitialDirectory(new File(path));
         File loadFile = fc.showOpenDialog(null);
         
         if (loadFile!=null) {
@@ -103,7 +109,8 @@ public class MenuBarController implements Initializable {
                 JSONTokener jToken = new JSONTokener(fr);
                 JSONObject jObj = new JSONObject(jToken);
                 String title = jObj.getString("title");
-
+                tab.getGraph().getController().getModel().initActions(jObj.optJSONArray("actions"));
+                
                 tab.setName(title);
                 /* add nodes */
                 JSONArray jNodes = jObj.optJSONArray("nodes");
@@ -114,6 +121,7 @@ public class MenuBarController implements Initializable {
                         nodeController = gFactory.createNode(jNode.getDouble("x"), jNode.getDouble("y"), tab.getGraph());
                         nodeController.getModel().setValue(value);
                         nodeController.getModel().setName(jNode.getString("name"));
+                        if (nodeController instanceof NodeController) ((NodeModel)nodeController.getModel()).setComplex(jNode.getInt("complex"));
                     }
                 }
 
@@ -162,6 +170,7 @@ public class MenuBarController implements Initializable {
     private boolean saveGraph(GraphView view) {
         /* get the JSON model data for the graph as a whole */
         JSONObject jGraph = view.getController().getModel().getJSONObject();
+        jGraph.put("actions", view.getController().getModel().recordAction("save", view.getName()));
         
         /* now go through all the nodes and connections for that graph and 
          * add their JSON representations */
@@ -174,11 +183,18 @@ public class MenuBarController implements Initializable {
             }    
         }
         try {
-            File saveFile = new File(MScProject.getGlobalUser() + "-" + view.getController().getModel().getName() + ".HANDi");
-            System.err.println("File already exists: " + saveFile.exists());
+            String path = MScProject.getFilePath();
+            File pathFile = new File(path);
+            if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            }
+            
+            String file = path + File.separator + MScProject.getGlobalUser() + "." + view.getController().getModel().getName() + ".HANDi";
+            File saveFile = new File(file);
             if (!saveFile.exists()) {
                 saveFile.createNewFile();
             }
+            
             FileWriter fw = new FileWriter(saveFile);
             fw.write(jGraph.toString(4));
             fw.flush();

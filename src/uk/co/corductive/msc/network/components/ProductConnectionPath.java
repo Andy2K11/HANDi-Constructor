@@ -50,7 +50,7 @@ public class ProductConnectionPath extends AbstractConnectionPath {
         };
         this.middleY = new DoubleBinding() {
             {
-                super.bind(start.yProperty(), end.controlYProperty(), end.xProperty());
+                super.bind(start.yProperty(), end.controlYProperty(), end.yProperty());
             }
             @Override
             protected double computeValue() {
@@ -60,7 +60,8 @@ public class ProductConnectionPath extends AbstractConnectionPath {
             }
         };
         this.getElements().addAll(start, end);
-        
+
+        // can not use binding because must be able to manually adjust path - can not set bound property!
         start.yProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
@@ -74,6 +75,22 @@ public class ProductConnectionPath extends AbstractConnectionPath {
                 setControlX(getControlX() + (newValue.doubleValue() - oldValue.doubleValue()));
             }    
         });
+
+        /*
+        start.yProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
+                setControlY(getControlY() + (newValue.doubleValue() - oldValue.doubleValue()));
+            }    
+        });
+        
+        end.xProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {
+                setControlX(getControlX() + (newValue.doubleValue() - oldValue.doubleValue()));
+            }    
+        });
+        */
     }
     
     @Override

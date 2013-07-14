@@ -58,7 +58,7 @@ public class AdditionConnectionPath extends AbstractConnectionPath {
         
         this.getElements().addAll(start, control, bridge, end);
         
-        
+        // can not use binding because must be able to manually adjust path - can not set bound property!
         start.yProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {

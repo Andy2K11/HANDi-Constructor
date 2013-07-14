@@ -61,3 +61,8 @@
 .node:hover {
     -fx-fill: blue;
 }
+    
+.line{
+    -fx-fill: transparent;
+    -fx-stroke: dimgray;
+}
