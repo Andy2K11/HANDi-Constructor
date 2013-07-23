@@ -12,7 +12,7 @@
       fx:controller="uk.co.corductive.msc.ui.UIController"
       stylesheets="resources/uibase.css"
       minHeight="600" 
-      minWidth="600" 
+      minWidth="800" 
       onKeyPressed="#handleKeyPressed"
       onKeyReleased="#handleKeyReleased"
       >

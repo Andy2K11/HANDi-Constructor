@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
@@ -35,6 +36,8 @@ public abstract class AbstractController {
     
     public abstract EventHandler<MouseEvent> getOnMouseClickedHandler();
     public abstract EventHandler<MouseEvent> getOnMouseDraggedHandler();
+    public abstract EventHandler<MouseDragEvent> getOnMouseDragReleased();
+    
     public abstract EventHandler<MouseEvent> getOnDragDetectedHandler();
     public abstract EventHandler<DragEvent> getOnDragDroppedHandler();
     public abstract EventHandler<KeyEvent> getOnKeyPressedHandler(); 

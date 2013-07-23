@@ -32,12 +32,11 @@ public abstract class AbstractGraphModel extends AbstractModel {
     }
     
     private JSONArray actions = new JSONArray();
-    private Date date = new Date();
     
-    public JSONArray recordAction(String actionString, String object) {
+    public JSONArray recordAction(String actionString, JSONObject object) {
         JSONObject action = new JSONObject();
         action.put("action", actionString);
-        action.put("time", date.getTime());
+        action.put("time", System.currentTimeMillis());
         action.put("object", object);
         actions.put(action);
         return actions;

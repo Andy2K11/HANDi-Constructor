@@ -71,36 +71,38 @@ public class HandiNetworkFactory implements NetworkFactory {
     
     @Override
     public void createConnectionsFromJSON(JSONArray jLinks, AbstractGraphView targetTab) {
-        for (int i=0; i<jLinks.length(); i++) {
-            JSONObject link = jLinks.getJSONObject(i);
-            AbstractNodeController cont1 = null, cont2 = null;
+        if (jLinks!=null) {
+            for (int i=0; i<jLinks.length(); i++) {
+                JSONObject link = jLinks.getJSONObject(i);
+                AbstractNodeController cont1 = null, cont2 = null;
 
-            String name1 = link.getString("node1");
-            String name2 = link.getString("node2");
+                String name1 = link.getString("node1");
+                String name2 = link.getString("node2");
 
-            /* Most of the work here is finding the correct nodes to link to
-            * by their name, the nodes must have been added first so we need to 
-            * find their actual object reference.
-            */
-            List<Node> nodes = targetTab.getChildren();
-            for (Node n: nodes) {
-                if (n instanceof AbstractNodeView) {
-                    if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
-                        cont1 = ((AbstractNodeView)n).getController();
-                    } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
-                        cont2 = ((AbstractNodeView)n).getController();
-                    }  
+                /* Most of the work here is finding the correct nodes to link to
+                * by their name, the nodes must have been added first so we need to 
+                * find their actual object reference.
+                */
+                List<Node> nodes = targetTab.getChildren();
+                for (Node n: nodes) {
+                    if (n instanceof AbstractNodeView) {
+                        if (((AbstractNodeView)n).getController().getModel().getName().equals(name1)) {
+                            cont1 = ((AbstractNodeView)n).getController();
+                        } else if (((AbstractNodeView)n).getController().getModel().getName().equals(name2)) {
+                            cont2 = ((AbstractNodeView)n).getController();
+                        }  
+                    }
                 }
-            }
-            String opString = link.getString("operator");
-            Operation op = AbstractConnectionModel.stringOperation(opString);
-            if (cont1==null || cont2 ==null) {
-                System.err.println("Null node controller");
-            } else {
-                AbstractConnectionController connController = createConnection(cont1, cont2, op, targetTab);
-                if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
-                connController.getView().getPath().setControlX(link.getDouble(Conn.CONTROLX.getString()));
-                connController.getView().getPath().setControlY(link.getDouble(Conn.CONTROLY.getString()));
+                String opString = link.getString("operator");
+                Operation op = AbstractConnectionModel.stringOperation(opString);
+                if (cont1==null || cont2 ==null) {
+                    System.err.println("Null node controller");
+                } else {
+                    AbstractConnectionController connController = createConnection(cont1, cont2, op, targetTab);
+                    if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
+                    connController.getView().getPath().setControlX(link.getDouble(Conn.CONTROLX.getString()));
+                    connController.getView().getPath().setControlY(link.getDouble(Conn.CONTROLY.getString()));
+                }
             }
         }
     }

@@ -104,7 +104,8 @@ public class ScrollTab extends Tab {
         this.setOnClosed(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                
+                boolean saved = getGraph().getController().saveGraph();
+                if (!saved) System.err.println("Diagram not saved on closing");
             }
         });
         

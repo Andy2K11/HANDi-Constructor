@@ -19,6 +19,7 @@ package uk.co.corductive.msc.network.node;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import uk.co.corductive.msc.factory.NetworkFactory;
+import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.ui.ToolBarController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.delete;
 
@@ -45,7 +46,9 @@ public class NodeController extends AbstractNodeController {
                     ((NodeView)getView()).toggleName();
                 } else {
                     switch(ToolBarController.getSelectedTool()) {
-                        case delete: remove();
+                        case delete: 
+                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("delete-node", getModel().getJSONObject());
+                        remove();
                             break;
                         default:
                             if (event.isStillSincePress()) ((NodeModel)getModel()).incrementComplex();

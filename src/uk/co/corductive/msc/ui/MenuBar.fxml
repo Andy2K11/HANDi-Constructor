@@ -21,27 +21,37 @@
         <SeparatorMenuItem />
         <MenuItem text="%menubar.file.exit" onAction="#handleExit" />
     </Menu>
+    <Menu text="%menubar.diagram">
+        <CheckMenuItem text="%menubar.diagram.values" onAction="#handleShowValues" />
+    </Menu>
     <Menu text="%menubar.help">
-        <MenuItem text="Task Instructions" />
-        <Menu text="Nodes">
+        <Menu text="Tasks">
+            <MenuItem text="%menubar.tasks.task0" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task1" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task2" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task3" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task4" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task5" onAction="#handleTask" />
+        </Menu>
+        <!--Menu text="Nodes">
             <MenuItem text="Node Overview"/>
             <MenuItem text="Node1 Info"/>
             <MenuItem text="Node2 Info"/>
-        </Menu>
-        <Menu text="Branches">
+        </Menu-->
+        <!--Menu text="Branches">
             <MenuItem text="Link Overview"/>
             <MenuItem text="Link1 Info"/>
             <MenuItem text="Link2 Info"/>
             <MenuItem text="Link3 Info"/>
-        </Menu>            
+        </Menu-->            
     </Menu>
-    <Menu text="%menubar.about" >
+    <!--Menu text="%menubar.about" >
         <Menu text="%menubar.about.author" >
             <MenuItem text="%menubar.about.author.a1" />
             <MenuItem text="%menubar.about.author.a2" />
         </Menu>
         <MenuItem text="%menubar.about.ethics" />
         <MenuItem text="%menubar.about.organisation" />
-    </Menu>
+    </Menu-->
 </MenuBar>
   

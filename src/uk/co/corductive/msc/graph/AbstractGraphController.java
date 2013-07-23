@@ -25,6 +25,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import uk.co.corductive.msc.ui.ToolBarController;
@@ -55,6 +56,7 @@ public abstract class AbstractGraphController extends AbstractController {
         
     }
 
+    public abstract boolean saveGraph(); 
     /**
      * Handles both moving and copying of nodes, and the reshaping of the link path?
      */
@@ -78,7 +80,10 @@ public abstract class AbstractGraphController extends AbstractController {
 
                             Dragboard db = event.getDragboard();
                             switch (ToolBarController.getSelectedTool()) {
-                                case copy: factory.createNode(event.getX(), event.getY(), targetTab);
+                                case copy: controller = factory.createNode(event.getX(), event.getY(), targetTab);
+                                NodeModel sourceModel = (NodeModel) ((NodeView)source).getController().getModel();
+                                controller.getModel().setValue(sourceModel.getValue());
+                                ((NodeModel)controller.getModel()).setComplex(sourceModel.getComplex());
                                     break;
                                 /*
                                  * Find difference between event position and root node model position
@@ -104,17 +109,21 @@ public abstract class AbstractGraphController extends AbstractController {
                                         controller.getModel().setValue(node.getString("value"));
                                         if (controller instanceof NodeController) ((NodeModel)controller.getModel()).setComplex(node.getInt("complex"));
                                         /* replace names in connections JSONArray with new names of created nodes */
-                                        for (int j=0; j<conns.length(); j++) {
-                                            JSONObject conn = conns.getJSONObject(j);
-                                            if(conn.getString(Conn.NODE1.getString()).equals(node.getString("name"))) conn.put(Conn.NODE1.getString(), controller.getModel().getName());
-                                            if(conn.getString(Conn.NODE2.getString()).equals(node.getString("name"))) conn.put(Conn.NODE2.getString(), controller.getModel().getName());
+                                        if (conns!=null) {
+                                            for (int j=0; j<conns.length(); j++) {
+                                                JSONObject conn = conns.getJSONObject(j);
+                                                if(conn.getString(Conn.NODE1.getString()).equals(node.getString("name"))) conn.put(Conn.NODE1.getString(), controller.getModel().getName());
+                                                if(conn.getString(Conn.NODE2.getString()).equals(node.getString("name"))) conn.put(Conn.NODE2.getString(), controller.getModel().getName());
+                                            }
                                         }
                                     }
                                     /* adjust position of control points on connections */
-                                    for (int i=0; i<conns.length(); i++) {
-                                        JSONObject conn = conns.getJSONObject(i);
-                                        conn.put(Conn.CONTROLX.getString(), conn.getDouble(Conn.CONTROLX.getString()) + diffX);
-                                        conn.put(Conn.CONTROLY.getString(), conn.getDouble(Conn.CONTROLY.getString()) + diffY); 
+                                    if (conns!=null) {
+                                        for (int i=0; i<conns.length(); i++) {
+                                            JSONObject conn = conns.getJSONObject(i);
+                                            conn.put(Conn.CONTROLX.getString(), conn.getDouble(Conn.CONTROLX.getString()) + diffX);
+                                            conn.put(Conn.CONTROLY.getString(), conn.getDouble(Conn.CONTROLY.getString()) + diffY); 
+                                        }
                                     }
                                     /* add connections */
                                     factory.createConnectionsFromJSON(jObject.optJSONArray("connections"), targetTab);
@@ -153,6 +162,7 @@ public abstract class AbstractGraphController extends AbstractController {
                             switch(ToolBarController.getNodeType()) {
                                 case 0: 
                                     factory.createNode(event.getX(), event.getY(), graph);
+                                    ((AbstractGraphView)getView()).getController().getModel().recordAction("create-node", getModel().getJSONObject());
                                     break;
                             }
                             break;
@@ -218,5 +228,14 @@ public abstract class AbstractGraphController extends AbstractController {
     
 /********************************HELPERS**************************************/   
     
+    @Override
+    public EventHandler<MouseDragEvent> getOnMouseDragReleased() {
+        return new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                // do nothing
+            }
+        };
+    }
     
 }

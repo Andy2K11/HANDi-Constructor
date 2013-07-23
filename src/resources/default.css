@@ -10,7 +10,15 @@ root {
     display: block;
 }
 
-.line{
+.line {
     -fx-fill: transparent;
     -fx-stroke: dimgray;
+}
+
+.title {
+    -fx-font-size: 24px;
+}
+
+.grid {
+    -fx-padding: 10px;
 }

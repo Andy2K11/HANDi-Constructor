@@ -16,6 +16,7 @@
  */
 package uk.co.corductive.msc.graph;
 
+import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -24,6 +25,9 @@ import org.json.JSONObject;
  */
 public class GraphModel extends AbstractGraphModel {
 
+    private Date date = new Date();
+    private long created = date.getTime();
+    
     GraphModel() {
         super();
     }
@@ -32,6 +36,7 @@ public class GraphModel extends AbstractGraphModel {
     public JSONObject getJSONObject() {
         JSONObject jGraph = new JSONObject();
         jGraph.put("title", getName());
+        jGraph.optLong("date", created);
         return jGraph;
     }
     

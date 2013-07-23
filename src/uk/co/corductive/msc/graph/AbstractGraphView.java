@@ -44,6 +44,8 @@ public abstract class AbstractGraphView extends Pane implements AbstractView {
         this.setOnDragDropped(controller.getOnDragDroppedHandler());
 
         this.setOnKeyPressed(controller.getOnKeyPressedHandler());
+        
+        this.setOnMouseDragReleased(controller.getOnMouseDragReleased());
     }
     
     @Override

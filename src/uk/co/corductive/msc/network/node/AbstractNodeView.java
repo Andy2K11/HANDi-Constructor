@@ -45,6 +45,8 @@ public abstract class AbstractNodeView extends Parent implements AbstractView {
 
         this.setOnKeyPressed(controller.getOnKeyPressedHandler());
         
+        this.setOnMouseDragReleased(controller.getOnMouseDragReleased());
+        
         controller.getModel().doublePropertyX().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldValue, Number newValue) {

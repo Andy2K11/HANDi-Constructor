@@ -17,7 +17,6 @@
 package uk.co.corductive.msc.ui;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,8 +28,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import uk.co.corductive.msc.login.MScLogin.Loginable;
 
 /**
@@ -80,6 +77,7 @@ public class MScProject extends Application implements Loginable {
         stage.setTitle(bundle.getString("title"));
         stage.getIcons().add(ICON_32);
         stage.setScene(scene);
+        stage.setX(400);
         showStage();
     }
 

@@ -19,16 +19,18 @@ package uk.co.corductive.msc.ui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
@@ -40,11 +42,12 @@ import uk.co.corductive.msc.factory.GraphFactory;
 import uk.co.corductive.msc.factory.HandiNetworkFactory;
 import uk.co.corductive.msc.factory.NetworkFactory;
 import uk.co.corductive.msc.network.connection.AbstractConnectionController;
-import uk.co.corductive.msc.network.connection.AbstractConnectionView;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 import uk.co.corductive.msc.network.node.AbstractNodeView;
 import uk.co.corductive.msc.network.node.NodeController;
 import uk.co.corductive.msc.network.node.NodeModel;
+import uk.co.corductive.msc.network.node.NodeView;
+import uk.co.corductive.msc.ui.tasks.AbstractTask;
 
 /**
  *
@@ -76,7 +79,7 @@ public class MenuBarController implements Initializable {
             Node node = st.getGraph();
             if (node instanceof GraphView) {
                 GraphView graph = (GraphView) node;
-                saveGraph(graph);
+                graph.getController().saveGraph();
             }
         }    
     }
@@ -156,6 +159,43 @@ public class MenuBarController implements Initializable {
         System.out.append("www.sussex.ac.uk");
     }
     
+    @FXML
+    private void handleShowValues(ActionEvent event) {
+        activeTab = diagramtabs.getSelectionModel().getSelectedItem();
+        if (activeTab instanceof ScrollTab) {
+            ScrollTab st = (ScrollTab) activeTab;
+            List<Node> nodes = st.getGraph().getChildren();
+            for (Node n: nodes) {
+                if (n instanceof AbstractNodeView) {
+                    ((NodeView)n).setValueVisibility(((CheckMenuItem)event.getSource()).isSelected());
+                }
+            }
+        }
+    }
+    
+    /*************************************************************************/
+    
+    private Map<Integer, AbstractTask> tasks = new HashMap<>();
+    
+    /**
+     * Finds the number of the task from its position in the menu list.
+     * Uses the getTask(int) method to create a task stage for that task number.
+     * 
+     * @param event 
+     */
+    @FXML
+    private void handleTask(ActionEvent event) {
+        /* index starts at zero, in this case there is a task0 (an introductory task) so numbers match. */
+        getTask(((MenuItem)event.getSource()).getParentMenu().getItems().indexOf((MenuItem)event.getSource()));
+    }
+    
+    private void getTask(int taskNum) {
+        if (!tasks.containsKey(taskNum)) {
+            tasks.put(taskNum, new AbstractTask(taskNum));
+        }
+        tasks.get(taskNum).showAndWait();
+    }
+    
     private ResourceBundle bundle;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -165,44 +205,5 @@ public class MenuBarController implements Initializable {
     
     class NullDiagramException extends Exception {
         
-    }
-    
-    private boolean saveGraph(GraphView view) {
-        /* get the JSON model data for the graph as a whole */
-        JSONObject jGraph = view.getController().getModel().getJSONObject();
-        jGraph.put("actions", view.getController().getModel().recordAction("save", view.getName()));
-        
-        /* now go through all the nodes and connections for that graph and 
-         * add their JSON representations */
-        List<Node> list = view.getChildren();
-        for (Node n: list) {
-            if (n instanceof AbstractNodeView) {
-                jGraph.append("nodes", ((AbstractNodeView)n).getController().getModel().getJSONObject());
-            } else if (n instanceof AbstractConnectionView) {
-                jGraph.append("connections", ((AbstractConnectionView)n).getController().getModel().getJSONObject());
-            }    
-        }
-        try {
-            String path = MScProject.getFilePath();
-            File pathFile = new File(path);
-            if (!pathFile.exists()) {
-                pathFile.mkdirs();
-            }
-            
-            String file = path + File.separator + MScProject.getGlobalUser() + "." + view.getController().getModel().getName() + ".HANDi";
-            File saveFile = new File(file);
-            if (!saveFile.exists()) {
-                saveFile.createNewFile();
-            }
-            
-            FileWriter fw = new FileWriter(saveFile);
-            fw.write(jGraph.toString(4));
-            fw.flush();
-            fw.close();
-            return true;
-        } catch (IOException ex) {
-            System.err.println(ex);
-            return false;
-        }
-    }
+    }   
 }

@@ -22,9 +22,12 @@ import uk.co.corductive.msc.network.node.AbstractNodeController;
 import javafx.event.EventHandler;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.ui.ToolBarController;
+import static uk.co.corductive.msc.ui.ToolBarController.Tool.moveone;
+import static uk.co.corductive.msc.ui.ToolBarController.Tool.movetree;
 
 public abstract class AbstractConnectionController extends AbstractController {
     
@@ -61,7 +64,7 @@ public abstract class AbstractConnectionController extends AbstractController {
             public void handle(MouseEvent event) {
                 switch(ToolBarController.getSelectedTool()) {    
                     case delete: 
-                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("delete-connection", getModel().getName());
+                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("delete-connection", getModel().getJSONObject());
                         remove();
                         break;
                 }
@@ -117,6 +120,7 @@ public abstract class AbstractConnectionController extends AbstractController {
             @Override
             public void handle(MouseEvent event) {
                 AbstractConnectionView conn = (AbstractConnectionView) event.getSource();
+                ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("reshape-connection", getModel().getJSONObject());
                 conn.getPath().setControlX(event.getX() + diffX);
                 event.consume();
             }
@@ -154,5 +158,16 @@ public abstract class AbstractConnectionController extends AbstractController {
                 event.consume();
             } 
         };
-    }    
+    }   
+    
+    @Override
+    public EventHandler<MouseDragEvent> getOnMouseDragReleased() {
+        return new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                System.out.println("Connection drag realsed");
+                event.consume();
+            }
+        };
+    }
 }

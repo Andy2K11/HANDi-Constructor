@@ -16,6 +16,10 @@
  */
 package uk.co.corductive.msc.network.node;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Arc;
@@ -39,10 +43,26 @@ public class NodeView extends AbstractNodeView {
         
         value.setLayoutX(10.0);
         value.setLayoutY(-30.0);
-        value.setPrefColumnCount(8);
-        value.textProperty().bindBidirectional(getController().getModel().value);
-        value.setVisible(false);
         
+        value.textProperty().bindBidirectional(getController().getModel().value);
+        //value.setVisible(false);
+        value.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> ov, String oldString, String newString) {
+                value.setPrefColumnCount(newString.length());
+            }
+        });
+        
+        /* Override default relation between column count and pref width as text field is made too wide. */
+        value.prefWidthProperty().bind(value.prefColumnCountProperty().multiply(7.2).add(10.0));
+        value.setPrefColumnCount(3);
+        value.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // do something
+                getParent().requestFocus();
+            } 
+        });
         name.setLayoutX(-70.0);
         name.setLayoutY(-30.0);
         name.setText(getController().getModel().getName());
@@ -54,6 +74,10 @@ public class NodeView extends AbstractNodeView {
     
     public void toggleValue() {
         value.setVisible(!value.isVisible());
+    }
+    
+    public void setValueVisibility(boolean vis) {
+        value.setVisible(vis);
     }
     
     public void toggleName() {
