@@ -77,13 +77,14 @@ public abstract class AbstractGraphController extends AbstractController {
                         if (event.getTransferMode() == TransferMode.COPY) {
                             AbstractNodeController controller;
                             AbstractNodeView view;
-
+                            NodeModel sourceModel = (NodeModel) ((NodeView)source).getController().getModel();
+                                   
                             Dragboard db = event.getDragboard();
                             switch (ToolBarController.getSelectedTool()) {
                                 case copy: controller = factory.createNode(event.getX(), event.getY(), targetTab);
-                                NodeModel sourceModel = (NodeModel) ((NodeView)source).getController().getModel();
-                                controller.getModel().setValue(sourceModel.getValue());
+                                controller.getModel().setValue(sourceModel.getValue());  
                                 ((NodeModel)controller.getModel()).setComplex(sourceModel.getComplex());
+                                ((AbstractGraphView)getView()).getController().getModel().recordAction("copy_finish-node", controller.getModel().getJSONObject());
                                     break;
                                 /*
                                  * Find difference between event position and root node model position
@@ -101,11 +102,16 @@ public abstract class AbstractGraphController extends AbstractController {
                                     /* Create nodes and replace node names in connection JSON Objects with new names 
                                      * Adjust position of nodes in relation to starting position
                                      */
+                                    boolean rootSaved = false;
                                     JSONArray array = jObject.optJSONArray("nodes");
                                     JSONArray conns = jObject.optJSONArray("connections");
                                     for (int i=0; i<array.length(); i++) {
                                         JSONObject node = array.getJSONObject(i);
                                         controller = factory.createNode(node.getDouble("x") + diffX, node.getDouble("y") + diffY, targetTab);
+                                        if (!rootSaved) {
+                                            ((AbstractGraphView)getView()).getController().getModel().recordAction("copytree_finish-node", controller.getModel().getJSONObject());
+                                            rootSaved= true;
+                                        }
                                         controller.getModel().setValue(node.getString("value"));
                                         if (controller instanceof NodeController) ((NodeModel)controller.getModel()).setComplex(node.getInt("complex"));
                                         /* replace names in connections JSONArray with new names of created nodes */

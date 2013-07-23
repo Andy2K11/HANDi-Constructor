@@ -166,17 +166,17 @@ public abstract class AbstractNodeController extends AbstractController {
                 Node source = (Node) event.getSource();
                 switch (ToolBarController.getSelectedTool()) {
                     case moveone: source.startFullDrag();
-                    ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("movetree_start-node", getModel().getJSONObject());
+                    ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("moveone_start-node", getModel().getJSONObject());
                         break;
                     case movetree: source.startFullDrag(); // as opposed to simple drag which won't fire
-                    ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("moveone_start-node", getModel().getJSONObject());
+                    ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("movetree_start-node", getModel().getJSONObject());
                     // event to other nodes.
                         // nb: this case is required to prevent default action
                         break;
                     case copy: db = source.startDragAndDrop(TransferMode.COPY);
                         //cbc.putString(getModel().getJSONObject().toString());
                         db.setContent(cbc);
-                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("copy-node", getModel().getJSONObject());
+                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("copy_start-node", getModel().getJSONObject());
                         break;
                     case copytree: db = source.startDragAndDrop(TransferMode.COPY);
                         JSONObject j = new JSONObject();
@@ -198,7 +198,7 @@ public abstract class AbstractNodeController extends AbstractController {
                         }
                         cbc.put(AbstractModel.JSON_FORMAT, j);
                         db.setContent(cbc);
-                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("copytree-node", getModel().getJSONObject());
+                        ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("copytree_start-node", getModel().getJSONObject());
                         break;                        
                     default: // If not a move or copy then assume link is to be created.
                         db = source.startDragAndDrop(TransferMode.LINK);

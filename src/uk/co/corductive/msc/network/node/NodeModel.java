@@ -43,8 +43,13 @@ public class NodeModel extends AbstractNodeModel {
         return this.complex.get();
     }
     
+    /*
+     * 3 = 1, i, -1, -i;
+     * 4 = 1, i, -1, -i, 1;
+     */
+    private static final int COMPLEX_POWER_WRAP = 4;
     public void incrementComplex() {
-        if (complex.get() < 3) {
+        if (complex.get() < COMPLEX_POWER_WRAP) {
             complex.set(complex.get() + 1);
         } else {
             complex.set(0);
@@ -57,6 +62,7 @@ public class NodeModel extends AbstractNodeModel {
     
     @Override
     public JSONObject getJSONObject () {
+        JSONObject jSONObject = new JSONObject();
         jSONObject.put("name", getName());
         jSONObject.put("value", getValue());
         jSONObject.put("x", getX());

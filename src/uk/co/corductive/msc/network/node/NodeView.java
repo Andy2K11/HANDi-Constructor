@@ -24,6 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Circle;
+import org.json.JSONObject;
+import uk.co.corductive.msc.graph.GraphView;
 import static uk.co.corductive.msc.network.node.AbstractNodeView.DEFAULT_RADIUS;
 
 /**
@@ -50,11 +52,28 @@ public class NodeView extends AbstractNodeView {
             @Override
             public void changed(ObservableValue<? extends String> ov, String oldString, String newString) {
                 value.setPrefColumnCount(newString.length());
+                
             }
         });
         
+        /* we want to record new values, but not on every single value change, only when the user
+         * has finished entering a new number. Using the focused property does this, but we won't have
+         * access to the old value. Each change will log the value on that change, we know the initial
+         * value because if is hardcoded so we can keep a full history.
+         */
+        value.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                /* if lost focus */
+                if (!newValue) {
+                    JSONObject obj = getController().getModel().getJSONObject();
+                    ((GraphView)getParent()).getController().getModel().recordAction("newvalue", obj);
+                }
+            }  
+        });
+        
         /* Override default relation between column count and pref width as text field is made too wide. */
-        value.prefWidthProperty().bind(value.prefColumnCountProperty().multiply(7.2).add(10.0));
+        value.prefWidthProperty().bind(value.prefColumnCountProperty().multiply(7.2).add(20.0));
         value.setPrefColumnCount(3);
         value.setOnAction(new EventHandler<ActionEvent>() {
             @Override

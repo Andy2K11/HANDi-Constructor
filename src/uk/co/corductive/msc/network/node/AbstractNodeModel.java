@@ -34,11 +34,11 @@ import org.json.JSONObject;
 
 public abstract class AbstractNodeModel extends AbstractModel implements Operand, NetworkNode, DisplayableNode, Comparable<AbstractNodeModel> {
     
-    final StringProperty value = new SimpleStringProperty("0.0");
+    final StringProperty value = new SimpleStringProperty("  ");
     final DoubleProperty x = new SimpleDoubleProperty(), y = new SimpleDoubleProperty();
     List<AbstractConnectionModel> list = new ArrayList<>();
     ObservableList connections = FXCollections.observableList(list);
-    JSONObject jSONObject = new JSONObject();
+    //JSONObject jSONObject = new JSONObject();
     private static int nodeNum = 0;
     
     protected AbstractNodeModel() {

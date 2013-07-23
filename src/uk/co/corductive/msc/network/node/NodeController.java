@@ -51,6 +51,7 @@ public class NodeController extends AbstractNodeController {
                         remove();
                             break;
                         default:
+                            ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("complex", getModel().getJSONObject());
                             if (event.isStillSincePress()) ((NodeModel)getModel()).incrementComplex();
                             break;
                     }

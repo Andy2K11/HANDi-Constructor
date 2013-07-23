@@ -16,7 +16,6 @@
  */
 package uk.co.corductive.msc.graph;
 
-import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.corductive.msc.mvc.AbstractModel;
@@ -42,6 +41,11 @@ public abstract class AbstractGraphModel extends AbstractModel {
         return actions;
     }
     
+    /**
+     * Fills the JSON array with data from a loaded file
+     * 
+     * @param array 
+     */
     public void initActions(JSONArray array) {
         if (array instanceof JSONArray) actions = array;
     }

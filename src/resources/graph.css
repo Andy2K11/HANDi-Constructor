@@ -10,3 +10,6 @@
     -fx-stroke-width: 4px;
 }
 
+.line {
+    -fx-stroke-width: 2px;
+}

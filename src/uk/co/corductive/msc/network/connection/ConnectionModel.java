@@ -68,6 +68,7 @@ public class ConnectionModel extends AbstractConnectionModel {
     
     @Override
     public JSONObject getJSONObject () {
+        JSONObject jSONObject = new JSONObject();
         jSONObject.put(Conn.NAME.getString(), this.getName());
         jSONObject.put(Conn.NEGATE.getString(), this.isNegated());
         jSONObject.put(Conn.OPERATOR.getString(), this.getOperation().toString());

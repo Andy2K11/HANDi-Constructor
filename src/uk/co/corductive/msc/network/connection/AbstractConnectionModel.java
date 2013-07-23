@@ -37,7 +37,7 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
     BooleanBinding directionReversed;
     DoubleProperty controlX = new SimpleDoubleProperty();
     DoubleProperty controlY = new SimpleDoubleProperty();
-    JSONObject jSONObject = new JSONObject();
+    //JSONObject jSONObject = new JSONObject();
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, Operation operator) {
         super();

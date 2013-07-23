@@ -26,8 +26,6 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import uk.co.corductive.msc.graph.AbstractGraphView;
 import uk.co.corductive.msc.ui.ToolBarController;
-import static uk.co.corductive.msc.ui.ToolBarController.Tool.moveone;
-import static uk.co.corductive.msc.ui.ToolBarController.Tool.movetree;
 
 public abstract class AbstractConnectionController extends AbstractController {
     
@@ -69,6 +67,7 @@ public abstract class AbstractConnectionController extends AbstractController {
                         break;
                 }
                 if (event.isStillSincePress()) {
+                    ((AbstractGraphView)getView().getParent()).getController().getModel().recordAction("negate", getModel().getJSONObject());
                     getModel().negate();
                 }
                 event.consume();
