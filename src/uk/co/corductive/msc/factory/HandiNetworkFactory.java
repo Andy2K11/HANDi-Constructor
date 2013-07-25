@@ -76,8 +76,14 @@ public class HandiNetworkFactory implements NetworkFactory {
                 JSONObject link = jLinks.getJSONObject(i);
                 AbstractNodeController cont1 = null, cont2 = null;
 
-                String name1 = link.getString("node1");
-                String name2 = link.getString("node2");
+                String name1, name2;
+                if (link.getBoolean(Conn.REVERSE.getString()) == true) {
+                    name2 = link.getString("node1");
+                    name1 = link.getString("node2");
+                } else {
+                    name1 = link.getString("node1");
+                    name2 = link.getString("node2");
+                }
 
                 /* Most of the work here is finding the correct nodes to link to
                 * by their name, the nodes must have been added first so we need to 
@@ -100,6 +106,7 @@ public class HandiNetworkFactory implements NetworkFactory {
                 } else {
                     AbstractConnectionController connController = createConnection(cont1, cont2, op, targetTab);
                     if (link.getBoolean(Conn.NEGATE.getString()) == true) connController.getModel().negate();
+                    
                     connController.getView().getPath().setControlX(link.getDouble(Conn.CONTROLX.getString()));
                     connController.getView().getPath().setControlY(link.getDouble(Conn.CONTROLY.getString()));
                 }
