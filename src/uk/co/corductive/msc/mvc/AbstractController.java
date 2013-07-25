@@ -18,11 +18,14 @@ package uk.co.corductive.msc.mvc;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.paint.Color;
 
 public abstract class AbstractController {
     
@@ -67,8 +70,9 @@ public abstract class AbstractController {
                     } catch (NullPointerException ex) {
                         System.err.println("Could not remove focus from node.\n  Node may have been deleted.");
                     }
-                    //sourceNode.setEffect(null);
+                    sourceNode.setEffect(null);
                 }
+                
                 event.consume();
             }
         };
@@ -90,7 +94,7 @@ public abstract class AbstractController {
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);
-                //((Node)event.getSource()).setEffect(new DropShadow());
+                ((Node)event.getSource()).setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLUE, 5, 0.2, 0.0, 0.0));
                 event.consume();
                 //System.out.println("<DragEvent> Drag Over");
             }

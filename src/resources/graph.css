@@ -13,3 +13,7 @@
 .line {
     -fx-stroke-width: 2px;
 }
+
+.node:hover {
+    -fx-effect: dropshadow(gaussian, blue, 5, 0.2, 0.0, 0.0);
+}

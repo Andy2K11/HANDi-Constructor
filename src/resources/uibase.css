@@ -57,10 +57,6 @@
 .node {
     -fx-fill: dimgray;
 }
-
-.node:hover {
-    -fx-fill: blue;
-}
     
 .line{
     -fx-fill: transparent;

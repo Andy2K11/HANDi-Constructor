@@ -17,7 +17,7 @@
         <MenuItem text="%menubar.file.new" onAction="#handleNewDiagram" />
         <MenuItem text="%menubar.file.save" onAction="#handleSaveDiagram" />
         <MenuItem text="%menubar.file.load" onAction="#handleLoadDiagram" />
-        <CheckMenuItem text="%menubar.file.finish" />
+        <!--CheckMenuItem text="%menubar.file.finish" /-->
         <SeparatorMenuItem />
         <MenuItem text="%menubar.file.exit" onAction="#handleExit" />
     </Menu>
@@ -32,6 +32,7 @@
             <MenuItem text="%menubar.tasks.task3" onAction="#handleTask" />
             <MenuItem text="%menubar.tasks.task4" onAction="#handleTask" />
             <MenuItem text="%menubar.tasks.task5" onAction="#handleTask" />
+            <MenuItem text="%menubar.tasks.task6" onAction="#handleTask" />
         </Menu>
         <!--Menu text="Nodes">
             <MenuItem text="Node Overview"/>

@@ -55,7 +55,7 @@ public class GraphController extends AbstractGraphController {
             }    
         }
         try {
-            String path = MScProject.getFilePath();
+            String path = MScProject.getFilePath() + MScProject.getGlobalUser();
             File pathFile = new File(path);
             if (!pathFile.exists()) {
                 pathFile.mkdirs();

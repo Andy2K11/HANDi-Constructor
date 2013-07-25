@@ -19,12 +19,21 @@
         <ToggleGroup fx:id="toolselect" />
         <ToggleGroup fx:id="linkselect" />
         <ToggleGroup fx:id="nodeselect" />      
+        <Tooltip fx:id="toolsToolTip" wrapText="true" text="%toolbar.tools.tooltip" prefWidth="300" />
         <Tooltip fx:id="createToolTip" wrapText="true" text="%toolbar.tools.create.tooltip" prefWidth="300" />
         <Tooltip fx:id="moveoneToolTip" wrapText="true" text="%toolbar.tools.moveone.tooltip" prefWidth="300" />
+        <Tooltip fx:id="moveTreeToolTip" wrapText="true" text="%toolbar.tools.movetree.tooltip" prefWidth="300" />
+        <Tooltip fx:id="copyToolTip" wrapText="true" text="%toolbar.tools.copy.tooltip" prefWidth="300" />
+        <Tooltip fx:id="copyTreeToolTip" wrapText="true" text="%toolbar.tools.copytree.tooltip" prefWidth="300" />
+        <Tooltip fx:id="deleteToolTip" wrapText="true" text="%toolbar.tools.delete.tooltip" prefWidth="300" />
+        
+        <Tooltip fx:id="nodesToolTip" wrapText="true" text="%toolbar.nodes.tooltip" prefWidth="300" />
         <Tooltip fx:id="node1ToolTip" wrapText="true" text="%toolbar.nodes.node1.tooltip" prefWidth="300" />       
-        <Tooltip fx:id="node2ToolTip" wrapText="true" text="%toolbar.nodes.node2.tooltip" prefWidth="300" /> 
+        <Tooltip fx:id="node2ToolTip" wrapText="true" text="%toolbar.nodes.node2.tooltip" prefWidth="300" />
+        
+        <Tooltip fx:id="linksToolTip" wrapText="true" text="%toolbar.links.tooltip" prefWidth="300" />
     </fx:define>
-    <TitledPane styleClass="titledpane" text="Tool">
+    <TitledPane styleClass="titledpane" text="%toolbar.tools" tooltip="$toolsToolTip">
         <VBox>
             <ToggleButton fx:id="create"
                           text="%toolbar.tools.create"
@@ -46,6 +55,7 @@
                           text="%toolbar.tools.movetree"
                           prefWidth="120"
                           toggleGroup="$toolselect"
+                          tooltip="$moveTreeToolTip"
                           onAction="#handleToolAction" 
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>
@@ -53,6 +63,7 @@
                           text="%toolbar.tools.copy"
                           prefWidth="120"
                           toggleGroup="$toolselect"
+                          tooltip="$copyToolTip"
                           onAction="#handleToolAction"
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>
@@ -60,6 +71,7 @@
                           text="%toolbar.tools.copytree"
                           prefWidth="120"
                           toggleGroup="$toolselect"
+                          tooltip="$copyTreeToolTip"
                           onAction="#handleToolAction"
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>
@@ -67,18 +79,18 @@
                           text="%toolbar.tools.delete"
                           prefWidth="120"
                           toggleGroup="$toolselect"
+                          tooltip="$deleteToolTip"
                           onAction="#handleToolAction"
                           onMouseEntered="#handleMouseEntered">
             </ToggleButton>                                                
         </VBox>
     </TitledPane>
-    <TitledPane styleClass="titledpane" text="Nodes">
+    <TitledPane styleClass="titledpane" text="%toolbar.nodes" tooltip="$nodesToolTip">
         <VBox> 
             <RadioButton fx:id="node1button"
                          selected="true"
                          text="%toolbar.nodes.node1" 
                          prefWidth="120" 
-                         tooltip="$node1ToolTip" 
                          toggleGroup="$nodeselect" 
                          onAction="#handleButtonAction"
                          onDragDetected="#handleDragDetected">
@@ -96,7 +108,7 @@
             </RadioButton-->
         </VBox>
     </TitledPane>
-    <TitledPane styleClass="titledpane" text="Branches">
+    <TitledPane styleClass="titledpane" text="%toolbar.links" tooltip="$linksToolTip">
         <VBox>
             <RadioButton fx:id="equal" 
                          selected="true" 

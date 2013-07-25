@@ -48,6 +48,7 @@ import uk.co.corductive.msc.network.node.NodeController;
 import uk.co.corductive.msc.network.node.NodeModel;
 import uk.co.corductive.msc.network.node.NodeView;
 import uk.co.corductive.msc.ui.tasks.AbstractTask;
+import uk.co.corductive.msc.ui.tasks.FlowTask;
 
 /**
  *
@@ -99,6 +100,7 @@ public class MenuBarController implements Initializable {
             pathFile.mkdirs();
         }
         fc.setInitialDirectory(new File(path));
+        
         File loadFile = fc.showOpenDialog(null);
         
         if (loadFile!=null) {
@@ -175,7 +177,7 @@ public class MenuBarController implements Initializable {
     
     /*************************************************************************/
     
-    private Map<Integer, AbstractTask> tasks = new HashMap<>();
+    private Map<Integer, FlowTask> tasks = new HashMap<>();
     
     /**
      * Finds the number of the task from its position in the menu list.
@@ -191,7 +193,7 @@ public class MenuBarController implements Initializable {
     
     private void getTask(int taskNum) {
         if (!tasks.containsKey(taskNum)) {
-            tasks.put(taskNum, new AbstractTask(taskNum));
+            tasks.put(taskNum, new FlowTask(taskNum));
         }
         tasks.get(taskNum).showAndWait();
     }

@@ -43,6 +43,7 @@ public class NodeView extends AbstractNodeView {
         super(controller);
         this.getChildren().addAll(node, value, complex, name);
         
+        node.getStyleClass().add("node");
         value.setLayoutX(10.0);
         value.setLayoutY(-30.0);
         

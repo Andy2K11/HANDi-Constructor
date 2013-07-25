@@ -113,7 +113,7 @@ public class MScProject extends Application implements Loginable {
     }
     
     public static String getFilePath() {
-        return property + File.separator + "msc" + File.separator + getGlobalUser();
+        return property + File.separator + "msc" + File.separator;
     }
     
     
