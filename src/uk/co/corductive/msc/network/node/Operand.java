@@ -18,7 +18,9 @@ package uk.co.corductive.msc.network.node;
 
 
 /**
- *
+ * Defines methods to get and set a value as required by any type that needs
+ * to act as a variable in a mathematical expression.
+ * 
  * @author Andy
  */
 public interface Operand {

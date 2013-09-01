@@ -19,7 +19,9 @@ package uk.co.corductive.msc.network.connection;
 import uk.co.corductive.msc.network.node.NetworkNode;
 
 /**
- *
+ * Implementing this interface will allow connections to behave as part of a 
+ * network model.
+ * 
  * @author Andy
  */
 public interface NetworkConnection {

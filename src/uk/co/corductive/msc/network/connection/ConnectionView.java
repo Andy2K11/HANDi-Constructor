@@ -17,7 +17,8 @@
 package uk.co.corductive.msc.network.connection;
 
 /**
- *
+ * An implementation of a HANDi connection view.
+ * 
  * @author Andy Keavey
  */
 public class ConnectionView extends AbstractConnectionView {

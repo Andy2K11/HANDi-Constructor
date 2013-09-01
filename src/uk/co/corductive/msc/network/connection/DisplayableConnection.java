@@ -16,11 +16,12 @@
  */
 package uk.co.corductive.msc.network.connection;
 
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 
 /**
- *
+ * Any connection models wishing to have a view to represent their state should
+ * implement this interface.
+ * 
  * @author Andy Keavey
  */
 public interface DisplayableConnection {

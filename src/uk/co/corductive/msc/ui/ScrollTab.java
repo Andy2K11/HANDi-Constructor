@@ -30,8 +30,12 @@ import javafx.scene.input.TransferMode;
 import uk.co.corductive.msc.graph.AbstractGraphView;
 
 /**
- *
+ * Provides a scrolling container for diagrams which can be used as a Tab within
+ * a TabPane. Content is added and accessed using the public setGraph and getGraph
+ * methods.
+ * 
  * @author Andy
+ * @see javafx.scene.control.Tab
  */
 public class ScrollTab extends Tab {
     private TextField nameField;
@@ -39,6 +43,9 @@ public class ScrollTab extends Tab {
     private static int tabNum = 0;
     private final Tab thisTab = this;
     
+    /**
+     * 
+     */
     public ScrollTab() {
         this("diagram_" + (tabNum+1));
     }

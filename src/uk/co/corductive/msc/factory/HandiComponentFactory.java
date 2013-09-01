@@ -27,7 +27,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
 /**
- *
+ * Creates the paths which are the visual elements for connections and negation marks.
+ * 
  * @author Andy
  */
 public class HandiComponentFactory extends AbstractComponentFactory {

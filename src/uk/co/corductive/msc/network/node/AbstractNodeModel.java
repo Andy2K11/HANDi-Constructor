@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 public abstract class AbstractNodeModel extends AbstractModel implements Operand, NetworkNode, DisplayableNode, Comparable<AbstractNodeModel> {
     
-    final StringProperty value = new SimpleStringProperty("  ");
+    final StringProperty value = new SimpleStringProperty("");
     final DoubleProperty x = new SimpleDoubleProperty(), y = new SimpleDoubleProperty();
     List<AbstractConnectionModel> list = new ArrayList<>();
     ObservableList connections = FXCollections.observableList(list);

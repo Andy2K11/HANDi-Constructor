@@ -21,11 +21,27 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.input.DataFormat;
 import org.json.JSONObject;
 
+/**
+ * Defines the basic fields and methods for the model element in MVC.
+ * 
+ * Implementations of this class should be capable of working independently 
+ * of the View and Controller elements. Use of properties are used to 
+ * allow the Observable design pattern to work through JavaFX listeners.
+ * 
+ * @author Andy Keavey
+ */
 public abstract class AbstractModel {
     
+    /**
+     * Defines a new DataFormat to be used with the Dragboard in Drag-Drop events
+     *  where the Serlializable version of json.org libraries can be used.
+     */
     public static final DataFormat JSON_FORMAT = new DataFormat("json");
     protected StringProperty name = new SimpleStringProperty();
     
+    /**
+     * Default no-arg constructor.
+     */
     protected AbstractModel() {
         super();
     }

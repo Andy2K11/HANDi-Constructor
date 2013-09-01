@@ -24,17 +24,33 @@ import uk.co.corductive.msc.ui.ToolBarController;
 import static uk.co.corductive.msc.ui.ToolBarController.Tool.delete;
 
 /**
- *
+ * HANDi Node Controller
+ * 
  * @author Andy Keavey
  */
 public class NodeController extends AbstractNodeController {
     
+    /**
+     * 
+     * @param factory A factory able to construct nodes and connections
+     */
     public NodeController(NetworkFactory factory) {
         super(factory);
         this.model = new NodeModel();
         this.view = new NodeView(this);
     }
     
+    /**
+     * Defines the actions which should occur when a mouse is clicked on the node.
+     * Key modifiers:
+     *  ALT: toggle value visibility
+     *  CTRL: toggle name visibility
+     * Tool modifiers:
+     *  Delete: deletes this node and any connections to it.
+     *  none: Increment the complex value of this node.
+     * 
+     * @return mouse clicked event handler
+     */
     @Override
     public EventHandler<MouseEvent> getOnMouseClickedHandler() {
         return new EventHandler<MouseEvent>() {

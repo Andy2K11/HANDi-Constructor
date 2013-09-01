@@ -20,7 +20,9 @@ import java.util.Set;
 import uk.co.corductive.msc.network.connection.NetworkConnection;
 
 /**
- *
+ * Defines the methods required by any type of network model like connections
+ * and also defines a method for returning sub-nodes in a hierarchy.
+ * 
  * @author Andy
  */
 public interface NetworkNode {

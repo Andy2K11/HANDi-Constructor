@@ -22,7 +22,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import org.json.JSONObject;
 
 /**
- *
+ * HANDi Node Model
+ * 
  * @author Andy Keavey
  */
 public class NodeModel extends AbstractNodeModel {
@@ -60,6 +61,11 @@ public class NodeModel extends AbstractNodeModel {
         return complex;
     }
     
+    /**
+     * Saves the state of this object in JSON format
+     * 
+     * @return object state as JSONObject
+     */
     @Override
     public JSONObject getJSONObject () {
         JSONObject jSONObject = new JSONObject();

@@ -1,5 +1,5 @@
 /**
- * The factory package deals with creating the objects that are to be placed on the
+ * Deals with creating the objects that are to be placed on the
  * diagram.
  * 
  * In many instances, component parts must be created and also be given the correct

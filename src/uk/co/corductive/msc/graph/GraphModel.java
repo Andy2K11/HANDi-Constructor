@@ -36,7 +36,7 @@ public class GraphModel extends AbstractGraphModel {
     public JSONObject getJSONObject() {
         JSONObject jGraph = new JSONObject();
         jGraph.put("title", getName());
-        jGraph.optLong("date", created);
+        jGraph.put("date", created);
         return jGraph;
     }
     

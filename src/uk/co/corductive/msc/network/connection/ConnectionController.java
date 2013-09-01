@@ -22,7 +22,8 @@ import uk.co.corductive.msc.network.connection.Operator.Operation;
 import uk.co.corductive.msc.network.node.AbstractNodeController;
 
 /**
- *
+ * Concrete implementation of a HANDi Connection controller
+ * 
  * @author Andy Keavey
  */
 public class ConnectionController extends AbstractConnectionController {

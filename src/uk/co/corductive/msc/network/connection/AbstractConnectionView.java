@@ -27,12 +27,26 @@ import javafx.scene.Parent;
 import javafx.scene.shape.Path;
 import uk.co.corductive.msc.graph.GraphView;
 
+/**
+ * 
+ * 
+ * @author Andy Keavey
+ */
 public abstract class AbstractConnectionView extends Parent implements AbstractView {
     
     AbstractConnectionPath path;
     AbstractConnectionController controller;
     Path negate;
     
+    /**
+     * Sets all the required handlers for this view and adds change listeners
+     * to the positions of the connected nodes. The listeners will check for 
+     * the direction of the hierarchical relationship using the model's 
+     * isDirectionReversed property, and if it is true, will swap the start and
+     * end positions of the connection's path.
+     * 
+     * @param controller the controller for this view.
+     */
     protected AbstractConnectionView(AbstractConnectionController controller) {
         this.controller = controller;
         
@@ -93,6 +107,16 @@ public abstract class AbstractConnectionView extends Parent implements AbstractV
         return negate;
     }
         
+    /**
+     * Creates the visual element of the path (the line going from one node to the
+     * other) and listens for removed nodes. If one of the connected nodes removes
+     * this link from its list, then the listener registered by this method will
+     * tell the other connected node to also remove this link. This is very important
+     * to keep each nodes list synchronised.
+     * 
+     * @param path the path which will represent the connection, usually created
+     * by a component factory.
+     */
     public void createPath(AbstractConnectionPath path) {
         this.path = path;
         this.getChildren().add(path);

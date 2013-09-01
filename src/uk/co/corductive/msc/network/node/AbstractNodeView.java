@@ -28,7 +28,7 @@ public abstract class AbstractNodeView extends Parent implements AbstractView {
     
     
     
-    public static final double DEFAULT_RADIUS = 8.0;
+    public static final double DEFAULT_RADIUS = 10.0;
     
     protected AbstractNodeView(AbstractNodeController controller) {
         this.controller = controller;

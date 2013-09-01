@@ -69,7 +69,9 @@ public abstract class AbstractNodeController extends AbstractController {
     }
     
     
-    
+    /**
+     * Removes all the network connections attached to this node.
+     */
     public void remove() {
         this.getView().remove();
         for (NetworkConnection conn: this.getModel().getConnections()) {
@@ -81,6 +83,12 @@ public abstract class AbstractNodeController extends AbstractController {
     
     double dragOriginX;
     double dragOriginY;
+    /**
+     * Records the x, y, position which will define the origin in a potential 
+     * mouse drag event.
+     * 
+     * @return mouse pressed handler 
+     */
     @Override
     public EventHandler<MouseEvent> getOnMousePressedHandler() {
         return new EventHandler<MouseEvent>() {
@@ -97,6 +105,11 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
+    /**
+     * Handles the moving of objects, either singularly or as trees, around the diagram.
+     * 
+     * @return drag handler
+     */
     @Override
     public EventHandler<MouseEvent> getOnMouseDraggedHandler() {
         return new EventHandler<MouseEvent>() {
@@ -135,7 +148,11 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
-    
+    /**
+     * Used only for recording events when a move has been completed
+     * 
+     * @return a drag released handler.
+     */
     @Override
     public EventHandler<MouseDragEvent> getOnMouseDragReleased() {
         return new EventHandler<MouseDragEvent>() {
@@ -155,6 +172,13 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
+    /**
+     * Starts a full drag for move actions or a drag-drop for copy actions.
+     * Copy actions will put JSON data representing the copied object onto
+     * the dragboard
+     * 
+     * @return a drag detected handler
+     */
     @Override
     public EventHandler<MouseEvent> getOnDragDetectedHandler() {
         return new EventHandler<MouseEvent>() {
@@ -210,6 +234,13 @@ public abstract class AbstractNodeController extends AbstractController {
         };
     }
     
+    /**
+     * A drag drop on to a node occurs while making connections. This method gets
+     * the source and target node from the drag gesture and invokes the appropriate
+     * factory method.
+     * 
+     * @return on drag dropped handler
+     */
     @Override
     public EventHandler<DragEvent> getOnDragDroppedHandler() {
         return new EventHandler<DragEvent>() {
@@ -226,9 +257,7 @@ public abstract class AbstractNodeController extends AbstractController {
                     }
                 } else if (event.getTransferMode() == TransferMode.COPY) {
                     switch (ToolBarController.getSelectedTool()) {
-                        case copy: 
-                            
-                            
+                        case copy: // do nothing       
                     }
                 }
                 event.consume();

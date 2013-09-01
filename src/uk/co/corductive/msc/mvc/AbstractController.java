@@ -27,6 +27,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 
+/**
+ * Defines essential and common behaviour for the Controller element of an MVC
+ * design.
+ * 
+ * @author Andy Keavey
+ */
 public abstract class AbstractController {
     
     
@@ -34,17 +40,61 @@ public abstract class AbstractController {
         super();
     }
     
+    /**
+     * 
+     * 
+     * @return the model
+     */
     public abstract AbstractModel getModel();
+    
+    /**
+     * 
+     * @return the view
+     */
     public abstract AbstractView getView();
     
+    /**
+     * 
+     * @return an event handler of type MouseEvent to be used for OnClick events.
+     */
     public abstract EventHandler<MouseEvent> getOnMouseClickedHandler();
+    
+    /**
+     * 
+     * @return an event handler for mouse drags. 
+     */
     public abstract EventHandler<MouseEvent> getOnMouseDraggedHandler();
+    
+    /**
+     * 
+     * @return an event handler for mouse drag releases.
+     */
     public abstract EventHandler<MouseDragEvent> getOnMouseDragReleased();
     
+    /**
+     * 
+     * 
+     * @return an event handler to detect drag events.
+     */
     public abstract EventHandler<MouseEvent> getOnDragDetectedHandler();
+    
+    /**
+     * 
+     * @return an event handler for when the user drops a dragged object
+     */
     public abstract EventHandler<DragEvent> getOnDragDroppedHandler();
+    
+    /**
+     * 
+     * @return an event handler to manage user keyboard presses
+     */
     public abstract EventHandler<KeyEvent> getOnKeyPressedHandler(); 
     
+    /**
+     * Currently doesn't do anything.
+     * 
+     * @return an event handler for when the mouse moves over an object.
+     */
     public EventHandler<MouseEvent> getOnMouseEnteredHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
@@ -57,7 +107,13 @@ public abstract class AbstractController {
             }
         };
     }            
-                
+        
+    /**
+     * Removes any effects set on an object. This handler is called after an 
+     * object is deleted so it may need handle NullPointerExceptions.
+     * 
+     * @return an event handler for when the mouse leaves an object
+     */
     public EventHandler<MouseEvent> getOnMouseExitedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
@@ -78,7 +134,13 @@ public abstract class AbstractController {
         };
     }
 
-    
+    /**
+     * Simply consumes the event, may be overridden by subclasses. 
+     * 
+     * Implies that inheritance hierarchy may need altering.
+     * 
+     * @return an event handler for mouse presses
+     */
     public EventHandler<MouseEvent> getOnMousePressedHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
@@ -89,6 +151,12 @@ public abstract class AbstractController {
         };
     }
     
+    /**
+     * Highlights an object when another object is dragged over it. CSS effects
+     * are not applied to Drag-Drop events.
+     * 
+     * @return a handler for when objects are dragged over in Drag-Drop events
+     */
     public EventHandler<DragEvent> getOnDragOverHandler() {
         return new EventHandler<DragEvent>() {
             @Override

@@ -16,6 +16,13 @@
  */
 package uk.co.corductive.msc.mvc;
 
+/**
+ * View elements need to inherit from the JavaFX Scene Graph, e.g. Parent so this
+ * is defined as an Interface. The exact type of view will be defined by
+ * subclasses.
+ * 
+ * @author Andy Keavey
+ */
 public interface AbstractView {
      
     public abstract AbstractController getController();

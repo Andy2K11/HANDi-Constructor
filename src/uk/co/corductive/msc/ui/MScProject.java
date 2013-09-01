@@ -23,20 +23,28 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import uk.co.corductive.msc.login.MScLogin.Loginable;
 
 /**
- *
+ * This is where the main application starts. It implements the Loginable interface
+ * which is defined by the preloader. In this way, data from the preloader can
+ * be passed to this application on startup.
+ * 
  * @author Andy
  */
 public class MScProject extends Application implements Loginable {
-
-    public static final String property = System.getProperties().getProperty("user.home");
+    
+    /**
+     * The system property defined by "user.home". 
+     */
+    public static final String userhome = System.getProperties().getProperty("user.home");
     
     private static final Image ICON_32 = new Image(MScProject.class.getResourceAsStream("/resources/he-icon.png"));    
     private String username = null;
@@ -65,11 +73,30 @@ public class MScProject extends Application implements Loginable {
         if (locale==null) { locale = Locale.UK; }
     }
     
-    
+    /**
+     * Creates and shows the main scene defined by "UI.fxml". The normal close icon is prevented from
+     * working so that the File:Exit menu command must be used. This ensures the 
+     * saving of any diagrams that have been left open.
+     * 
+     * This could be handled better by dialog boxes that prompt for saving per 
+     * diagram on closing the application.
+     * 
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         
+        /* prevents closing of appliction using X - must do file close
+         * which saves all tabs
+         */
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+            }
+        });
         ResourceBundle bundle = ResourceBundle.getBundle("resources.bundle", locale);
         root =  FXMLLoader.load(getClass().getResource("UI.fxml"), bundle);
         
@@ -99,7 +126,12 @@ public class MScProject extends Application implements Loginable {
         }
     }
     
-    
+    /**
+     * Takes the SHA1 generated username from the preloader and sets the first
+     * 12 characters as the global variable globalUser
+     * 
+     * @param username 
+     */
     @Override
     public void setUser(String username) {
         this.username = username;
@@ -113,7 +145,7 @@ public class MScProject extends Application implements Loginable {
     }
     
     public static String getFilePath() {
-        return property + File.separator + "msc" + File.separator;
+        return userhome + File.separator + "msc" + File.separator;
     }
     
     

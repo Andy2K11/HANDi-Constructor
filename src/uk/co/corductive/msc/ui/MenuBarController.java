@@ -47,7 +47,6 @@ import uk.co.corductive.msc.network.node.AbstractNodeView;
 import uk.co.corductive.msc.network.node.NodeController;
 import uk.co.corductive.msc.network.node.NodeModel;
 import uk.co.corductive.msc.network.node.NodeView;
-import uk.co.corductive.msc.ui.tasks.AbstractTask;
 import uk.co.corductive.msc.ui.tasks.FlowTask;
 
 /**
@@ -69,6 +68,7 @@ public class MenuBarController implements Initializable {
     private void handleNewDiagram(ActionEvent event) {
         ScrollTab tab = factory.createGraph();
         diagramtabs.getTabs().add(tab);
+        tab.getGraph().getController().getModel().recordAction("new-diagram", null);
     }
     
     @FXML
@@ -143,6 +143,11 @@ public class MenuBarController implements Initializable {
     
     @FXML
     private void handleExit(ActionEvent event) {
+        List<Tab> tabs = diagramtabs.getTabs();
+        for (Tab t: tabs) {
+            ScrollTab tab = (ScrollTab) t;
+            tab.getGraph().getController().saveGraph();
+        }
         System.exit(0);
     }
     

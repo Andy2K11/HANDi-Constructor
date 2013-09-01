@@ -19,7 +19,9 @@ package uk.co.corductive.msc.network.node;
 import javafx.beans.property.DoubleProperty;
 
 /**
- *
+ * Any model elements that are represented with a view should implement this
+ * interface. The X, Y, Properties allow view objects (e.g. connections) to observe the model
+ * 
  * @author Andy
  */
 public interface DisplayableNode {

@@ -18,13 +18,12 @@ package uk.co.corductive.msc.network.connection;
 
 import java.util.Date;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
 import org.json.JSONObject;
 
 /**
- *
+ * A concrete implementation of a HANDi connection model.
+ * 
  * @author Andy Keavey
  */
 public class ConnectionModel extends AbstractConnectionModel {

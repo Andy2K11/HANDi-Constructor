@@ -19,10 +19,16 @@ package uk.co.corductive.msc.network.connection;
 import javafx.beans.property.BooleanProperty;
 
 /**
- *
+ * Defines any implementing model to be an operator type within a mathematical
+ * expression.
+ * 
  * @author Andy
  */
 public interface Operator {
+    /**
+     * Defines the types of operation supported. Addition, multiplication, 
+     * equality and no operation.
+     */
     enum Operation {ADDITION, MULTIPLICATION, EQUALITY, NONE}
     
     public Operation getOperation();
@@ -30,5 +36,10 @@ public interface Operator {
     //public Operation stringOperation(String opString);
     public boolean isNegated();
     public void negate();
+    /**
+     * Negated operators turn addition to subtraction, and multiplication to division.
+     * 
+     * @return a property representing if the object has been negated.
+     */
     public BooleanProperty negateProperty();
 }

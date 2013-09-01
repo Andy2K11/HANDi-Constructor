@@ -16,8 +16,6 @@
  */
 package uk.co.corductive.msc.network.connection;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import uk.co.corductive.msc.mvc.AbstractModel;
 import uk.co.corductive.msc.network.node.AbstractNodeModel;
@@ -25,9 +23,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import org.json.JSONObject;
 import uk.co.corductive.msc.network.node.NetworkNode;
 
+/**
+ * 
+ * 
+ * @author Andy Keavey
+ */
 public abstract class AbstractConnectionModel extends AbstractModel implements Operator, NetworkConnection, DisplayableConnection {
     
     protected Operation operator;
@@ -44,9 +46,7 @@ public abstract class AbstractConnectionModel extends AbstractModel implements O
         this.node1 = node1;
         this.node2 = node2;
         this.operator = operator;
-        setName(node1.getName() + "-" + node2.getName());
-        
-        
+        setName(node1.getName() + "-" + node2.getName());  
     }
     
     protected AbstractConnectionModel(AbstractNodeModel node1, AbstractNodeModel node2, String operator) {

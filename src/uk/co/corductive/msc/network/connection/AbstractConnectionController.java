@@ -87,7 +87,7 @@ public abstract class AbstractConnectionController extends AbstractController {
      * necessary for Bézier  curves to prevent the curve shape jumping to the 
      * mouse which is necessarily over the actual path.
      * 
-     * @return 
+     * @return mouse pressed handler
      */
     @Override
     public EventHandler<MouseEvent> getOnMousePressedHandler() {
@@ -110,8 +110,9 @@ public abstract class AbstractConnectionController extends AbstractController {
     private double diffX;
     
     /**
-     *
-     * @return
+     * Allows the path of addition and multiplication connections to be adjusted.
+     * 
+     * @return mouse dragged handler
      */
     @Override
     public EventHandler<MouseEvent> getOnMouseDraggedHandler() {

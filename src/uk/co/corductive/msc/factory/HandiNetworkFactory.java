@@ -34,13 +34,17 @@ import uk.co.corductive.msc.network.node.AbstractNodeView;
 import uk.co.corductive.msc.network.node.NodeController;
 
 /**
- *
+ * Creates nodes and connections for HANDi.
+ * 
  * @author Andy Keavey
  */
 public class HandiNetworkFactory implements NetworkFactory {
 
     HandiComponentFactory component = new HandiComponentFactory();
     
+    /**
+     * Default no-arg constructor for a HANDi factory.
+     */
     public HandiNetworkFactory() {
         
     }
@@ -118,8 +122,15 @@ public class HandiNetworkFactory implements NetworkFactory {
         /* Initialize the view with appropriate locations after which observers will
         take care of everything. */
         AbstractConnectionView view = controller.getView();
-        AbstractNodeModel source = controller.getModel().getNode1();
-        AbstractNodeModel target = controller.getModel().getNode2();
+        AbstractNodeModel source; 
+        AbstractNodeModel target;
+        if (!controller.getModel().isDirectionReversed()) {
+            source = controller.getModel().getNode1();
+            target = controller.getModel().getNode2();
+        } else {
+            source = controller.getModel().getNode2();
+            target = controller.getModel().getNode1();
+        }
         view.getPath().setStartX(source.getX());
         view.getPath().setStartY(source.getY());
         view.getPath().setEndX(target.getX());

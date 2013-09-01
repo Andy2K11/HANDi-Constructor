@@ -29,7 +29,8 @@ import uk.co.corductive.msc.graph.GraphView;
 import static uk.co.corductive.msc.network.node.AbstractNodeView.DEFAULT_RADIUS;
 
 /**
- *
+ * HANDi Node View
+ *  
  * @author Andy Keavey
  */
 public class NodeView extends AbstractNodeView {
@@ -92,14 +93,27 @@ public class NodeView extends AbstractNodeView {
         complex.getStyleClass().add("line");
     }
     
+    /**
+     * Toggles the visibility of this nodes value
+     */
     public void toggleValue() {
         value.setVisible(!value.isVisible());
     }
     
+    /**
+     * Sets the visibility of this nodes value. Can be used instead of 
+     * {@link #toggleValue() toggleValue}
+     * where all diagram nodes are to be affected and synchronised.
+     * 
+     * @param vis True to make all values visible, false for invisible
+     */
     public void setValueVisibility(boolean vis) {
         value.setVisible(vis);
     }
     
+    /**
+     * Toggles the visibility of this node's name
+     */
     public void toggleName() {
         name.setVisible(!name.isVisible());
     }

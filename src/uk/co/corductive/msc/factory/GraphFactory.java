@@ -22,7 +22,9 @@ import uk.co.corductive.msc.graph.GraphController;
 import uk.co.corductive.msc.ui.ScrollTab;
 
 /**
- *
+ * Creates a graph (diagram) by setting a ScrollPane's graph to a MVC graph view.
+ * It also binds the graph's name with the tab's text name field.
+ * 
  * @author Andy Keavey
  */
 public class GraphFactory {
